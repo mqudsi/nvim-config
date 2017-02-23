@@ -30,7 +30,8 @@ call dein#add('vim-airline/vim-airline')
 call dein#add('vim-airline/vim-airline-themes')
 call dein#add('majutsushi/tagbar')
 call dein#add('airblade/vim-gitgutter')
-call dein#add('vim-syntastic/syntastic')
+call dein#add('vim-syntastic/syntastic',
+	\{'on_ft': ['cpp', 'c', 'h', 'rs']})
 
 " You can specify revision/branch/tag.
 call dein#add('Shougo/vimshell', { 'rev': '3787e5' })

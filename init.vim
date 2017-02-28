@@ -33,9 +33,12 @@ call dein#add('majutsushi/tagbar')
 call dein#add('airblade/vim-gitgutter')
 call dein#add('vim-syntastic/syntastic',
 	\{'on_ft': ['cpp', 'c', 'h', 'rs']})
+call dein#add('rust-lang/rust.vim')",
+"	\{'on_ft': ['rs']})
 
 " You can specify revision/branch/tag.
-call dein#add('Shougo/vimshell', { 'rev': '3787e5' })
+"call dein#add('Shougo/vimshell', { 'rev': '3787e5' })
+call dein#add('Shougo/vimshell')
 
 " Required:
 call dein#end()
@@ -109,3 +112,5 @@ let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
 
 let g:airline_theme='bubblegum'
+
+autocmd BufRead,BufNewFile Cargo.toml,Cargo.lock,*.rs compiler cargo

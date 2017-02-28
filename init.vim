@@ -18,7 +18,8 @@ call dein#add('Shougo/neosnippet.vim')
 call dein#add('Shougo/neosnippet-snippets')
 call dein#add('flazz/vim-colorschemes')
 call dein#add('ctrlpvim/ctrlp.vim')
-call dein#add('valloric/MatchTagAlways')
+call dein#add('valloric/MatchTagAlways',
+	\{'on_ft': ['html', 'xml', 'htm']})
 call dein#add('hail2u/vim-css3-syntax',
 	\{'on_ft': ['css']})
 call dein#add('tpope/vim-fugitive')

@@ -35,6 +35,9 @@ call dein#add('vim-syntastic/syntastic',
 	\{'on_ft': ['cpp', 'c', 'h', 'rs']})
 call dein#add('rust-lang/rust.vim',
 	\{'on_ft': ['rs']})
+call dein#add('othree/eregex.vim')
+"call dein#add('chrisbra/csv.vim',
+"	\{'on_ft': ['csv']})
 
 " You can specify revision/branch/tag.
 "call dein#add('Shougo/vimshell', { 'rev': '3787e5' })

@@ -117,3 +117,10 @@ let g:syntastic_check_on_wq = 0
 let g:airline_theme='bubblegum'
 
 autocmd BufRead,BufNewFile Cargo.toml,Cargo.lock,*.rs compiler cargo
+
+set wildignorecase "ignore case for filename completions
+set infercase "allow  to complete without matching case when combined with ignorecase
+"set ignorecase "but ignorecase makes regex searches case-insensitive :(
+
+"clear highlight on double esc
+nnoremap <silent> <esc> :noh<cr><esc>

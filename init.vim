@@ -33,8 +33,8 @@ call dein#add('majutsushi/tagbar')
 call dein#add('airblade/vim-gitgutter')
 call dein#add('vim-syntastic/syntastic',
 	\{'on_ft': ['cpp', 'c', 'h', 'rs']})
-call dein#add('rust-lang/rust.vim')",
-"	\{'on_ft': ['rs']})
+call dein#add('rust-lang/rust.vim',
+	\{'on_ft': ['rs']})
 
 " You can specify revision/branch/tag.
 "call dein#add('Shougo/vimshell', { 'rev': '3787e5' })

@@ -7,7 +7,7 @@ endif
 set runtimepath+=$HOME/.config/nvim/dein/repos/github.com/Shougo/dein.vim
 
 " Required:
-call dein#begin('/home/mqudsi/.config/nvim/dein/')
+call dein#begin('$HOME/.config/nvim/dein/')
 
 " Let dein manage dein
 " Required:

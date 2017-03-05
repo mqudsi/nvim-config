@@ -5,6 +5,8 @@ endif
 
 " Required:
 set runtimepath+=$HOME/.config/nvim/dein/repos/github.com/Shougo/dein.vim
+" Required:
+filetype plugin indent on
 
 " Required:
 call dein#begin('$HOME/.config/nvim/dein/')
@@ -38,17 +40,18 @@ call dein#add('rust-lang/rust.vim',
 call dein#add('othree/eregex.vim')
 "call dein#add('chrisbra/csv.vim',
 "	\{'on_ft': ['csv']})
+call dein#add('vim-scripts/cmdalias.vim')
+"call dein#add('racer-rust/vim-racer')
 
 " You can specify revision/branch/tag.
 "call dein#add('Shougo/vimshell', { 'rev': '3787e5' })
 call dein#add('Shougo/vimshell')
 call dein#add('bling/vim-bufferline')
+call dein#add('Shougo/vimproc.vim', { 'build': 'make' })
 
 " Required:
 call dein#end()
 
-" Required:
-filetype plugin indent on
 syntax enable
 
 " If you want to install not installed plugins on startup.
@@ -125,3 +128,9 @@ set infercase "allow  to complete without matching case when combined with igno
 
 "clear highlight on double esc
 nnoremap <silent> <esc> :noh<cr><esc>
+
+"automatically save on buffer change
+set hidden
+
+:cnoreabbr cargo make
+let g:racer_cmd = "$HOME/.cargo/bin/racer"

@@ -121,6 +121,7 @@ let g:syntastic_check_on_wq = 0
 let g:airline_theme='bubblegum'
 
 autocmd BufRead,BufNewFile Cargo.toml,Cargo.lock,*.rs compiler cargo
+autocmd BufNewFile,BufReadPost *.md set filetype=markdown
 
 set wildignorecase "ignore case for filename completions
 set infercase "allow  to complete without matching case when combined with ignorecase

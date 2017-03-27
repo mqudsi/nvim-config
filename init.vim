@@ -135,3 +135,8 @@ set hidden
 
 :cnoreabbr cargo make
 let g:racer_cmd = "$HOME/.cargo/bin/racer"
+
+"syntax highlighting for git paging
+function LessInitFunc()
+	set syntax=diff
+endfunction

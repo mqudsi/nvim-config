@@ -135,6 +135,8 @@ set hidden
 
 :cnoreabbr cargo make
 let g:racer_cmd = "$HOME/.cargo/bin/racer"
+"disable ex mode
+noremap Q <Nop>
 
 "syntax highlighting for git paging
 function LessInitFunc()

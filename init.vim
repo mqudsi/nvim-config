@@ -171,3 +171,7 @@ endfunction
 "strip trailing whitespace on save for certain filetypes
 autocmd FileType c,cpp,java,php,rust,js,vim autocmd BufWritePre <buffer> %s/\s\+$//e
 
+"use Windows-style completions for OmniComplete because they're more
+"Dvorak-frinedly
+inoremap <C-Space> <C-x><C-o>
+inoremap <C-@> <C-Space>

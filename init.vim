@@ -1,81 +1,79 @@
 "dein Scripts-----------------------------
 if &compatible
-	set nocompatible               " Be iMproved
+	set nocompatible
 endif
 
-" Required:
 set runtimepath+=$HOME/.config/nvim/dein/repos/github.com/Shougo/dein.vim
-" Required:
-filetype plugin indent on
-filetype plugin on
+filetype off
 
-" Required:
-call dein#begin('$HOME/.config/nvim/dein/')
+if dein#load_state('$HOME/.config/nvim/dein/')
+	call dein#begin('$HOME/.config/nvim/dein/')
+	call dein#add('Shougo/dein.vim')
 
-" Let dein manage dein
-" Required:
-call dein#add('Shougo/dein.vim')
+	" Add or remove your plugins here:
+	call dein#add('Shougo/deoplete.nvim')
+	call dein#add('Shougo/neosnippet.vim')
+	call dein#add('Shougo/neosnippet-snippets')
+	call dein#add('flazz/vim-colorschemes')
+	call dein#add('ctrlpvim/ctrlp.vim')
+	call dein#add('valloric/MatchTagAlways',
+		\{'on_ft': ['html', 'xml', 'htm', 'cshtml']})
+	call dein#add('hail2u/vim-css3-syntax',
+		\{'on_ft': ['css']})
+	call dein#add('tpope/vim-fugitive')
+	"call dein#add('altercation/vim-colors-solarized')
+	"call dein#add('frankier/neovim-colors-solarized-truecolor-only')
+	call dein#add('craigemery/vim-autotag')
+	"call dein#add('jnurmine/Zenburn')
+	call dein#add('vim-airline/vim-airline')
+	call dein#add('vim-airline/vim-airline-themes')
+	call dein#add('majutsushi/tagbar')
+	call dein#add('airblade/vim-gitgutter')
+	call dein#add('rust-lang/rust.vim',
+		\{'on_ft': ['rust']})
+	call dein#add('racer-rust/vim-racer',
+		\{'on_ft': ['rust']})
+	"call dein#add('vim-syntastic/syntastic',
+	"	\{'on_ft': ['cpp', 'c', 'h', 'rs']})
+	call dein#add('othree/eregex.vim')
+	"call dein#add('chrisbra/csv.vim',
+	"	\{'on_ft': ['csv']})
+	call dein#add('vim-scripts/cmdalias.vim')
+	call dein#add('vim-syntastic/syntastic',
+		\{'on_ft': ['cpp', 'c', 'h', 'rs']})
+	call dein#add('StanAngeloff/php.vim',
+		\{'on_ft': ['php']})
+	call dein#add('sickill/vim-pasta')
+	call dein#add('cespare/vim-toml')
 
-" Add or remove your plugins here:
-call dein#add('Shougo/deoplete.nvim')
-call dein#add('Shougo/neosnippet.vim')
-call dein#add('Shougo/neosnippet-snippets')
-call dein#add('flazz/vim-colorschemes')
-call dein#add('ctrlpvim/ctrlp.vim')
-call dein#add('valloric/MatchTagAlways',
-	\{'on_ft': ['html', 'xml', 'htm', 'cshtml']})
-call dein#add('hail2u/vim-css3-syntax',
-	\{'on_ft': ['css']})
-call dein#add('tpope/vim-fugitive')
-"call dein#add('altercation/vim-colors-solarized')
-"call dein#add('frankier/neovim-colors-solarized-truecolor-only')
-call dein#add('craigemery/vim-autotag')
-"call dein#add('jnurmine/Zenburn')
-call dein#add('vim-airline/vim-airline')
-call dein#add('vim-airline/vim-airline-themes')
-call dein#add('majutsushi/tagbar')
-call dein#add('airblade/vim-gitgutter')
-call dein#add('rust-lang/rust.vim',
-	\{'on_ft': ['rs']})
-"call dein#add('racer-rust/vim-racer')
-"call dein#add('vim-syntastic/syntastic',
-"	\{'on_ft': ['cpp', 'c', 'h', 'rs']})
-call dein#add('othree/eregex.vim')
-"call dein#add('chrisbra/csv.vim',
-"	\{'on_ft': ['csv']})
-call dein#add('vim-scripts/cmdalias.vim')
-call dein#add('vim-syntastic/syntastic',
-	\{'on_ft': ['cpp', 'c', 'h', 'rs']})
-call dein#add('StanAngeloff/php.vim',
-	\{'on_ft': ['php']})
-call dein#add('sickill/vim-pasta')
-call dein#add('cespare/vim-toml')
+	" You can specify revision/branch/tag.
+	"call dein#add('Shougo/vimshell', { 'rev': '3787e5' })
+	call dein#add('Shougo/vimshell')
+	call dein#add('bling/vim-bufferline')
+	call dein#add('Shougo/vimproc.vim', { 'build': 'make' })
+	call dein#add('pangloss/vim-javascript',
+		\{'on_ft': ['js']})
+	call dein#add('HerringtonDarkholme/yats.vim')
+	call dein#add('mhartington/nvim-typescript',
+		\{'on_ft': ['ts']})
+	call dein#add('Quramy/tsuquyomi',
+		\{'on_ft': ['ts']})
 
-" You can specify revision/branch/tag.
-"call dein#add('Shougo/vimshell', { 'rev': '3787e5' })
-call dein#add('Shougo/vimshell')
-call dein#add('bling/vim-bufferline')
-call dein#add('Shougo/vimproc.vim', { 'build': 'make' })
-call dein#add('pangloss/vim-javascript',
-	\{'on_ft': ['js']})
-call dein#add('HerringtonDarkholme/yats.vim')
-call dein#add('mhartington/nvim-typescript',
-	\{'on_ft': ['ts']})
-call dein#add('Quramy/tsuquyomi',
-	\{'on_ft': ['ts']})
-
-" Required:
-call dein#end()
+	" Required:
+	call dein#end()
+	call dein#save_state()
+endif
 
 "specify custom filetypes before loading the filetype plugin
-autocmd BufRead,BufNewfile */nginx/*.conf setfiletype nginx 
-autocmd BufRead,BufNewFile Cargo.toml,Cargo.lock,*.rs compiler cargo
+autocmd BufRead,BufNewfile */nginx/*.conf setfiletype nginx
 autocmd BufNewFile,BufReadPost *.md set filetype=markdown
 autocmd BufNewFile,BufRead *.git/COMMIT_EDITMSG set ft=gitcommit
 
 " Required:
 filetype plugin indent on
 syntax enable
+
+autocmd BufRead,BufNewFile FileType rust compiler cargo
 
 " If you want to install not installed plugins on startup.
 if dein#check_install()
@@ -85,7 +83,7 @@ endif
 "End dein Scripts-------------------------
 set omnifunc=syntaxcomplete#Complete
 let g:deoplete#enable_at_startup = 1
-	  
+
 :map [D <Left>
 :map [C <Right>
 :map [A <Up>
@@ -159,7 +157,7 @@ let g:racer_cmd = "$HOME/.cargo/bin/racer"
 noremap Q <Nop>
 nmap <F1> <Nop>
 vmap <F1> <Nop>
-imap <F1> <Esc> 
+imap <F1> <Esc>
 
 "syntax highlighting for git paging
 function LessInitFunc()

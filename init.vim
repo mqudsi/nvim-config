@@ -167,3 +167,7 @@ imap <F1> <Esc>
 function LessInitFunc()
 	set syntax=diff
 endfunction
+
+"strip trailing whitespace on save for certain filetypes
+autocmd FileType c,cpp,java,php,rust,js,vim autocmd BufWritePre <buffer> %s/\s\+$//e
+

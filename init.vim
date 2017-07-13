@@ -11,7 +11,8 @@ if dein#load_state('$HOME/.config/nvim/dein/')
 	call dein#add('Shougo/dein.vim')
 
 	" Add or remove your plugins here:
-	call dein#add('Shougo/deoplete.nvim')
+	call dein#add('Shougo/deoplete.nvim',
+		\{'on_i': 1})
 	call dein#add('Shougo/neosnippet.vim')
 	call dein#add('Shougo/neosnippet-snippets')
 	call dein#add('flazz/vim-colorschemes')
@@ -35,12 +36,13 @@ if dein#load_state('$HOME/.config/nvim/dein/')
 		\{'on_ft': ['rust']})
 	"call dein#add('vim-syntastic/syntastic',
 	"	\{'on_ft': ['cpp', 'c', 'h', 'rs']})
-	call dein#add('othree/eregex.vim')
+	call dein#add('othree/eregex.vim',
+		\{'on_func': 'eregex#toggle'})
 	"call dein#add('chrisbra/csv.vim',
 	"	\{'on_ft': ['csv']})
 	call dein#add('vim-scripts/cmdalias.vim')
 	call dein#add('vim-syntastic/syntastic',
-		\{'on_ft': ['cpp', 'c', 'h', 'rs']})
+		\{'on_ft': ['cpp', 'c', 'h', 'rust']})
 	call dein#add('StanAngeloff/php.vim',
 		\{'on_ft': ['php']})
 	call dein#add('sickill/vim-pasta')

@@ -95,6 +95,7 @@ let g:deoplete#enable_at_startup = 1
 :map! [A <Up>
 :map! [B <Down>
 
+set mouse=a
 set backspace=indent,eol,start
 set tabstop=4
 set shiftwidth=4

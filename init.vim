@@ -49,6 +49,7 @@ call dein#add('vim-syntastic/syntastic',
 call dein#add('StanAngeloff/php.vim',
 	\{'on_ft': ['php']})
 call dein#add('sickill/vim-pasta')
+call dein#add('cespare/vim-toml')
 
 " You can specify revision/branch/tag.
 "call dein#add('Shougo/vimshell', { 'rev': '3787e5' })

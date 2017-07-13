@@ -33,15 +33,18 @@ call dein#add('vim-airline/vim-airline')
 call dein#add('vim-airline/vim-airline-themes')
 call dein#add('majutsushi/tagbar')
 call dein#add('airblade/vim-gitgutter')
-"call dein#add('vim-syntastic/syntastic',
-"	\{'on_ft': ['cpp', 'c', 'h', 'rs']})
 call dein#add('rust-lang/rust.vim',
 	\{'on_ft': ['rs']})
+"call dein#add('racer-rust/vim-racer')
 call dein#add('othree/eregex.vim')
 "call dein#add('chrisbra/csv.vim',
 "	\{'on_ft': ['csv']})
 call dein#add('vim-scripts/cmdalias.vim')
-"call dein#add('racer-rust/vim-racer')
+call dein#add('vim-syntastic/syntastic',
+	\{'on_ft': ['cpp', 'c', 'h', 'rs']})
+call dein#add('StanAngeloff/php.vim',
+	\{'on_ft': ['php']})
+call dein#add('sickill/vim-pasta')
 
 " You can specify revision/branch/tag.
 "call dein#add('Shougo/vimshell', { 'rev': '3787e5' })

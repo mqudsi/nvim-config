@@ -155,6 +155,8 @@ set hidden
 
 :cnoreabbr cargo make
 let g:racer_cmd = "$HOME/.cargo/bin/racer"
+let g:racer_experimental_completer = 1
+
 "disable ex mode
 noremap Q <Nop>
 nmap <F1> <Nop>

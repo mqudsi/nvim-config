@@ -55,6 +55,14 @@ call dein#add('Shougo/vimproc.vim', { 'build': 'make' })
 " Required:
 call dein#end()
 
+"specify custom filetypes before loading the filetype plugin
+autocmd BufRead,BufNewfile */nginx/*.conf setfiletype nginx 
+autocmd BufRead,BufNewFile Cargo.toml,Cargo.lock,*.rs compiler cargo
+autocmd BufNewFile,BufReadPost *.md set filetype=markdown
+autocmd BufNewFile,BufRead *.git/COMMIT_EDITMSG set ft=gitcommit
+
+" Required:
+filetype plugin indent on
 syntax enable
 
 " If you want to install not installed plugins on startup.
@@ -81,9 +89,6 @@ set smarttab
 set autoindent
 set smartindent
 set number
-filetype indent on
-syntax on
-syntax enable
 
 set t_Co=256
 "set background=light
@@ -107,7 +112,6 @@ colo evening
 " colors for MatchTagAlways highlights
 let g:mta_use_matchparen_group = 0
 hi link MatchTag Underlined
-autocmd BufNewFile,BufRead *.git/COMMIT_EDITMSG set ft=gitcommit
 
 set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
@@ -123,8 +127,6 @@ let g:syntastic_check_on_wq = 0
 
 let g:airline_theme='bubblegum'
 
-autocmd BufRead,BufNewFile Cargo.toml,Cargo.lock,*.rs compiler cargo
-autocmd BufNewFile,BufReadPost *.md set filetype=markdown
 
 set wildignorecase "ignore case for filename completions
 set infercase "allow  to complete without matching case when combined with ignorecase

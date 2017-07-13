@@ -156,6 +156,9 @@ set hidden
 let g:racer_cmd = "$HOME/.cargo/bin/racer"
 "disable ex mode
 noremap Q <Nop>
+nmap <F1> <Nop>
+vmap <F1> <Nop>
+imap <F1> <Esc> 
 
 "syntax highlighting for git paging
 function LessInitFunc()

@@ -7,6 +7,7 @@ endif
 set runtimepath+=$HOME/.config/nvim/dein/repos/github.com/Shougo/dein.vim
 " Required:
 filetype plugin indent on
+filetype plugin on
 
 " Required:
 call dein#begin('$HOME/.config/nvim/dein/')
@@ -16,6 +17,7 @@ call dein#begin('$HOME/.config/nvim/dein/')
 call dein#add('Shougo/dein.vim')
 
 " Add or remove your plugins here:
+call dein#add('Shougo/deoplete.nvim')
 call dein#add('Shougo/neosnippet.vim')
 call dein#add('Shougo/neosnippet-snippets')
 call dein#add('flazz/vim-colorschemes')
@@ -36,6 +38,8 @@ call dein#add('airblade/vim-gitgutter')
 call dein#add('rust-lang/rust.vim',
 	\{'on_ft': ['rs']})
 "call dein#add('racer-rust/vim-racer')
+"call dein#add('vim-syntastic/syntastic',
+"	\{'on_ft': ['cpp', 'c', 'h', 'rs']})
 call dein#add('othree/eregex.vim')
 "call dein#add('chrisbra/csv.vim',
 "	\{'on_ft': ['csv']})
@@ -51,6 +55,13 @@ call dein#add('sickill/vim-pasta')
 call dein#add('Shougo/vimshell')
 call dein#add('bling/vim-bufferline')
 call dein#add('Shougo/vimproc.vim', { 'build': 'make' })
+call dein#add('pangloss/vim-javascript',
+	\{'on_ft': ['js']})
+call dein#add('HerringtonDarkholme/yats.vim')
+call dein#add('mhartington/nvim-typescript',
+	\{'on_ft': ['ts']})
+call dein#add('Quramy/tsuquyomi',
+	\{'on_ft': ['ts']})
 
 " Required:
 call dein#end()
@@ -71,6 +82,8 @@ if dein#check_install()
 endif
 
 "End dein Scripts-------------------------
+set omnifunc=syntaxcomplete#Complete
+let g:deoplete#enable_at_startup = 1
 	  
 :map [D <Left>
 :map [C <Right>

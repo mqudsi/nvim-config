@@ -22,6 +22,7 @@ if dein#load_state('$HOME/.config/nvim/dein/')
 	call dein#add('hail2u/vim-css3-syntax',
 		\{'on_ft': ['css']})
 	call dein#add('tpope/vim-fugitive')
+	call dein#add('tpope/vim-surround')
 	"call dein#add('altercation/vim-colors-solarized')
 	"call dein#add('frankier/neovim-colors-solarized-truecolor-only')
 	call dein#add('craigemery/vim-autotag')

@@ -35,6 +35,14 @@ if dein#load_state('$HOME/.config/nvim/dein/')
 		\{'on_ft': ['rust']})
 	call dein#add('racer-rust/vim-racer',
 		\{'on_ft': ['rust']})
+	call dein#add('sebastianmarkow/deoplete-rust',
+		\{'on_ft': ['rust']})
+	call dein#add('Shougo/neco-vim',
+		\{'on_ft': ['vim']})
+	call dein#add('SevereOverfl0w/deoplete-github')
+	call dein#add('ponko2/deoplete-fish',
+		\{'on_ft': ['fish']})
+	call dein#add('Shougo/neopairs.vim')
 	"call dein#add('vim-syntastic/syntastic',
 	"	\{'on_ft': ['cpp', 'c', 'h', 'rs']})
 	call dein#add('othree/eregex.vim',
@@ -84,8 +92,14 @@ if dein#check_install()
 endif
 
 "End dein Scripts-------------------------
-set omnifunc=syntaxcomplete#Complete
+let g:deoplete#complete_method = "omnifunc"
+
+"set omnifunc=syntaxcomplete#Complete
 let g:deoplete#enable_at_startup = 1
+let g:deoplete#enable_ignore_case = 1
+let g:deoplete#enable_smart_case = 1
+let g:deoplete#enable_camel_case = 1
+let g:deoplete#enable_refresh_always = 1
 
 :map [D <Left>
 :map [C <Right>

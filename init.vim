@@ -68,6 +68,8 @@ if dein#load_state('$HOME/.config/nvim/dein/')
 		\{'on_ft': ['ts']})
 	call dein#add('Quramy/tsuquyomi',
 		\{'on_ft': ['ts']})
+	call dein#add('tomtom/tcomment_vim')
+"		\{'on_ft': ['cpp', 'c', 'rust', 'php', 'js', 'css', 'cs']})
 
 	" Required:
 	call dein#end()

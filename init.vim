@@ -70,6 +70,8 @@ if dein#load_state('$HOME/.config/nvim/dein/')
 		\{'on_ft': ['ts']})
 	call dein#add('tomtom/tcomment_vim')
 "		\{'on_ft': ['cpp', 'c', 'rust', 'php', 'js', 'css', 'cs']})
+	call dein#add('dag/vim-fish',
+		\{'on_ft': ['fish']})
 
 	" Required:
 	call dein#end()
@@ -80,13 +82,15 @@ endif
 autocmd BufRead,BufNewfile */nginx/*.conf setfiletype nginx
 autocmd BufNewFile,BufReadPost *.md set filetype=markdown
 autocmd BufNewFile,BufRead *.git/COMMIT_EDITMSG set ft=gitcommit
+autocmd BufRead,BufNewFile *.fish set filetype=fish
 
 " Required:
 filetype plugin indent on
 syntax enable
 
 let g:cargo_makeprg_params = "build"
-autocmd BufRead,BufNewFile Cargo.toml,Cargo.lock,*.rs compiler cargo
+autocmd FileType rust compiler cargo
+autocmd FileType fish compiler fish
 
 " If you want to install not installed plugins on startup.
 if dein#check_install()
@@ -94,7 +98,7 @@ if dein#check_install()
 endif
 
 "End dein Scripts-------------------------
-:cnoreabbr cargo make
+":cnoreabbr cargo make
 let g:racer_cmd = "$HOME/.cargo/bin/racer"
 let g:racer_experimental_completer = 1
 "let g:deoplete#sources#rust#racer_binary=system('which racer')

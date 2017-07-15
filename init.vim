@@ -39,7 +39,6 @@ if dein#load_state('$HOME/.config/nvim/dein/')
 		\{'on_ft': ['rust']})
 	call dein#add('Shougo/neco-vim',
 		\{'on_ft': ['vim']})
-	call dein#add('SevereOverfl0w/deoplete-github')
 	call dein#add('ponko2/deoplete-fish',
 		\{'on_ft': ['fish']})
 	call dein#add('Shougo/neopairs.vim')

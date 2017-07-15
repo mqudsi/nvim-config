@@ -99,13 +99,12 @@ endif
 
 "End dein Scripts-------------------------
 ":cnoreabbr cargo make
-let g:racer_cmd = "$HOME/.cargo/bin/racer"
+let g:racer_cmd = systemlist('which racer')[0]
 let g:racer_experimental_completer = 1
-"let g:deoplete#sources#rust#racer_binary=system('which racer')
 let g:deoplete#complete_method = "omnifunc"
-let g:deoplete#sources#rust#racer_binary="$HOME/.cargo/bin/racer"
-let g:deoplete#sources#rust#rust_source_path=$RUST_SRC_PATH
-let g:deoplete#sources#rust#documentation_max_height=20
+let g:deoplete#sources#rust#racer_binary = systemlist('which racer')[0]
+let g:deoplete#sources#rust#rust_source_path = $RUST_SRC_PATH
+let g:deoplete#sources#rust#documentation_max_height = 20
 
 "set omnifunc=syntaxcomplete#Complete
 let g:deoplete#enable_at_startup = 1

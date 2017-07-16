@@ -33,8 +33,8 @@ if dein#load_state('$HOME/.config/nvim/dein/')
 	call dein#add('airblade/vim-gitgutter')
 	call dein#add('rust-lang/rust.vim',
 		\{'on_ft': ['rust']})
-	call dein#add('racer-rust/vim-racer',
-		\{'on_ft': ['rust']})
+	"call dein#add('racer-rust/vim-racer',
+	"	\{'on_ft': ['rust']})
 	call dein#add('sebastianmarkow/deoplete-rust',
 		\{'on_ft': ['rust']})
 	call dein#add('Shougo/neco-vim',
@@ -99,9 +99,14 @@ endif
 
 "End dein Scripts-------------------------
 ":cnoreabbr cargo make
+function ConfigDeoplete()
+	call deoplete#custom#set('rust', 'rank', 1000)
+endfunction
+call dein#set_hook('deoplete.nvim', 'hook_source', function('ConfigDeoplete'))
 let g:racer_cmd = systemlist('which racer')[0]
 let g:racer_experimental_completer = 1
-let g:deoplete#complete_method = "omnifunc"
+"since we are using deolete-* completions, we can comment that out
+"let g:deoplete#complete_method = 'omnifunc'
 let g:deoplete#sources#rust#racer_binary = systemlist('which racer')[0]
 let g:deoplete#sources#rust#rust_source_path = $RUST_SRC_PATH
 let g:deoplete#sources#rust#documentation_max_height = 20

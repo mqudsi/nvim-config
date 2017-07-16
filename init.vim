@@ -23,12 +23,11 @@ if dein#load_state('$HOME/.config/nvim/dein/')
 		\{'on_ft': ['css']})
 	call dein#add('tpope/vim-fugitive')
 	call dein#add('tpope/vim-surround')
+	call dein#add('itchyny/lightline.vim')
 	"call dein#add('altercation/vim-colors-solarized')
 	"call dein#add('frankier/neovim-colors-solarized-truecolor-only')
 	call dein#add('craigemery/vim-autotag')
 	"call dein#add('jnurmine/Zenburn')
-	call dein#add('vim-airline/vim-airline')
-	call dein#add('vim-airline/vim-airline-themes')
 	call dein#add('majutsushi/tagbar')
 	call dein#add('airblade/vim-gitgutter')
 	call dein#add('rust-lang/rust.vim',
@@ -173,8 +172,10 @@ let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
 
-let g:airline_theme='bubblegum'
-
+" hide modeline because airline/lightline includes the mode
+set noshowmode
+let g:lightline = {}
+let g:lightline.colorscheme = 'jellybeans'
 
 set wildignorecase "ignore case for filename completions
 set infercase "allow  to complete without matching case when combined with ignorecase

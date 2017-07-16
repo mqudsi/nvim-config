@@ -118,15 +118,20 @@ let g:deoplete#enable_smart_case = 1
 let g:deoplete#enable_camel_case = 1
 let g:deoplete#enable_refresh_always = 1
 
-:map [D <Left>
-:map [C <Right>
-:map [A <Up>
-:map [B <Down>
+" :map [D <Left>
+" :map [C <Right>
+" :map [A <Up>
+" :map [B <Down>
+"
+" :map! [D <Left>
+" :map! [C <Right>
+" :map! [A <Up>
+" :map! [B <Down>
 
-:map! [D <Left>
-:map! [C <Right>
-:map! [A <Up>
-:map! [B <Down>
+" let &t_8b = "\<ESC>[48;2,%lu,%lum"
+" let &t_8f = "\<ESC>[38;2,%lu,%lum"
+" let &t_AB = "\e[48;5;%dm"
+" let &t_AF = "\e[38;5;%dm"
 
 set mouse=a
 set backspace=indent,eol,start
@@ -147,10 +152,6 @@ let g:solarized_diffmode="high"
 :map [5~  "page up
 :map [6~  "page down
 
-let &t_8b = "\<ESC>[48;2,%lu,%lum"
-let &t_8f = "\<ESC>[38;2,%lu,%lum"
-let &t_AB = "\e[48;5;%dm"
-let &t_AF = "\e[38;5;%dm"
 "set termguicolors
 
 colo evening

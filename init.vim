@@ -246,6 +246,11 @@ end
 "better search for ctrlp plugin
 source $HOME/.config/nvim/matcher.vim
 
+set matchpairs += "<:>"
+inoremap  :w<CR> "ctrl+s save
+nnoremap  :w<CR> "ctrl+s save
+vmap <C-s> <esc>:w<CR>gv "ctrl+s save
+
 "magic search
 function! s:noregexp(pattern) abort
   return '\V' . escape(a:pattern, '\')

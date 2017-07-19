@@ -137,7 +137,6 @@ let g:deoplete#enable_refresh_always = 1
 " let &t_AB = "\e[48;5;%dm"
 " let &t_AF = "\e[38;5;%dm"
 
-"set termguicolors
 set mouse=a
 set backspace=indent,eol,start
 set tabstop=4
@@ -238,7 +237,7 @@ if !empty(matchstr(system("uname -a"), "Microsoft"))
 		\ }
 endif
 
-set termguicolors
+"set termguicolors
 if $TERM == 'xterm-256color'
 	let t_ut = ""
 end

@@ -220,6 +220,21 @@ autocmd FileType c,cpp,java,php,rust,js,vim autocmd BufWritePre <buffer> %s/\s\+
 inoremap <C-Space> <C-x><C-o>
 inoremap <C-@> <C-Space>
 
+if !empty(matchstr(system("uname -a"), "Microsoft"))
+	let g:clipboard = {
+		\ 'name': 'win32yank',
+		\ 'copy': {
+		\	'+': 'win32yank.exe -i --crlf',
+		\	'*': 'win32yank.exe -i --crlf',
+		\	},
+		\ 'paste': {
+		\	'+': 'noerr win32yank.exe -o --lf',
+		\	'*': 'noerr win32yank.exe -o --lf',
+		\	},
+		\ 'cache_enabled': 1,
+		\ }
+endif
+
 "magic search
 function! s:noregexp(pattern) abort
   return '\V' . escape(a:pattern, '\')

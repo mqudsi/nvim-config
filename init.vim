@@ -107,13 +107,16 @@ function ConfigDeoplete()
 	inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
 endfunction
 call dein#set_hook('deoplete.nvim', 'hook_source', function('ConfigDeoplete'))
-let g:racer_cmd = systemlist('which racer')[0]
-let g:racer_experimental_completer = 1
-"since we are using deolete-* completions, we can comment that out
-"let g:deoplete#complete_method = 'omnifunc'
-let g:deoplete#sources#rust#racer_binary = systemlist('which racer')[0]
-let g:deoplete#sources#rust#rust_source_path = $RUST_SRC_PATH
-let g:deoplete#sources#rust#documentation_max_height = 20
+call system("which racer")
+if v:shell_error == 0
+	let g:racer_cmd = systemlist('which racer')[0]
+	let g:racer_experimental_completer = 1
+	"since we are using deolete-* completions, we can comment that out
+	"let g:deoplete#complete_method = 'omnifunc'
+	let g:deoplete#sources#rust#racer_binary = systemlist('which racer')[0]
+	let g:deoplete#sources#rust#rust_source_path = $RUST_SRC_PATH
+	let g:deoplete#sources#rust#documentation_max_height = 20
+endif
 
 "set omnifunc=syntaxcomplete#Complete
 let g:deoplete#enable_at_startup = 1

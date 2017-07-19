@@ -279,3 +279,12 @@ autocmd InsertLeave * setlocal hlsearch lz
 inoremap <silent><Esc> <Esc>:nohl<bar>set nolz<CR>
 inoremap <silent><C-c> <C-c>:nohl<bar>set nolz<CR>
 
+"insert at start of current line by typing in __ (two underscores)
+function DoubleUnderscore()
+	if v:count == 0 && getcurpos()[2] == 1
+		:silent call feedkeys('I', 'n')
+	else
+		:silent call feedkeys('^', v:count + 'n')
+	endif
+endfunction
+nnoremap <silent> _ :call DoubleUnderscore()<CR>

@@ -216,9 +216,12 @@ endfunction
 autocmd FileType c,cpp,java,php,rust,js,vim autocmd BufWritePre <buffer> %s/\s\+$//e
 
 "use Windows-style completions for OmniComplete because they're more
-"Dvorak-frinedly
-inoremap <C-Space> <C-x><C-o>
-inoremap <C-@> <C-Space>
+"Dvorak-friendly
+"inoremap <C-Space> <C-x><C-o>
+"inoremap <C-@> <C-Space>
+
+noremap <F7> :make <CR>
+inoremap <F7> <Esc>:make<CR>
 
 if !empty(matchstr(system("uname -a"), "Microsoft"))
 	let g:clipboard = {
@@ -251,4 +254,9 @@ noremap <silent><expr> z/ incsearch#go(<SID>config())
 map / <Plug>(incsearch-forward)
 map ? <Plug>(incsearch-backward)
 map g/ <Plug>(incsearch-stay)
+
+"automatically open quickfix on errors
+"also, should close it automatically when there are none
+autocmd QuickFixCmdPost [^l]* nested cwindow
+autocmd QuickFixCmdPost    l* nested lwindow
 

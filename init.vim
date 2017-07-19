@@ -101,6 +101,10 @@ endif
 ":cnoreabbr cargo make
 function ConfigDeoplete()
 	call deoplete#custom#set('rust', 'rank', 1000)
+	"autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
+	"enable tabbing through autocomplete results only when the popup is
+	"visible
+	inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
 endfunction
 call dein#set_hook('deoplete.nvim', 'hook_source', function('ConfigDeoplete'))
 let g:racer_cmd = systemlist('which racer')[0]

@@ -24,6 +24,7 @@ if dein#load_state('$HOME/.config/nvim/dein/')
 	call dein#add('tpope/vim-fugitive')
 	call dein#add('tpope/vim-surround')
 	call dein#add('itchyny/lightline.vim')
+	"call dein#add('mgee/lightline-bufferline')
 	"call dein#add('altercation/vim-colors-solarized')
 	"call dein#add('frankier/neovim-colors-solarized-truecolor-only')
 	call dein#add('craigemery/vim-autotag')
@@ -43,8 +44,8 @@ if dein#load_state('$HOME/.config/nvim/dein/')
 	call dein#add('Shougo/neopairs.vim')
 	"call dein#add('vim-syntastic/syntastic',
 	"	\{'on_ft': ['cpp', 'c', 'h', 'rs']})
-	call dein#add('othree/eregex.vim',
-		\{'on_func': 'eregex#toggle'})
+	" call dein#add('othree/eregex.vim',
+	" 	\{'on_func': 'eregex#toggle'})
 	"call dein#add('chrisbra/csv.vim',
 	"	\{'on_ft': ['csv']})
 	call dein#add('vim-scripts/cmdalias.vim')
@@ -58,7 +59,6 @@ if dein#load_state('$HOME/.config/nvim/dein/')
 	" You can specify revision/branch/tag.
 	"call dein#add('Shougo/vimshell', { 'rev': '3787e5' })
 	call dein#add('Shougo/vimshell')
-	call dein#add('bling/vim-bufferline')
 	call dein#add('Shougo/vimproc.vim', { 'build': 'make' })
 	call dein#add('pangloss/vim-javascript',
 		\{'on_ft': ['js']})
@@ -71,6 +71,7 @@ if dein#load_state('$HOME/.config/nvim/dein/')
 "		\{'on_ft': ['cpp', 'c', 'rust', 'php', 'js', 'css', 'cs']})
 	call dein#add('dag/vim-fish',
 		\{'on_ft': ['fish']})
+	call dein#add('haya14busa/incsearch.vim')
 
 	" Required:
 	call dein#end()
@@ -206,3 +207,21 @@ autocmd FileType c,cpp,java,php,rust,js,vim autocmd BufWritePre <buffer> %s/\s\+
 "Dvorak-frinedly
 inoremap <C-Space> <C-x><C-o>
 inoremap <C-@> <C-Space>
+
+"magic search
+function! s:noregexp(pattern) abort
+  return '\V' . escape(a:pattern, '\')
+endfunction
+
+function! s:config() abort
+  return {'converters': [function('s:noregexp')]}
+endfunction
+
+noremap <silent><expr> z/ incsearch#go(<SID>config())
+"end magic search
+
+"replace search with incsearch
+map / <Plug>(incsearch-forward)
+map ? <Plug>(incsearch-backward)
+map g/ <Plug>(incsearch-stay)
+

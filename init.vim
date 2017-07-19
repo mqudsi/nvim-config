@@ -243,6 +243,9 @@ if $TERM == 'xterm-256color'
 	let t_ut = ""
 end
 
+"better search for ctrlp plugin
+source $HOME/.config/nvim/matcher.vim
+
 "magic search
 function! s:noregexp(pattern) abort
   return '\V' . escape(a:pattern, '\')

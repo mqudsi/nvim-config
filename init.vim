@@ -137,6 +137,7 @@ let g:deoplete#enable_refresh_always = 1
 " let &t_AB = "\e[48;5;%dm"
 " let &t_AF = "\e[38;5;%dm"
 
+"set termguicolors
 set mouse=a
 set backspace=indent,eol,start
 set tabstop=4
@@ -147,7 +148,6 @@ set smartindent
 set number
 
 set t_Co=256
-"set background=light
 set background=dark
 let g:solarized_termcolors=256
 let g:solarized_diffmode="high"
@@ -156,7 +156,6 @@ let g:solarized_diffmode="high"
 :map [5~  "page up
 :map [6~  "page down
 
-"set termguicolors
 
 colo evening
 "colorscheme solarized
@@ -180,7 +179,16 @@ let g:syntastic_check_on_wq = 0
 " hide modeline because airline/lightline includes the mode
 set noshowmode
 let g:lightline = {}
-let g:lightline.colorscheme = 'jellybeans'
+let g:lightline.colorscheme      = 'jellybeans'
+
+"bufferline configuration
+" let g:lightline#bufferline#show_number  = 1
+" let g:lightline#bufferline#shorten_path = 0
+" let g:lightline#bufferline#unnamed      = '[No Name]'
+" set showtabline=2
+" let g:lightline.tabline          = {'left': [['buffers']], 'right': [['close']]}
+" let g:lightline.component_expand = {'buffers': 'lightline#bufferline#buffers'}
+" let g:lightline.component_type   = {'buffers': 'tabsel'}
 
 set wildignorecase "ignore case for filename completions
 set infercase "allow  to complete without matching case when combined with ignorecase

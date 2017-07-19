@@ -238,6 +238,11 @@ if !empty(matchstr(system("uname -a"), "Microsoft"))
 		\ }
 endif
 
+set termguicolors
+if $TERM == 'xterm-256color'
+	let t_ut = ""
+end
+
 "magic search
 function! s:noregexp(pattern) abort
   return '\V' . escape(a:pattern, '\')
@@ -259,4 +264,10 @@ map g/ <Plug>(incsearch-stay)
 "also, should close it automatically when there are none
 autocmd QuickFixCmdPost [^l]* nested cwindow
 autocmd QuickFixCmdPost    l* nested lwindow
+
+"hide highlight on insert
+autocmd InsertEnter * setlocal nohlsearch
+autocmd InsertLeave * setlocal hlsearch lz
+inoremap <silent><Esc> <Esc>:nohl<bar>set nolz<CR>
+inoremap <silent><C-c> <C-c>:nohl<bar>set nolz<CR>
 

@@ -16,7 +16,8 @@ if dein#load_state('$HOME/.config/nvim/dein/')
 	call dein#add('Shougo/neosnippet.vim')
 	call dein#add('Shougo/neosnippet-snippets')
 	call dein#add('flazz/vim-colorschemes')
-	call dein#add('ctrlpvim/ctrlp.vim')
+	call dein#add('junegunn/fzf',
+		\{'build': './install --all'})
 	call dein#add('valloric/MatchTagAlways',
 		\{'on_ft': ['html', 'xml', 'htm', 'cshtml']})
 	call dein#add('hail2u/vim-css3-syntax',
@@ -248,9 +249,6 @@ if $TERM == 'xterm-256color'
 	let t_ut = ""
 end
 
-"better search for ctrlp plugin
-source $HOME/.config/nvim/matcher.vim
-
 set matchpairs += "<:>"
 inoremap  :w<CR> "ctrl+s save
 nnoremap  :w<CR> "ctrl+s save
@@ -293,3 +291,7 @@ function DoubleUnderscore()
 	endif
 endfunction
 nnoremap <silent> _ :call DoubleUnderscore()<CR>
+
+"map fzf to ctrl+p
+noremap  :FZF<CR>
+

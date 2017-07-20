@@ -42,6 +42,7 @@ if dein#load_state('$HOME/.config/nvim/dein/')
 	call dein#add('ponko2/deoplete-fish',
 		\{'on_ft': ['fish']})
 	call dein#add('Shougo/neopairs.vim')
+	call dein#add('cohama/lexima.vim')
 	"call dein#add('vim-syntastic/syntastic',
 	"	\{'on_ft': ['cpp', 'c', 'h', 'rs']})
 	" call dein#add('othree/eregex.vim',

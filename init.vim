@@ -295,3 +295,9 @@ nnoremap <silent> _ :call DoubleUnderscore()<CR>
 "map fzf to ctrl+p
 noremap  :FZF<CR>
 
+"Close quickfix when closing a buffer
+"this prevents quickfix from being the only buffer left
+aug QFClose
+  au!
+  au WinEnter * if winnr('$') == 1 && getbufvar(winbufnr(winnr()), "&buftype") == "quickfix"|q|endif
+aug END

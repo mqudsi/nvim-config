@@ -125,6 +125,7 @@ let g:deoplete#enable_ignore_case = 1
 let g:deoplete#enable_smart_case = 1
 let g:deoplete#enable_camel_case = 1
 let g:deoplete#enable_refresh_always = 1
+let g:deoplete#sources#rust#show_duplicates = 0
 
 " :map [D <Left>
 " :map [C <Right>

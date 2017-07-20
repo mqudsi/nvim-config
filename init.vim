@@ -81,7 +81,7 @@ endif
 "specify custom filetypes before loading the filetype plugin
 autocmd BufRead,BufNewfile */nginx/*.conf setfiletype nginx
 autocmd BufNewFile,BufReadPost *.md set filetype=markdown
-autocmd BufNewFile,BufRead *.git/COMMIT_EDITMSG set ft=gitcommit
+autocmd BufRead,BufNewFile *.git/COMMIT_EDITMSG set ft=gitcommit
 autocmd BufRead,BufNewFile *.fish set filetype=fish
 
 " Required:
@@ -91,6 +91,7 @@ syntax enable
 let g:cargo_makeprg_params = "build"
 autocmd FileType rust compiler cargo
 autocmd FileType fish compiler fish
+autocmd FileType nginx setlocal mp=sudo\ nginx\ -t\ -c\ %
 
 " If you want to install not installed plugins on startup.
 if dein#check_install()

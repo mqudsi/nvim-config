@@ -3,6 +3,10 @@ if &compatible
 	set nocompatible
 endif
 
+let g:python3_host_prog = systemlist("which python3")[0]
+let g:loaded_python_provider = 1
+" let g:loaded_python3_provider = 0
+
 set runtimepath+=$HOME/.config/nvim/dein/repos/github.com/Shougo/dein.vim
 filetype off
 

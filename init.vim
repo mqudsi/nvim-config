@@ -297,7 +297,10 @@ noremap  :FZF<CR>
 
 "Close quickfix when closing a buffer
 "this prevents quickfix from being the only buffer left
-aug QFClose
-  au!
-  au WinEnter * if winnr('$') == 1 && getbufvar(winbufnr(winnr()), "&buftype") == "quickfix"|q|endif
-aug END
+source $HOME/.config/nvim/bufferclose.vim
+
+"set wrapping for quickfix window
+augroup quickfix
+	autocmd!
+	autocmd FileType qf setlocal wrap
+augroup END

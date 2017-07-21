@@ -1,3 +1,5 @@
 .netrwhist
 dein/.cache
+dein/cache_nvim
 dein/repos
+dein/state_nvim.vim

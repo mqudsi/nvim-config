@@ -251,9 +251,10 @@ if $TERM == 'xterm-256color'
 end
 
 set matchpairs += "<:>"
-inoremap  :w<CR> "ctrl+s save
-nnoremap  :w<CR> "ctrl+s save
-vmap <C-s> <esc>:w<CR>gv "ctrl+s save
+"ctrl+s save
+inoremap  :w<CR>
+nnoremap  :w<CR>
+vmap <C-s> <esc>:w<CR>gv
 
 "magic search
 function! s:noregexp(pattern) abort

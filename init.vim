@@ -15,10 +15,6 @@ if dein#load_state('$HOME/.config/nvim/dein/')
 	call dein#add('Shougo/dein.vim')
 
 	" Add or remove your plugins here:
-	call dein#add('Shougo/deoplete.nvim',
-		\{'on_i': 1})
-	call dein#add('Shougo/neosnippet.vim')
-	call dein#add('Shougo/neosnippet-snippets')
 	call dein#add('flazz/vim-colorschemes')
 	call dein#add('junegunn/fzf',
 		\{'build': './install --all'})
@@ -38,25 +34,20 @@ if dein#load_state('$HOME/.config/nvim/dein/')
 	call dein#add('airblade/vim-gitgutter')
 	call dein#add('rust-lang/rust.vim',
 		\{'on_ft': ['rust']})
-	"call dein#add('racer-rust/vim-racer',
-	"	\{'on_ft': ['rust']})
+	call dein#add('Shougo/deoplete.nvim',
+		\{'on_i': 1})
 	call dein#add('sebastianmarkow/deoplete-rust',
 		\{'on_ft': ['rust']})
 	call dein#add('Shougo/neco-vim',
 		\{'on_ft': ['vim']})
 	call dein#add('ponko2/deoplete-fish',
 		\{'on_ft': ['fish']})
+	call dein#add('zchee/deoplete-clang',
+		\{'on_ft': ['cpp', 'c']})
+	call dein#add('Shougo/neoinclude.vim',
+		\{'on_ft': ['cpp', 'c']})
 	call dein#add('Shougo/neopairs.vim')
-	call dein#add('cohama/lexima.vim')
-	"call dein#add('vim-syntastic/syntastic',
-	"	\{'on_ft': ['cpp', 'c', 'h', 'rs']})
-	" call dein#add('othree/eregex.vim',
-	" 	\{'on_func': 'eregex#toggle'})
-	"call dein#add('chrisbra/csv.vim',
-	"	\{'on_ft': ['csv']})
 	call dein#add('vim-scripts/cmdalias.vim')
-	call dein#add('vim-syntastic/syntastic',
-		\{'on_ft': ['cpp', 'c', 'h', 'rust']})
 	call dein#add('StanAngeloff/php.vim',
 		\{'on_ft': ['php']})
 	call dein#add('sickill/vim-pasta')
@@ -108,6 +99,7 @@ endif
 ":cnoreabbr cargo make
 function ConfigDeoplete()
 	call deoplete#custom#set('rust', 'rank', 1000)
+	call deoplete#custom#set('clang', 'rank', 99999)
 	"autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
 	"enable tabbing through autocomplete results only when the popup is
 	"visible
@@ -132,6 +124,10 @@ let g:deoplete#enable_smart_case = 1
 let g:deoplete#enable_camel_case = 1
 let g:deoplete#enable_refresh_always = 1
 let g:deoplete#sources#rust#show_duplicates = 0
+
+"deoplete-clang configuration
+let g:deoplete#sources#clang#libclang_path = "/usr/lib/llvm-3.9/lib/libclang.so"
+let g:deoplete#sources#clang#clang_header = "/usr/lib/clang"
 
 " :map [D <Left>
 " :map [C <Right>

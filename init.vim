@@ -98,6 +98,7 @@ endif
 "End dein Scripts-------------------------
 ":cnoreabbr cargo make
 function ConfigDeoplete()
+	set shortmess +=c
 	call deoplete#custom#set('rust', 'rank', 1000)
 	call deoplete#custom#set('clang', 'rank', 99999)
 	"autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif

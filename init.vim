@@ -306,3 +306,8 @@ augroup quickfix
 	autocmd!
 	autocmd FileType qf setlocal wrap
 augroup END
+
+"rusty-tags supporrt
+autocmd BufRead *.rs :setlocal tags=./rusty-tags.vi;/
+autocmd BufWrite *.rs :silent! exec "!rusty-tags vi --quiet --start-dir=" . expand('%:p:h') . "&" <bar> redraw!
+autocmd BufRead *.rs :setlocal tags=./rusty-tags.vi;/,$RUST_SRC_PATH/rusty-tags.vi

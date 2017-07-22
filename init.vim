@@ -76,7 +76,7 @@ if dein#load_state('$HOME/.config/nvim/dein/')
 endif
 
 "specify custom filetypes before loading the filetype plugin
-autocmd BufRead,BufNewfile */nginx/*.conf setfiletype nginx
+autocmd BufRead,BufNewfile */*nginx*/*.conf setfiletype nginx
 autocmd BufNewFile,BufReadPost *.md set filetype=markdown
 autocmd BufRead,BufNewFile *.git/COMMIT_EDITMSG set ft=gitcommit
 autocmd BufRead,BufNewFile *.fish set filetype=fish

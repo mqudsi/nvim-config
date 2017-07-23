@@ -30,6 +30,7 @@ if dein#load_state('$HOME/.config/nvim/dein/')
 	"general programming-related plugins
 	call dein#add('tpope/vim-surround')
 	call dein#add('majutsushi/tagbar')
+	call dein#add('neomake/neomake')
 
 	"deoplete and deoplete core plugins
 	call dein#add('Shougo/deoplete.nvim',
@@ -231,8 +232,8 @@ autocmd FileType c,cpp,java,php,rust,js,vim autocmd BufWritePre <buffer> %s/\s\+
 "inoremap <C-Space> <C-x><C-o>
 "inoremap <C-@> <C-Space>
 
-noremap <F7> :make <CR>
-inoremap <F7> <Esc>:make<CR>
+noremap <F7> :Neomake <CR>
+inoremap <F7> <Esc>:Neomake<CR>
 
 if !empty(matchstr(system("uname -a"), "Microsoft"))
 	let g:clipboard = {

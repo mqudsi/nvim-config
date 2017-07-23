@@ -26,10 +26,7 @@ if dein#load_state('$HOME/.config/nvim/dein/')
 	call dein#add('tpope/vim-surround')
 	call dein#add('itchyny/lightline.vim')
 	"call dein#add('mgee/lightline-bufferline')
-	"call dein#add('altercation/vim-colors-solarized')
-	"call dein#add('frankier/neovim-colors-solarized-truecolor-only')
 	call dein#add('craigemery/vim-autotag')
-	"call dein#add('jnurmine/Zenburn')
 	call dein#add('majutsushi/tagbar')
 	call dein#add('airblade/vim-gitgutter')
 	call dein#add('rust-lang/rust.vim',
@@ -165,7 +162,6 @@ let g:solarized_diffmode="high"
 
 
 colo evening
-"colorscheme solarized
 
 " colors for MatchTagAlways highlights
 let g:mta_use_matchparen_group = 0

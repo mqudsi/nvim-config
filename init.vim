@@ -317,7 +317,8 @@ augroup quickfix
 augroup END
 
 "rusty-tags supporrt
-autocmd BufWrite *.rs :silent! exec "!rusty-tags vi --quiet --start-dir=" . expand('%:p:h') . "&" <bar> redraw!
+" autocmd BufWrite *.rs :silent! exec "!rusty-tags vi --quiet --start-dir=" . expand('%:p:h') . "&" <bar> redraw!
+autocmd BufWrite *.rs,*.cpp,*.c,*.php,*.cs :silent! exec "!ctags -R " . expand('%:p:h') . "&"
 autocmd BufRead *.rs :setlocal tags=./tags;/,$RUST_SRC_PATH/tags
 
 " tagbar rust support
@@ -335,3 +336,4 @@ autocmd BufRead *.rs :setlocal tags=./tags;/,$RUST_SRC_PATH/tags
     \]
 \ }
 
+nmap <F8> :TagbarToggle<CR>

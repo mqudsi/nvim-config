@@ -291,17 +291,19 @@ inoremap <silent><C-c> <C-c>:nohl<bar>set nolz<CR>
 
 "insert at start of current line by typing in __ (two underscores)
 function DoubleUnderscore()
+	let b:cur_col = getcurpos()[2]
 	let b:underscore_count = get(b:, "underscore_count", 0)
-	let b:underscore_count = b:underscore_count+1
-	" if v:count == 0 && getcurpos()[2] == 1
-	if b:underscore_count == 1
-		:silent call feedkeys('^', v:count + 'n')
+	let b:underscore_count += 1
+	" if b:cur_col != 1 || v:count != 0
+	if v:count != 0
+		let b:underscore_count = 0
+	elseif b:underscore_count == 1
 	else
 		:silent call feedkeys('i')
-		b:underscore_count =0;
+		let b:underscore_count = 0
 	endif
 endfunction
-nnoremap <silent> _ :call DoubleUnderscore()<CR>
+nnoremap <silent> _ _:call DoubleUnderscore()<CR>
 
 "map fzf to ctrl+p
 noremap  :FZF<CR>

@@ -16,56 +16,64 @@ if dein#load_state('$HOME/.config/nvim/dein/')
 
 	" Add or remove your plugins here:
 	call dein#add('flazz/vim-colorschemes')
+
+	"core plugins that change the behavior of vim and how we use it globally
 	call dein#add('junegunn/fzf',
 		\{'build': './install --all'})
-	call dein#add('valloric/MatchTagAlways',
-		\{'on_ft': ['html', 'xml', 'htm', 'cshtml']})
-	call dein#add('hail2u/vim-css3-syntax',
-		\{'on_ft': ['css']})
-	call dein#add('tpope/vim-fugitive')
-	call dein#add('tpope/vim-surround')
+	call dein#add('airblade/vim-gitgutter')
+	call dein#add('haya14busa/incsearch.vim')
 	call dein#add('itchyny/lightline.vim')
 	"call dein#add('mgee/lightline-bufferline')
-	call dein#add('craigemery/vim-autotag')
+	call dein#add('sickill/vim-pasta')
+	call dein#add('tomtom/tcomment_vim')
+
+	"general programming-related plugins
+	call dein#add('tpope/vim-surround')
 	call dein#add('majutsushi/tagbar')
-	call dein#add('airblade/vim-gitgutter')
-	call dein#add('rust-lang/rust.vim',
-		\{'on_ft': ['rust']})
+
+	"deoplete and deoplete core plugins
 	call dein#add('Shougo/deoplete.nvim',
 		\{'on_i': 1})
-	call dein#add('sebastianmarkow/deoplete-rust',
-		\{'on_ft': ['rust']})
-	call dein#add('Shougo/neco-vim',
-		\{'on_ft': ['vim']})
-	call dein#add('ponko2/deoplete-fish',
-		\{'on_ft': ['fish']})
-	call dein#add('zchee/deoplete-clang',
-		\{'on_ft': ['cpp', 'c']})
-	call dein#add('Shougo/neoinclude.vim',
-		\{'on_ft': ['cpp', 'c']})
-	call dein#add('Shougo/neopairs.vim')
-	call dein#add('vim-scripts/cmdalias.vim')
-	call dein#add('StanAngeloff/php.vim',
-		\{'on_ft': ['php']})
-	call dein#add('sickill/vim-pasta')
-	call dein#add('cespare/vim-toml')
+	call dein#add('Shougo/neopairs.vim',
+		\{'on_i': 1})
 
-	" You can specify revision/branch/tag.
-	"call dein#add('Shougo/vimshell', { 'rev': '3787e5' })
-	call dein#add('Shougo/vimshell')
-	call dein#add('Shougo/vimproc.vim', { 'build': 'make' })
-	call dein#add('pangloss/vim-javascript',
-		\{'on_ft': ['js']})
-	call dein#add('HerringtonDarkholme/yats.vim')
-	call dein#add('mhartington/nvim-typescript',
-		\{'on_ft': ['ts']})
-	call dein#add('Quramy/tsuquyomi',
-		\{'on_ft': ['ts']})
-	call dein#add('tomtom/tcomment_vim')
-"		\{'on_ft': ['cpp', 'c', 'rust', 'php', 'js', 'css', 'cs']})
+	"deoplete sources
+	call dein#add('zchee/deoplete-clang',
+		\{'on_i': 1}, {'on_ft': ['cpp', 'c']})
+	call dein#add('Shougo/neoinclude.vim',
+		\{'on_i': 1}, {'on_ft': ['cpp', 'c']})
+	call dein#add('sebastianmarkow/deoplete-rust',
+		\{'on_i': 1}, {'on_ft': ['rust']})
+	call dein#add('Shougo/neco-vim',
+		\{'on_i': 1}, {'on_ft': ['vim']})
+	call dein#add('ponko2/deoplete-fish',
+		\{'on_i': 1}, {'on_ft': ['fish']})
+
+	"syntax plugins, sorted by filetype
+	call dein#add('hail2u/vim-css3-syntax',
+		\{'on_ft': ['css']})
 	call dein#add('dag/vim-fish',
 		\{'on_ft': ['fish']})
-	call dein#add('haya14busa/incsearch.vim')
+	call dein#add('valloric/MatchTagAlways',
+		\{'on_ft': ['html', 'xml']})
+	call dein#add('pangloss/vim-javascript',
+		\{'on_ft': ['js']})
+	call dein#add('StanAngeloff/php.vim',
+		\{'on_ft': ['php']})
+	call dein#add('rust-lang/rust.vim',
+		\{'on_ft': ['rust']})
+	call dein#add('cespare/vim-toml',
+		\{'on_ft': ['toml']})
+	call dein#add('HerringtonDarkholme/yats.vim',
+		\{'on_ft': ['typescript']})
+	call dein#add('mhartington/nvim-typescript',
+		\{'on_ft': ['typescript']})
+	call dein#add('Quramy/tsuquyomi',
+		\{'on_ft': ['typescript']})
+
+	"a plugin to replace entered commands with others
+	"this was a tough one to find, so leaving it here but commented
+	" call dein#add('vim-scripts/cmdalias.vim')
 
 	" Required:
 	call dein#end()

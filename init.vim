@@ -255,7 +255,7 @@ if $TERM == 'xterm-256color'
 	let t_ut = ""
 end
 
-set matchpairs += "<:>"
+set matchpairs+=<:>
 "ctrl+s save
 inoremap  :w<CR>
 nnoremap  :w<CR>

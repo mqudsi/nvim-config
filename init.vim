@@ -32,7 +32,9 @@ if dein#load_state('$HOME/.config/nvim/dein/')
 	"general programming-related plugins
 	call dein#add('tpope/vim-surround')
 	call dein#add('majutsushi/tagbar')
-	call dein#add('neomake/neomake')
+	call dein#add('neomake/neomake',
+	      \{'on_ft': ['rust', 'c', 'cpp', 'h']})
+	call dein#add('ludovicchabant/vim-gutentags')
 
 	"deoplete and deoplete core plugins
 	call dein#add('Shougo/deoplete.nvim',
@@ -107,7 +109,7 @@ endif
 ":cnoreabbr cargo make
 function ConfigDeoplete()
 	set shortmess +=c
-	call deoplete#custom#set('rust', 'rank', 1000)
+	call deoplete#custom#set('rust', 'rank', 99999)
 	call deoplete#custom#set('clang', 'rank', 99999)
 	"autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
 	"enable tabbing through autocomplete results only when the popup is
@@ -128,11 +130,17 @@ endif
 
 "set omnifunc=syntaxcomplete#Complete
 let g:deoplete#enable_at_startup = 1
-let g:deoplete#enable_ignore_case = 1
+" let g:deoplete#enable_ignore_case = 1
 let g:deoplete#enable_smart_case = 1
-let g:deoplete#enable_camel_case = 1
+" let g:deoplete#enable_camel_case = 1
 let g:deoplete#enable_refresh_always = 1
 let g:deoplete#sources#rust#show_duplicates = 0
+let deoplete#tag#cache_limit_size = 5000000
+let g:deoplete#sources = {}
+let g:deoplete#sources._ = ['buffer', 'tag']
+let g:deoplete#sources.cpp = ['clang']
+let g:deoplete#sources.rust = ['rust']
+autocmd CmdwinEnter * let b:deoplete_sources = ['buffer']
 
 "deoplete-clang configuration
 let g:deoplete#sources#clang#libclang_path = "/usr/lib/llvm-3.9/lib/libclang.so"
@@ -190,6 +198,9 @@ let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
+
+let g:neomake_cpp_enabled_makers=['clang']
+let g:neomake_cpp_clang_args = ["-std=c++14"]
 
 " hide modeline because airline/lightline includes the mode
 set noshowmode
@@ -321,9 +332,9 @@ augroup quickfix
 	autocmd FileType qf setlocal wrap
 augroup END
 
-"rusty-tags supporrt
-" autocmd BufWrite *.rs :silent! exec "!rusty-tags vi --quiet --start-dir=" . expand('%:p:h') . "&" <bar> redraw!
-autocmd BufWrite *.rs,*.cpp,*.c,*.php,*.cs :silent! exec "!ctags -R " . expand('%:p:h') . "&" | redraw!
+" autocmd BufWrite *.rs,*.cpp,*.c,*.php,*.cs :silent! exec "!ctags -R " . expand('%:p:h') . "&" | redraw!
+" gutentags supposedly generates tags in the background automatically
+" autocmd BufWrite *.rs,*.cpp,*.c,*.php,*.cs :call atags#generate()
 autocmd BufRead *.rs :setlocal tags=./tags;/,$RUST_SRC_PATH/tags
 
 " tagbar rust support
@@ -341,9 +352,20 @@ autocmd BufRead *.rs :setlocal tags=./tags;/,$RUST_SRC_PATH/tags
     \]
 \ }
 
-nmap <F8> :TagbarToggle<CR>
+noremap <F8> :TagbarToggle<CR>
+noremap <F12> 
+
+let g:neomake_make_maker = {
+    \ 'exe': 'make',
+    \ 'args': ['-j8'],
+    \ 'errorformat':&errorformat
+    \ }
 
 let g:default_rg_ignore = '-g "!*.{o,out,po}" -g "!tags" -g "!target"'
+let $FZF_DEFAULT_COMMAND = 'rg --files ' . g:default_rg_ignore
+" let g:rg_command = "rg " . g:default_rg_ignore . ' --vimgrep -S '
 let g:rg_command = 'rg --vimgrep -S ' . g:default_rg_ignore
 let g:rg_highlight = 1
+" command! -nargs=* rg :call s:Rg(<q-args>)
 cabbrev <expr> rg 'Rg'
+cabbrev <expr> neomake 'Neomake'

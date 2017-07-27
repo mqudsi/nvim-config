@@ -20,6 +20,7 @@ if dein#load_state('$HOME/.config/nvim/dein/')
 	"core plugins that change the behavior of vim and how we use it globally
 	call dein#add('junegunn/fzf',
 		\{'build': './install --all'})
+	call dein#add('jremmen/vim-ripgrep')
 	call dein#add('airblade/vim-gitgutter')
 	call dein#add('haya14busa/incsearch.vim')
 	call dein#add('itchyny/lightline.vim')
@@ -339,3 +340,8 @@ autocmd BufRead *.rs :setlocal tags=./tags;/,$RUST_SRC_PATH/tags
 \ }
 
 nmap <F8> :TagbarToggle<CR>
+
+let g:default_rg_ignore = '-g "!*.{o,out,po}" -g "!tags" -g "!target"'
+let g:rg_command = 'rg --vimgrep -S ' . g:default_rg_ignore
+let g:rg_highlight = 1
+cabbrev <expr> rg 'Rg'

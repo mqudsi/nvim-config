@@ -283,7 +283,9 @@ vmap <C-s> <esc>:w<CR>gv
 
 "magic search
 function! s:noregexp(pattern) abort
-  return '\V' . escape(a:pattern, '\')
+  let pattern = '\V' . substitute(a:pattern, '\\b', '\\>', "")
+  echom pattern
+  return pattern
 endfunction
 
 function! s:config() abort

@@ -27,6 +27,7 @@ if dein#load_state('$HOME/.config/nvim/dein/')
 	"call dein#add('mgee/lightline-bufferline')
 	call dein#add('sickill/vim-pasta')
 	call dein#add('tomtom/tcomment_vim')
+	call dein#add('Mephistophiles/vim-sleuth')
 
 	"general programming-related plugins
 	call dein#add('tpope/vim-surround')
@@ -160,6 +161,7 @@ set smarttab
 set autoindent
 set smartindent
 set number
+let g:slueth_default_width = 4
 
 set t_Co=256
 set background=dark

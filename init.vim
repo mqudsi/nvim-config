@@ -57,12 +57,16 @@ if dein#load_state('$HOME/.config/nvim/dein/')
 	"syntax plugins, sorted by filetype
 	call dein#add('hail2u/vim-css3-syntax',
 		\{'on_ft': ['css']})
+	call dein#add('vim-scripts/DoxyGen-Syntax',
+		\{'on_ft': ['*.doxygen']})
 	call dein#add('dag/vim-fish',
 		\{'on_ft': ['fish']})
 	call dein#add('valloric/MatchTagAlways',
 		\{'on_ft': ['html', 'xml']})
 	call dein#add('pangloss/vim-javascript',
 		\{'on_ft': ['js']})
+	call dein#add('rhysd/vim-gfm-syntax',
+		\{'on_ft': ['markdown']})
 	call dein#add('StanAngeloff/php.vim',
 		\{'on_ft': ['php']})
 	call dein#add('rust-lang/rust.vim',
@@ -75,6 +79,8 @@ if dein#load_state('$HOME/.config/nvim/dein/')
 		\{'on_ft': ['typescript']})
 	call dein#add('Quramy/tsuquyomi',
 		\{'on_ft': ['typescript']})
+	call dein#add('lervag/vimtex',
+		\{'on_ft': ['tex']})
 
 	"a plugin to replace entered commands with others
 	"this was a tough one to find, so leaving it here but commented

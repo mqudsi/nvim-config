@@ -113,7 +113,7 @@ endif
 
 "End dein Scripts-------------------------
 ":cnoreabbr cargo make
-function ConfigDeoplete()
+function! ConfigDeoplete()
 	set shortmess +=c
 	call deoplete#custom#set('rust', 'rank', 99999)
 	call deoplete#custom#set('clang', 'rank', 99999)
@@ -122,7 +122,42 @@ function ConfigDeoplete()
 	"visible
 	inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
 endfunction
+
+function! ConfigDeopleteClang()
+  "deoplete-clang configuration
+  let clang_path_options = [
+      \'/usr/lib/llvm-3.9/lib/libclang.so',
+      \'/Library/Developer/CommandLineTools/usr/lib/libclang.dylib',
+    \]
+  for p in clang_path_options
+    echom("testing path" . p)
+    if filereadable(p)
+      let g:deoplete#sources#clang#libclang_path = p
+      echom("Found libclang_path: " . p)
+      break
+    else
+      echom("Not found libclang_path: " . p)
+    endif
+  endfor
+
+  let clang_header_options= [
+      \'/usr/lib/clang',
+      \'/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/',
+    \]
+  for p in clang_header_options
+    if !empty(glob(p))
+      let g:deoplete#sources#clang#clang_header = p
+      echom("Found clang_header: " . p)
+      break
+    else
+      echom("Not found clang_header " . p)
+    endif
+  endfor
+endfunction
+
 call dein#set_hook('deoplete.nvim', 'hook_source', function('ConfigDeoplete'))
+call dein#set_hook('deoplete-clang', 'hook_source', function('ConfigDeopleteClang'))
+
 call system("which racer")
 if v:shell_error == 0
 	let g:racer_cmd = systemlist('which racer')[0]
@@ -147,10 +182,6 @@ let g:deoplete#sources._ = ['buffer', 'tag']
 let g:deoplete#sources.cpp = ['clang']
 let g:deoplete#sources.rust = ['rust']
 autocmd CmdwinEnter * let b:deoplete_sources = ['buffer']
-
-"deoplete-clang configuration
-let g:deoplete#sources#clang#libclang_path = "/usr/lib/llvm-3.9/lib/libclang.so"
-let g:deoplete#sources#clang#clang_header = "/usr/lib/clang"
 
 " :map [D <Left>
 " :map [C <Right>

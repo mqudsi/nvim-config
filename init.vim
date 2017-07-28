@@ -53,6 +53,8 @@ if dein#load_state('$HOME/.config/nvim/dein/')
 		\{'on_i': 1}, {'on_ft': ['vim']})
 	call dein#add('ponko2/deoplete-fish',
 		\{'on_i': 1}, {'on_ft': ['fish']})
+	call dein#add('Shougo/neco-syntax',
+	        \{'on_i': 1})
 
 	"syntax plugins, sorted by filetype
 	call dein#add('hail2u/vim-css3-syntax',

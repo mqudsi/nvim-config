@@ -283,8 +283,8 @@ autocmd FileType c,cpp,java,php,rust,js,vim autocmd BufWritePre <buffer> %s/\s\+
 "inoremap <C-Space> <C-x><C-o>
 "inoremap <C-@> <C-Space>
 
-noremap <F7> :w <CR> :ccl <CR> :Neomake! <CR> :echo <CR>
-inoremap <F7> <Esc>:w <CR> :ccl <CR> :Neomake! <CR> :echo <CR>
+noremap <F7> :w <CR> :ccl <CR> :make! <CR> :echo <CR>
+inoremap <F7> <Esc>:w <CR> :ccl <CR> :make! <CR> :echo <CR>
 
 if !empty(matchstr(system("uname -a"), "Microsoft"))
 	let g:clipboard = {

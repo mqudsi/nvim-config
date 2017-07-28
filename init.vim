@@ -226,18 +226,6 @@ colo evening
 let g:mta_use_matchparen_group = 0
 hi link MatchTag Underlined
 
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
-
-let g:syntastic_cpp_compiler = 'clang++'
-let g:syntastic_cpp_compiler_options = '-std=c++11 -fpermissive'
-
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
-
 let g:neomake_cpp_enabled_makers=['clang']
 let g:neomake_cpp_clang_args = ["-std=c++14"]
 

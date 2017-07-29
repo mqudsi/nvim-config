@@ -36,6 +36,21 @@ if dein#load_state('$HOME/.config/nvim/dein/')
 	      \{'on_ft': ['rust', 'c', 'cpp', 'h']})
 	call dein#add('ludovicchabant/vim-gutentags')
 
+        "nvim-completion-manager and plugins
+        " call dein#add('roxma/nvim-completion-manager')
+	" call dein#add('racer-rust/vim-racer',
+	"       \{'on_i': 1}, {'on_ft': ['rust']})
+	" call dein#add('roxma/nvim-cm-racer',
+	"       \{'on_i': 1}, {'on_ft': ['rust']})
+	" call dein#add('Shougo/neco-vim',
+	"       \{'on_i': 1}, {'on_ft': ['vim']})
+	" call dein#add('Shougo/neoinclude.vim',
+	"       \{'on_i': 1}, {'on_ft': ['cpp', 'c', 'h']})
+	" call dein#add('Shougo/neco-syntax',
+	"       \{'on_i': 1})
+	" call dein#add('roxma/clang_complete',
+	"       \{'on_i': 1}, {'on_ft': ['cpp', 'c', 'h']})
+
 	"deoplete and deoplete core plugins
 	call dein#add('Shougo/deoplete.nvim',
 		\{'on_i': 1})
@@ -98,6 +113,7 @@ autocmd BufRead,BufNewfile */*nginx*/*.conf setfiletype nginx
 autocmd BufNewFile,BufReadPost *.md set filetype=markdown
 autocmd BufRead,BufNewFile *.git/COMMIT_EDITMSG set ft=gitcommit
 autocmd BufRead,BufNewFile *.fish set filetype=fish
+autocmd BufRead,BufNewFile *.expect set filetype=expect
 
 " Required:
 filetype plugin indent on
@@ -116,13 +132,16 @@ endif
 "End dein Scripts-------------------------
 ":cnoreabbr cargo make
 function! ConfigDeoplete()
-	set shortmess +=c
-	call deoplete#custom#set('rust', 'rank', 99999)
-	call deoplete#custom#set('clang', 'rank', 99999)
-	"autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
-	"enable tabbing through autocomplete results only when the popup is
-	"visible
-	inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
+    autocmd!
+    autocmd VimEnter * call deoplete#enable_logging('DEBUG', '/tmp/deoplete.log')
+
+    set shortmess +=c
+    call deoplete#custom#set('rust', 'rank', 99999)
+    call deoplete#custom#set('clang', 'rank', 99999)
+    "autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
+    "enable tabbing through autocomplete results only when the popup is
+    "visible
+    inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
 endfunction
 
 function! PickPath(options)
@@ -253,7 +272,7 @@ imap <F1> <Esc>
 
 "syntax highlighting for git paging
 function LessInitFunc()
-	set syntax=diff
+    set syntax=diff
 endfunction
 
 "strip trailing whitespace on save for certain filetypes
@@ -264,22 +283,22 @@ autocmd FileType c,cpp,java,php,rust,js,vim autocmd BufWritePre <buffer> %s/\s\+
 "inoremap <C-Space> <C-x><C-o>
 "inoremap <C-@> <C-Space>
 
-noremap <F7> :w <CR> :ccl <CR> :make! <CR> :echo <CR>
-inoremap <F7> <Esc>:w <CR> :ccl <CR> :make! <CR> :echo <CR>
+noremap <F7> :w <CR> :ccl <CR> :Neomake! <CR> :echo <CR>
+inoremap <F7> <Esc>:w <CR> :ccl <CR> :Neomake! <CR> :echo <CR>
 
 if !empty(matchstr(system("uname -a"), "Microsoft"))
-	let g:clipboard = {
-		\ 'name': 'win32yank',
-		\ 'copy': {
-		\	'+': 'noerr win32yank.exe -i --crlf',
-		\	'*': 'noerr win32yank.exe -i --crlf',
-		\	},
-		\ 'paste': {
-		\	'+': 'noerr win32yank.exe -o --lf',
-		\	'*': 'noerr win32yank.exe -o --lf',
-		\	},
-		\ 'cache_enabled': 1,
-		\ }
+    let g:clipboard = {
+	\ 'name': 'win32yank',
+	\ 'copy': {
+	\	'+': 'noerr win32yank.exe -i --crlf',
+	\	'*': 'noerr win32yank.exe -i --crlf',
+	\	},
+	\ 'paste': {
+	\	'+': 'noerr win32yank.exe -o --lf',
+	\	'*': 'noerr win32yank.exe -o --lf',
+	\	},
+	\ 'cache_enabled': 1,
+	\ }
 endif
 
 "set termguicolors
@@ -295,13 +314,14 @@ vmap <C-s> <esc>:w<CR>gv
 
 "magic search
 function! s:noregexp(pattern) abort
-  let pattern = '\V' . substitute(a:pattern, '\\b', '\\>', "")
-  echom pattern
-  return pattern
+    let pattern = substitute(pattern, '+', '\\+', "")
+    let pattern = '\V' . substitute(pattern, '\\b', '\\>', "")
+    echom pattern
+    return pattern
 endfunction
 
 function! s:config() abort
-  return {'converters': [function('s:noregexp')]}
+    return {'converters': [function('s:noregexp')]}
 endfunction
 
 noremap <silent><expr> z/ incsearch#go(<SID>config())
@@ -311,6 +331,7 @@ noremap <silent><expr> z/ incsearch#go(<SID>config())
 map / <Plug>(incsearch-forward)
 map ? <Plug>(incsearch-backward)
 map g/ <Plug>(incsearch-stay)
+let g:incsearch#magic = '\v'
 
 "automatically open quickfix on errors
 "also, should close it automatically when there are none
@@ -325,17 +346,17 @@ inoremap <silent><C-c> <C-c>:nohl<bar>set nolz<CR>
 
 "insert at start of current line by typing in __ (two underscores)
 function DoubleUnderscore()
-	let b:cur_col = getcurpos()[2]
-	let b:underscore_count = get(b:, "underscore_count", 0)
-	let b:underscore_count += 1
-	" if b:cur_col != 1 || v:count != 0
-	if v:count != 0
-		let b:underscore_count = 0
-	elseif b:underscore_count == 1
-	else
-		:silent call feedkeys('i')
-		let b:underscore_count = 0
-	endif
+    let b:cur_col = getcurpos()[2]
+    let b:underscore_count = get(b:, "underscore_count", 0)
+    let b:underscore_count += 1
+    " if b:cur_col != 1 || v:count != 0
+    if v:count != 0
+	let b:underscore_count = 0
+    elseif b:underscore_count == 1
+    else
+	:silent call feedkeys('i')
+	let b:underscore_count = 0
+    endif
 endfunction
 nnoremap <silent> _ _:call DoubleUnderscore()<CR>
 
@@ -348,8 +369,8 @@ source $HOME/.config/nvim/bufferclose.vim
 
 "set wrapping for quickfix window
 augroup quickfix
-	autocmd!
-	autocmd FileType qf setlocal wrap
+    autocmd!
+    autocmd FileType qf setlocal wrap
 augroup END
 
 " autocmd BufWrite *.rs,*.cpp,*.c,*.php,*.cs :silent! exec "!ctags -R " . expand('%:p:h') . "&" | redraw!
@@ -359,9 +380,9 @@ autocmd BufRead *.rs :setlocal tags=./tags;/,$RUST_SRC_PATH/tags
 
 " tagbar rust support
  let g:tagbar_type_rust = {
-    \ 'ctagstype' : 'rust',
-    \ 'kinds' : [
-        \'T:types,type definitions',
+	\ 'ctagstype' : 'rust',
+	\ 'kinds' : [
+	\'T:types,type definitions',
         \'f:functions,function definitions',
         \'g:enum,enumeration names',
         \'s:structure names',

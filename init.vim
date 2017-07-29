@@ -125,36 +125,27 @@ function! ConfigDeoplete()
 	inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
 endfunction
 
+function! PickPath(options)
+  for p in a:options
+    if !empty(glob(p))
+      return p
+    endif
+  endfor
+endfunction
+
 function! ConfigDeopleteClang()
   "deoplete-clang configuration
   let clang_path_options = [
       \'/usr/lib/llvm-3.9/lib/libclang.so',
       \'/Library/Developer/CommandLineTools/usr/lib/libclang.dylib',
     \]
-  for p in clang_path_options
-    echom("testing path" . p)
-    if filereadable(p)
-      let g:deoplete#sources#clang#libclang_path = p
-      echom("Found libclang_path: " . p)
-      break
-    else
-      echom("Not found libclang_path: " . p)
-    endif
-  endfor
+  let g:deoplete#sources#clang#libclang_path = PickPath(clang_path_options)
 
   let clang_header_options= [
       \'/usr/lib/clang',
       \'/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/',
     \]
-  for p in clang_header_options
-    if !empty(glob(p))
-      let g:deoplete#sources#clang#clang_header = p
-      echom("Found clang_header: " . p)
-      break
-    else
-      echom("Not found clang_header " . p)
-    endif
-  endfor
+  let g:deoplete#sources#clang#clang_header = PickPath(clang_header_options)
 endfunction
 
 call dein#set_hook('deoplete.nvim', 'hook_source', function('ConfigDeoplete'))

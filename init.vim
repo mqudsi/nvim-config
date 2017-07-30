@@ -231,20 +231,19 @@ let g:solarized_diffmode="high"
 :map [5~  "page up
 :map [6~  "page down
 
-
-colo evening
-
 " colors for MatchTagAlways highlights
 let g:mta_use_matchparen_group = 0
 hi link MatchTag Underlined
 
-let g:neomake_cpp_enabled_makers=['clang']
-let g:neomake_cpp_clang_args = ["-std=c++14"]
+let g:neomake_enabled_makers = ['makeprg']
+let g:neomake_makeprg_maker = {
+    \ 'exe': &makeprg,
+    \ 'args': [ '-j4' ],
+    \ 'errorformat': &errorformat,
+    \ }
+let g:neomake_open_list = 1
 
-" hide modeline because airline/lightline includes the mode
-set noshowmode
-let g:lightline = {}
-let g:lightline.colorscheme      = 'jellybeans'
+source $HOME/.config/nvim/lightline.vim
 
 "bufferline configuration
 " let g:lightline#bufferline#show_number  = 1
@@ -397,12 +396,6 @@ autocmd BufRead *.rs :setlocal tags=./tags;/,$RUST_SRC_PATH/tags
 
 noremap <F8> :TagbarToggle<CR>
 noremap <F12> 
-
-let g:neomake_make_maker = {
-    \ 'exe': 'make',
-    \ 'args': ['-j8'],
-    \ 'errorformat':&errorformat
-    \ }
 
 let g:default_rg_ignore = '-g "!*.{o,out,po}" -g "!tags" -g "!target"'
 let $FZF_DEFAULT_COMMAND = 'rg --files ' . g:default_rg_ignore

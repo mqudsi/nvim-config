@@ -359,7 +359,6 @@ function! AutoExpandTabs()
 	endif
 	let space_lines = str2nr(system("grep -c '^ ' " . file_path))
 	let tab_lines =  str2nr(system("grep -c '^\t' " . file_path))
-	" echom "space lines: " . space_lines . " tab lines: " . tab_lines 
 	if space_lines > tab_lines
 		set expandtab
 	else

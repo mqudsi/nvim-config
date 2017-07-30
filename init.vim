@@ -34,23 +34,10 @@ if dein#load_state('$HOME/.config/nvim/dein/')
 	call dein#add('tpope/vim-surround')
 	call dein#add('majutsushi/tagbar')
 	call dein#add('neomake/neomake',
-	      \{'on_ft': ['rust', 'c', 'cpp', 'h']})
+		\{'on_ft': ['rust', 'c', 'cpp']})
 	call dein#add('ludovicchabant/vim-gutentags')
-
-        "nvim-completion-manager and plugins
-        " call dein#add('roxma/nvim-completion-manager')
-	" call dein#add('racer-rust/vim-racer',
-	"       \{'on_i': 1}, {'on_ft': ['rust']})
-	" call dein#add('roxma/nvim-cm-racer',
-	"       \{'on_i': 1}, {'on_ft': ['rust']})
-	" call dein#add('Shougo/neco-vim',
-	"       \{'on_i': 1}, {'on_ft': ['vim']})
-	" call dein#add('Shougo/neoinclude.vim',
-	"       \{'on_i': 1}, {'on_ft': ['cpp', 'c', 'h']})
-	" call dein#add('Shougo/neco-syntax',
-	"       \{'on_i': 1})
-	" call dein#add('roxma/clang_complete',
-	"       \{'on_i': 1}, {'on_ft': ['cpp', 'c', 'h']})
+	call dein#add('Chiel92/vim-autoformat',
+		\{'on_ft': ['rust', 'c', 'php', 'cpp', 'js', 'css', 'vim', 'markdown', 'html', 'go', 'csharp']})
 
 	"deoplete and deoplete core plugins
 	call dein#add('Shougo/deoplete.nvim',
@@ -70,7 +57,7 @@ if dein#load_state('$HOME/.config/nvim/dein/')
 	call dein#add('ponko2/deoplete-fish',
 		\{'on_i': 1}, {'on_ft': ['fish']})
 	call dein#add('Shougo/neco-syntax',
-	        \{'on_i': 1})
+		\{'on_i': 1})
 
 	"syntax plugins, sorted by filetype
 	call dein#add('hail2u/vim-css3-syntax',
@@ -100,10 +87,6 @@ if dein#load_state('$HOME/.config/nvim/dein/')
 	call dein#add('lervag/vimtex',
 		\{'on_ft': ['tex']})
 
-	"a plugin to replace entered commands with others
-	"this was a tough one to find, so leaving it here but commented
-	" call dein#add('vim-scripts/cmdalias.vim')
-
 	" Required:
 	call dein#end()
 	call dein#save_state()
@@ -131,7 +114,6 @@ if dein#check_install()
 endif
 
 "End dein Scripts-------------------------
-":cnoreabbr cargo make
 function! ConfigDeoplete()
     autocmd!
     autocmd VimEnter * call deoplete#enable_logging('DEBUG', '/tmp/deoplete.log')
@@ -182,7 +164,6 @@ if v:shell_error == 0
 	let g:deoplete#sources#rust#documentation_max_height = 20
 endif
 
-"set omnifunc=syntaxcomplete#Complete
 let g:deoplete#enable_at_startup = 1
 " let g:deoplete#enable_ignore_case = 1
 let g:deoplete#enable_smart_case = 1
@@ -196,21 +177,6 @@ let g:deoplete#sources.cpp = ['clang']
 let g:deoplete#sources.rust = ['rust']
 autocmd CmdwinEnter * let b:deoplete_sources = ['buffer']
 
-" :map [D <Left>
-" :map [C <Right>
-" :map [A <Up>
-" :map [B <Down>
-"
-" :map! [D <Left>
-" :map! [C <Right>
-" :map! [A <Up>
-" :map! [B <Down>
-
-" let &t_8b = "\<ESC>[48;2,%lu,%lum"
-" let &t_8f = "\<ESC>[38;2,%lu,%lum"
-" let &t_AB = "\e[48;5;%dm"
-" let &t_AF = "\e[38;5;%dm"
-
 set mouse=a
 set backspace=indent,eol,start
 set tabstop=4
@@ -220,7 +186,6 @@ set noexpandtab
 set autoindent
 set smartindent
 set number
-let g:slueth_default_width = 4
 
 set t_Co=256
 set background=dark
@@ -245,15 +210,6 @@ let g:neomake_open_list = 1
 
 source $HOME/.config/nvim/lightline.vim
 
-"bufferline configuration
-" let g:lightline#bufferline#show_number  = 1
-" let g:lightline#bufferline#shorten_path = 0
-" let g:lightline#bufferline#unnamed      = '[No Name]'
-" set showtabline=2
-" let g:lightline.tabline          = {'left': [['buffers']], 'right': [['close']]}
-" let g:lightline.component_expand = {'buffers': 'lightline#bufferline#buffers'}
-" let g:lightline.component_type   = {'buffers': 'tabsel'}
-
 set wildignorecase "ignore case for filename completions
 set infercase "allow  to complete without matching case when combined with ignorecase
 "set ignorecase "but ignorecase makes regex searches case-insensitive :(
@@ -270,11 +226,6 @@ noremap Q <Nop>
 nmap <F1> <Nop>
 vmap <F1> <Nop>
 imap <F1> <Esc>
-
-"syntax highlighting for git paging
-function LessInitFunc()
-    set syntax=diff
-endfunction
 
 "strip trailing whitespace on save for certain filetypes
 autocmd FileType c,cpp,java,php,rust,js,vim autocmd BufWritePre <buffer> %s/\s\+$//e
@@ -334,11 +285,6 @@ map ? <Plug>(incsearch-backward)
 map g/ <Plug>(incsearch-stay)
 let g:incsearch#magic = '\v'
 
-"automatically open quickfix on errors
-"also, should close it automatically when there are none
-autocmd QuickFixCmdPost [^l]* nested cwindow
-autocmd QuickFixCmdPost    l* nested lwindow
-
 "hide highlight on insert
 autocmd InsertEnter * setlocal nohlsearch
 autocmd InsertLeave * setlocal hlsearch lz
@@ -346,7 +292,7 @@ inoremap <silent><Esc> <Esc>:nohl<bar>set nolz<CR>
 inoremap <silent><C-c> <C-c>:nohl<bar>set nolz<CR>
 
 "insert at start of current line by typing in __ (two underscores)
-function DoubleUnderscore()
+function! DoubleUnderscore()
     let b:cur_col = getcurpos()[2]
     let b:underscore_count = get(b:, "underscore_count", 0)
     let b:underscore_count += 1
@@ -374,9 +320,6 @@ augroup quickfix
     autocmd FileType qf setlocal wrap
 augroup END
 
-" autocmd BufWrite *.rs,*.cpp,*.c,*.php,*.cs :silent! exec "!ctags -R " . expand('%:p:h') . "&" | redraw!
-" gutentags supposedly generates tags in the background automatically
-" autocmd BufWrite *.rs,*.cpp,*.c,*.php,*.cs :call atags#generate()
 autocmd BufRead *.rs :setlocal tags=./tags;/,$RUST_SRC_PATH/tags
 
 " tagbar rust support

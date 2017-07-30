@@ -27,7 +27,8 @@ if dein#load_state('$HOME/.config/nvim/dein/')
 	"call dein#add('mgee/lightline-bufferline')
 	call dein#add('sickill/vim-pasta')
 	call dein#add('tomtom/tcomment_vim')
-	call dein#add('Mephistophiles/vim-sleuth')
+	" call dein#add('Mephistophiles/vim-sleuth')
+	" call dein#add('ciaranm/detectindent')
 
 	"general programming-related plugins
 	call dein#add('tpope/vim-surround')
@@ -215,6 +216,7 @@ set backspace=indent,eol,start
 set tabstop=4
 set shiftwidth=4
 set smarttab
+set noexpandtab
 set autoindent
 set smartindent
 set number
@@ -410,3 +412,23 @@ let g:rg_highlight = 1
 " command! -nargs=* rg :call s:Rg(<q-args>)
 cabbrev <expr> rg 'Rg'
 cabbrev <expr> neomake 'Neomake'
+
+function! AutoExpandTabs()
+	autocmd!
+	let file_path = expand("%:p")
+	if empty(file_path)
+		return
+	endif
+	let space_lines = str2nr(system("grep -c '^ ' " . file_path))
+	let tab_lines =  str2nr(system("grep -c '^\t' " . file_path))
+	" echom "space lines: " . space_lines . " tab lines: " . tab_lines 
+	if space_lines > tab_lines
+		set expandtab
+	else
+		set noexpandtab
+	endif
+endfunction
+
+autocmd BufReadPost * :call AutoExpandTabs()
+
+colo evening

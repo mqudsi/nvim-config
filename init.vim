@@ -321,6 +321,8 @@ augroup quickfix
 augroup END
 
 autocmd BufRead *.rs :setlocal tags=./tags;/,$RUST_SRC_PATH/tags
+" these have bad indentfiles by default, so no autoformatting here
+autocmd FileType vim,tex let b:autoformat_autoindent=0
 
 " tagbar rust support
  let g:tagbar_type_rust = {

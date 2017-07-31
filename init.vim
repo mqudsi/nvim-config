@@ -352,5 +352,5 @@ endfunction
 
 autocmd BufReadPost * :call AutoExpandTabs()
 
-set scrolloff=12
+set scrolloff=4
 colo evening

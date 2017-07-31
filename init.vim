@@ -111,6 +111,7 @@ if dein#check_install()
 endif
 
 "End dein Scripts-------------------------
+
 function! ConfigDeoplete()
     autocmd!
     autocmd VimEnter * call deoplete#enable_logging('DEBUG', '/tmp/deoplete.log')
@@ -147,8 +148,23 @@ function! ConfigDeopleteClang()
   let g:deoplete#sources#clang#clang_header = PickPath(clang_header_options)
 endfunction
 
+function! ConfigNeomake()
+	let g:neomake_enabled_makers = ['makeprg']
+	let g:neomake_makeprg_maker = {
+		\ 'exe': &makeprg,
+		\ 'args': [ '-j4' ],
+		\ 'errorformat': &errorformat,
+		\ }
+	let neomake_clang = neomake#makers#ft#cpp#clang()
+	let neomake_clang.args += ['-I./']
+	let g:neomake_cpp_clangxx_maker = neomake_clang
+	let g:neomake_cpp_enabled_makers = ['clangxx']
+	let g:neomake_open_list = 1
+endfunction
+
 call dein#set_hook('deoplete.nvim', 'hook_source', function('ConfigDeoplete'))
 call dein#set_hook('deoplete-clang', 'hook_source', function('ConfigDeopleteClang'))
+call dein#set_hook('neomake', 'hook_source', function('ConfigNeomake'))
 
 call system("which racer")
 if v:shell_error == 0
@@ -195,14 +211,6 @@ let g:solarized_diffmode="high"
 " colors for MatchTagAlways highlights
 let g:mta_use_matchparen_group = 0
 hi link MatchTag Underlined
-
-let g:neomake_enabled_makers = ['makeprg']
-let g:neomake_makeprg_maker = {
-    \ 'exe': &makeprg,
-    \ 'args': [ '-j4' ],
-    \ 'errorformat': &errorformat,
-    \ }
-let g:neomake_open_list = 1
 
 source $HOME/.config/nvim/lightline.vim
 
@@ -315,12 +323,6 @@ noremap  :FZF<CR>
 "Close quickfix when closing a buffer
 "this prevents quickfix from being the only buffer left
 source $HOME/.config/nvim/bufferclose.vim
-
-"set wrapping for quickfix window
-augroup quickfix
-    autocmd!
-    autocmd FileType qf setlocal wrap
-augroup END
 
 autocmd BufRead *.rs :setlocal tags=./tags;/,$RUST_SRC_PATH/tags
 " these have bad indentfiles by default, so no autoformatting here

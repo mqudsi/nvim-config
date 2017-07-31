@@ -219,7 +219,7 @@ set infercase "allow  to complete without matching case when combined with igno
 "set ignorecase "but ignorecase makes regex searches case-insensitive :(
 
 "clear highlight on double esc
-nnoremap <silent> <esc> :noh<cr><esc>
+nnoremap <silent> <esc> :noh<cr>:ccl<cr>:lclose<esc>
 
 "automatically save on buffer change
 set hidden

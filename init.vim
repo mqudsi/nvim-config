@@ -24,20 +24,17 @@ if dein#load_state('$HOME/.config/nvim/dein/')
 	call dein#add('airblade/vim-gitgutter')
 	call dein#add('haya14busa/incsearch.vim')
 	call dein#add('itchyny/lightline.vim')
-	"call dein#add('mgee/lightline-bufferline')
 	call dein#add('sickill/vim-pasta')
 	call dein#add('tomtom/tcomment_vim')
-	" call dein#add('Mephistophiles/vim-sleuth')
-	" call dein#add('ciaranm/detectindent')
 
 	"general programming-related plugins
 	call dein#add('tpope/vim-surround')
-	call dein#add('majutsushi/tagbar')
 	call dein#add('neomake/neomake',
 		\{'on_ft': ['rust', 'c', 'cpp']})
 	call dein#add('ludovicchabant/vim-gutentags')
 	call dein#add('Chiel92/vim-autoformat',
-		\{'on_ft': ['rust', 'c', 'php', 'cpp', 'js', 'css', 'vim', 'markdown', 'html', 'go', 'csharp']})
+		\{'on_ft': ['rust', 'c', 'php', 'cpp', 'js', 'css',
+		\ 'vim', 'markdown', 'html', 'go', 'csharp']})
 
 	"deoplete and deoplete core plugins
 	call dein#add('Shougo/deoplete.nvim',
@@ -235,8 +232,14 @@ autocmd FileType c,cpp,java,php,rust,js,vim autocmd BufWritePre <buffer> %s/\s\+
 "inoremap <C-Space> <C-x><C-o>
 "inoremap <C-@> <C-Space>
 
+"F7 to build project (like Visual Studio)
 noremap <F7> :w <CR> :ccl <CR> :Neomake! <CR> :echo <CR>
 inoremap <F7> <Esc>:w <CR> :ccl <CR> :Neomake! <CR> :echo <CR>
+"F8 to build/lint single file
+noremap <F8> :w <CR> :ccl <CR> :Neomake <CR> :echo <CR>
+inoremap <F8> <Esc>:w <CR> :ccl <CR> :Neomake <CR> :echo <CR>
+"F12 to go to definition (like Visual Studio)
+noremap <F12> 
 
 if !empty(matchstr(system("uname -a"), "Microsoft"))
     let g:clipboard = {
@@ -324,30 +327,11 @@ autocmd BufRead *.rs :setlocal tags=./tags;/,$RUST_SRC_PATH/tags
 " these have bad indentfiles by default, so no autoformatting here
 autocmd FileType vim,tex let b:autoformat_autoindent=0
 
-" tagbar rust support
- let g:tagbar_type_rust = {
-	\ 'ctagstype' : 'rust',
-	\ 'kinds' : [
-	\'T:types,type definitions',
-        \'f:functions,function definitions',
-        \'g:enum,enumeration names',
-        \'s:structure names',
-        \'m:modules,module names',
-        \'c:consts,static constants',
-        \'t:traits,traits',
-        \'i:impls,trait implementations',
-    \]
-\ }
-
-noremap <F8> :TagbarToggle<CR>
-noremap <F12> 
-
 let g:default_rg_ignore = '-g "!*.{o,out,po}" -g "!tags" -g "!target"'
 let $FZF_DEFAULT_COMMAND = 'rg --files ' . g:default_rg_ignore
 " let g:rg_command = "rg " . g:default_rg_ignore . ' --vimgrep -S '
 let g:rg_command = 'rg --vimgrep -S ' . g:default_rg_ignore
 let g:rg_highlight = 1
-" command! -nargs=* rg :call s:Rg(<q-args>)
 cabbrev <expr> rg 'Rg'
 cabbrev <expr> neomake 'Neomake'
 

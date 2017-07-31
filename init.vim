@@ -5,7 +5,6 @@ endif
 
 let g:python3_host_prog = systemlist("which python3")[0]
 let g:loaded_python_provider = 1
-" let g:loaded_python3_provider = 0
 
 set runtimepath+=$HOME/.config/nvim/dein/repos/github.com/Shougo/dein.vim
 filetype off
@@ -15,7 +14,8 @@ if dein#load_state('$HOME/.config/nvim/dein/')
 	call dein#add('Shougo/dein.vim')
 
 	" Add or remove your plugins here:
-	call dein#add('flazz/vim-colorschemes')
+	" call dein#add('flazz/vim-colorschemes')
+	call dein#add('Haron-Prime/evening_vim')
 
 	"core plugins that change the behavior of vim and how we use it globally
 	call dein#add('junegunn/fzf',
@@ -185,7 +185,6 @@ set smartindent
 set number
 
 set t_Co=256
-set background=dark
 let g:solarized_termcolors=256
 let g:solarized_diffmode="high"
 

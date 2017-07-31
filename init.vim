@@ -113,7 +113,6 @@ endif
 "End dein Scripts-------------------------
 
 function! ConfigDeoplete()
-    autocmd!
     autocmd VimEnter * call deoplete#enable_logging('DEBUG', '/tmp/deoplete.log')
 
     set shortmess +=c
@@ -155,10 +154,11 @@ function! ConfigNeomake()
 		\ 'args': [ '-j4' ],
 		\ 'errorformat': &errorformat,
 		\ }
-	let neomake_clang = neomake#makers#ft#cpp#clang()
-	let neomake_clang.args += ['-I./']
-	let g:neomake_cpp_clangxx_maker = neomake_clang
-	let g:neomake_cpp_enabled_makers = ['clangxx']
+	let g:neomake_cpp_clangxx_maker = neomake#makers#ft#cpp#clang()
+	let g:neomake_cpp_clangxx_maker.args += ['-I./']
+	let g:neomake_cpp_clangtidy_maker = neomake#makers#ft#cpp#clangtidy()
+	let g:neomake_cpp_clangtidy_maker.args = ['--'] + g:neomake_cpp_clangxx_maker.args
+	let g:neomake_cpp_enabled_makers = ['clangxx', 'clangtidy']
 	let g:neomake_open_list = 1
 endfunction
 
@@ -337,7 +337,7 @@ cabbrev <expr> rg 'Rg'
 cabbrev <expr> neomake 'Neomake'
 
 function! AutoExpandTabs()
-	let file_path = expand("%:p")
+	let file_path = shellescape(expand("%:p"))
 	if empty(file_path)
 		return
 	endif

@@ -112,12 +112,10 @@ function! StopSpinner()
     if s:active_spinners == 0
         :call timer_stop(s:spinner_timer)
     endif
-    redraws
 endfunction
 
 function! SpinSpinner(timer)
     let s:spinner_index = float2nr(fmod(s:spinner_index + 1, len(s:spinner_states)))
-    redraws
 endfunction
 
 function! SpinnerText()
@@ -135,4 +133,3 @@ augroup neomake_hooks
     autocmd User NeomakeFinished :call StopSpinner()
     " autocmd User NeomakeFinished :echom "Build complete"
 augroup END
-

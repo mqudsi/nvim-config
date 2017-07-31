@@ -12,7 +12,7 @@ let g:lightline.active = {
     \            [ 'lineinfo' ],
     \            [ 'percent' ],
     \            [ 'fileformat', 'fileencoding', 'filetype' ],
-    \            [ 'spinner' ]] }
+    \            [ ]] }
 let g:lightline.inactive = {
     \ 'left': [ [ 'filename' ] ],
     \ 'right': [ [ 'lineinfo' ],
@@ -112,12 +112,12 @@ function! StopSpinner()
     if s:active_spinners == 0
         :call timer_stop(s:spinner_timer)
     endif
-    redraw
+    redraws
 endfunction
 
 function! SpinSpinner(timer)
     let s:spinner_index = float2nr(fmod(s:spinner_index + 1, len(s:spinner_states)))
-    redraw
+    redraws
 endfunction
 
 function! SpinnerText()

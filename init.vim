@@ -335,7 +335,6 @@ cabbrev <expr> rg 'Rg'
 cabbrev <expr> neomake 'Neomake'
 
 function! AutoExpandTabs()
-	autocmd!
 	let file_path = expand("%:p")
 	if empty(file_path)
 		return

@@ -159,9 +159,9 @@ function! ConfigNeomake()
 	let g:neomake_cpp_clangtidy_maker = neomake#makers#ft#cpp#clangtidy()
 	let g:neomake_cpp_clangtidy_maker.args = ['--'] + g:neomake_cpp_clangxx_maker.args
 	let g:neomake_cpp_enabled_makers = ['clangxx', 'clangtidy']
-	let g:neomake_open_list = 1
 endfunction
 
+let g:neomake_open_list = 2
 call dein#set_hook('deoplete.nvim', 'hook_source', function('ConfigDeoplete'))
 call dein#set_hook('deoplete-clang', 'hook_source', function('ConfigDeopleteClang'))
 call dein#set_hook('neomake', 'hook_source', function('ConfigNeomake'))
@@ -187,7 +187,7 @@ let deoplete#tag#cache_limit_size = 5000000
 let g:deoplete#sources = {}
 let g:deoplete#sources._ = ['buffer', 'tag']
 let g:deoplete#sources.cpp = ['clang']
-let g:deoplete#sources.rust = ['rust']
+let g:deoplete#sources.rust = ['rust', 'buffer', 'tag']
 autocmd CmdwinEnter * let b:deoplete_sources = ['buffer']
 
 set mouse=a
@@ -240,11 +240,11 @@ autocmd FileType c,cpp,java,php,rust,js,vim autocmd BufWritePre <buffer> %s/\s\+
 "inoremap <C-@> <C-Space>
 
 "F7 to build project (like Visual Studio)
-noremap <F7> :w <CR> :ccl <CR> :Neomake! <CR> :echo <CR>
-inoremap <F7> <Esc>:w <CR> :ccl <CR> :Neomake! <CR> :echo <CR>
+nnoremap <F7> :w <CR> :Neomake! <CR>
+inoremap <F7> <Esc> :w <CR> :Neomake! <CR>
 "F8 to build/lint single file
-noremap <F8> :w <CR> :ccl <CR> :Neomake <CR> :echo <CR>
-inoremap <F8> <Esc>:w <CR> :ccl <CR> :Neomake <CR> :echo <CR>
+nnoremap <F8> :w <CR> :Neomake <CR>
+inoremap <F8> <Esc> :w <CR> :Neomake <CR>
 "F12 to go to definition (like Visual Studio)
 noremap <F12> 
 

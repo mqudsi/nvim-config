@@ -39,6 +39,8 @@ if dein#load_state('$HOME/.config/nvim/dein/')
 	"deoplete and deoplete core plugins
 	call dein#add('Shougo/deoplete.nvim',
 		\{'on_i': 1})
+	call dein#add('Shougo/context_filetype.vim',
+		\{'on_i': 1})
 	call dein#add('Shougo/neopairs.vim',
 		\{'on_i': 1})
 
@@ -47,8 +49,8 @@ if dein#load_state('$HOME/.config/nvim/dein/')
 		\{'on_i': 1}, {'on_ft': ['cpp', 'c']})
 	call dein#add('Shougo/neoinclude.vim',
 		\{'on_i': 1}, {'on_ft': ['cpp', 'c']})
-	" call dein#add('sebastianmarkow/deoplete-rust',
-	call dein#add('racer-rust/vim-racer',
+	" call dein#add('racer-rust/vim-racer',
+	call dein#add('sebastianmarkow/deoplete-rust',
 		\{'on_i': 1}, {'on_ft': ['rust']})
 	call dein#add('Shougo/neco-vim',
 		\{'on_i': 1}, {'on_ft': ['vim']})
@@ -161,7 +163,7 @@ function! ConfigNeomake()
 	let g:neomake_cpp_enabled_makers = ['clangxx', 'clangtidy']
 endfunction
 
-let g:neomake_open_list = 2
+let g:neomake_open_list = 1
 call dein#set_hook('deoplete.nvim', 'hook_source', function('ConfigDeoplete'))
 call dein#set_hook('deoplete-clang', 'hook_source', function('ConfigDeopleteClang'))
 call dein#set_hook('neomake', 'hook_source', function('ConfigNeomake'))
@@ -170,11 +172,10 @@ call system("which racer")
 if v:shell_error == 0
 	let g:racer_cmd = systemlist('which racer')[0]
 	let g:racer_experimental_completer = 1
-	"since we are using deolete-* completions, we can comment that out
-	"let g:deoplete#complete_method = 'omnifunc'
-	" let g:deoplete#sources#rust#racer_binary = g:racer_cmd
-	" let g:deoplete#sources#rust#rust_source_path = $RUST_SRC_PATH
-	" let g:deoplete#sources#rust#documentation_max_height = 20
+	let g:deoplete#sources#rust#racer_binary = g:racer_cmd
+	let g:deoplete#sources#rust#rust_source_path = $RUST_SRC_PATH
+	let g:deoplete#sources#rust#documentation_max_height = 20
+	let g:deoplete#sources#rust#show_duplicates = 0
 endif
 
 let g:deoplete#enable_at_startup = 1
@@ -182,7 +183,6 @@ let g:deoplete#enable_at_startup = 1
 let g:deoplete#enable_smart_case = 1
 " let g:deoplete#enable_camel_case = 1
 let g:deoplete#enable_refresh_always = 1
-" let g:deoplete#sources#rust#show_duplicates = 0
 let deoplete#tag#cache_limit_size = 5000000
 " let g:deoplete#sources = {}
 " let g:deoplete#sources._ = ['buffer', 'tag']

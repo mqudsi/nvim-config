@@ -47,7 +47,8 @@ if dein#load_state('$HOME/.config/nvim/dein/')
 		\{'on_i': 1}, {'on_ft': ['cpp', 'c']})
 	call dein#add('Shougo/neoinclude.vim',
 		\{'on_i': 1}, {'on_ft': ['cpp', 'c']})
-	call dein#add('sebastianmarkow/deoplete-rust',
+	" call dein#add('sebastianmarkow/deoplete-rust',
+	call dein#add('racer-rust/vim-racer',
 		\{'on_i': 1}, {'on_ft': ['rust']})
 	call dein#add('Shougo/neco-vim',
 		\{'on_i': 1}, {'on_ft': ['vim']})

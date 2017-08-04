@@ -30,7 +30,7 @@ if dein#load_state('$HOME/.config/nvim/dein/')
 	"general programming-related plugins
 	call dein#add('tpope/vim-surround')
 	call dein#add('neomake/neomake',
-		\{'on_ft': ['rust', 'c', 'cpp']})
+		\{'on_ft': ['rust', 'c', 'cpp', 'json', 'php', 'python']})
 	call dein#add('ludovicchabant/vim-gutentags')
 	call dein#add('Chiel92/vim-autoformat',
 		\{'on_ft': ['rust', 'c', 'php', 'cpp', 'js', 'css',

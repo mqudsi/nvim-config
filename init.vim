@@ -113,14 +113,13 @@ endif
 "End dein Scripts-------------------------
 
 function! ConfigDeoplete()
-    autocmd VimEnter * call deoplete#enable_logging('DEBUG', '/tmp/deoplete.log')
-
     set shortmess +=c
+	let g:deoplete#auto_complete_delay = 10
     call deoplete#custom#set('rust', 'rank', 99999)
+	call deoplete#custom#set('racer', 'rank', 99999)
     call deoplete#custom#set('clang', 'rank', 99999)
-    "autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
-    "enable tabbing through autocomplete results only when the popup is
-    "visible
+    autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
+    "enable tabbing through autocomplete results only when the popup is visible
     inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
 endfunction
 
@@ -172,9 +171,9 @@ if v:shell_error == 0
 	let g:racer_experimental_completer = 1
 	"since we are using deolete-* completions, we can comment that out
 	"let g:deoplete#complete_method = 'omnifunc'
-	let g:deoplete#sources#rust#racer_binary = systemlist('which racer')[0]
-	let g:deoplete#sources#rust#rust_source_path = $RUST_SRC_PATH
-	let g:deoplete#sources#rust#documentation_max_height = 20
+	" let g:deoplete#sources#rust#racer_binary = g:racer_cmd
+	" let g:deoplete#sources#rust#rust_source_path = $RUST_SRC_PATH
+	" let g:deoplete#sources#rust#documentation_max_height = 20
 endif
 
 let g:deoplete#enable_at_startup = 1
@@ -182,13 +181,19 @@ let g:deoplete#enable_at_startup = 1
 let g:deoplete#enable_smart_case = 1
 " let g:deoplete#enable_camel_case = 1
 let g:deoplete#enable_refresh_always = 1
-let g:deoplete#sources#rust#show_duplicates = 0
+" let g:deoplete#sources#rust#show_duplicates = 0
 let deoplete#tag#cache_limit_size = 5000000
-let g:deoplete#sources = {}
-let g:deoplete#sources._ = ['buffer', 'tag']
-let g:deoplete#sources.cpp = ['clang']
-let g:deoplete#sources.rust = ['rust', 'buffer', 'tag']
-autocmd CmdwinEnter * let b:deoplete_sources = ['buffer']
+" let g:deoplete#sources = {}
+" let g:deoplete#sources._ = ['buffer', 'tag']
+" let g:deoplete#sources.cpp = ['clang']
+" let g:deoplete#sources.rust = ['rust', 'buffer', 'tag']
+" autocmd CmdwinEnter * let b:deoplete_sources = ['buffer']
+
+"vim-racer configuration
+au FileType rust nmap gd <Plug>(rust-def)
+au FileType rust nmap gs <Plug>(rust-def-split)
+au FileType rust nmap gx <Plug>(rust-def-vertical)
+au FileType rust nmap <leader>gd <Plug>(rust-doc)
 
 set mouse=a
 set backspace=indent,eol,start

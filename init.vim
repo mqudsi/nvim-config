@@ -43,15 +43,16 @@ if dein#load_state('$HOME/.config/nvim/dein/')
 		\{'on_i': 1})
 	call dein#add('Shougo/neopairs.vim',
 		\{'on_i': 1})
+	call dein#add('Shougo/echodoc.vim',
+		\{'on_i': 1})
 
 	"deoplete sources
+	call dein#add('autozimu/LanguageClient-neovim',
+		\{'on_ft': ['rust']})
 	call dein#add('zchee/deoplete-clang',
 		\{'on_i': 1}, {'on_ft': ['cpp', 'c']})
 	call dein#add('Shougo/neoinclude.vim',
 		\{'on_i': 1}, {'on_ft': ['cpp', 'c']})
-	" call dein#add('racer-rust/vim-racer',
-	call dein#add('sebastianmarkow/deoplete-rust',
-		\{'on_i': 1}, {'on_ft': ['rust']})
 	call dein#add('Shougo/neco-vim',
 		\{'on_i': 1}, {'on_ft': ['vim']})
 	call dein#add('ponko2/deoplete-fish',
@@ -195,6 +196,18 @@ au FileType rust nmap gd <Plug>(rust-def)
 au FileType rust nmap gs <Plug>(rust-def-split)
 au FileType rust nmap gx <Plug>(rust-def-vertical)
 au FileType rust nmap <leader>gd <Plug>(rust-doc)
+
+let g:LanguageClient_serverCommands = {
+    \ 'rust': ['rustup', 'run', 'nightly', 'rls'],
+\ }
+
+" Automatically start language servers.
+let g:LanguageClient_autoStart = 1
+
+nnoremap <silent> K :call LanguageClient_textDocument_hover()<CR>
+nnoremap <silent> gd :call LanguageClient_textDocument_definition()<CR>
+nnoremap <silent> <F2> :call LanguageClient_textDocument_rename()<CR>
+nnoremap <silent> <M-F> :call LanguageClient_textDocument_references()<CR>
 
 set mouse=a
 set backspace=indent,eol,start

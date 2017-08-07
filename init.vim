@@ -235,6 +235,7 @@ let g:mta_use_matchparen_group = 0
 hi link MatchTag Underlined
 
 source $HOME/.config/nvim/lightline.vim
+source $HOME/.config/nvim/fzf.vim
 
 set wildignorecase "ignore case for filename completions
 set infercase "allow  to complete without matching case when combined with ignorecase
@@ -339,9 +340,6 @@ function! DoubleUnderscore()
 endfunction
 nnoremap <silent> _ _:call DoubleUnderscore()<CR>
 
-"map fzf to ctrl+p
-noremap  :FZF<CR>
-
 "Close quickfix when closing a buffer
 "this prevents quickfix from being the only buffer left
 source $HOME/.config/nvim/bufferclose.vim
@@ -350,11 +348,6 @@ autocmd BufRead *.rs :setlocal tags=./tags;/,$RUST_SRC_PATH/tags
 " these have bad indentfiles by default, so no autoformatting here
 autocmd FileType vim,tex let b:autoformat_autoindent=0
 
-let g:default_rg_ignore = '-g "!*.{o,out,po}" -g "!tags" -g "!target"'
-let $FZF_DEFAULT_COMMAND = 'rg --files ' . g:default_rg_ignore
-" let g:rg_command = "rg " . g:default_rg_ignore . ' --vimgrep -S '
-let g:rg_command = 'rg --vimgrep -S ' . g:default_rg_ignore
-let g:rg_highlight = 1
 cabbrev <expr> rg 'Rg'
 cabbrev <expr> neomake 'Neomake'
 

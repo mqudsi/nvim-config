@@ -33,7 +33,7 @@ if dein#load_state('$HOME/.config/nvim/dein/')
 		\{'on_ft': ['rust', 'c', 'cpp', 'json', 'php', 'python']})
 	call dein#add('ludovicchabant/vim-gutentags')
 	call dein#add('Chiel92/vim-autoformat',
-		\{'on_ft': ['rust', 'c', 'php', 'cpp', 'js', 'css',
+		\{'on_ft': ['rust', 'c', 'php', 'cpp', 'javascript', 'css',
 		\ 'vim', 'markdown', 'html', 'go', 'csharp']})
 
 	"deoplete and deoplete core plugins
@@ -48,7 +48,7 @@ if dein#load_state('$HOME/.config/nvim/dein/')
 
 	"deoplete sources
 	call dein#add('autozimu/LanguageClient-neovim',
-		\{'on_ft': ['rust']})
+		\{'on_ft': ['rust', 'javascript', 'typescript']})
 	call dein#add('zchee/deoplete-clang',
 		\{'on_i': 1}, {'on_ft': ['cpp', 'c']})
 	call dein#add('Shougo/neoinclude.vim',
@@ -70,7 +70,7 @@ if dein#load_state('$HOME/.config/nvim/dein/')
 	call dein#add('valloric/MatchTagAlways',
 		\{'on_ft': ['html', 'xml']})
 	call dein#add('pangloss/vim-javascript',
-		\{'on_ft': ['js']})
+		\{'on_ft': ['javascript']})
 	call dein#add('rhysd/vim-gfm-syntax',
 		\{'on_ft': ['markdown']})
 	call dein#add('StanAngeloff/php.vim',
@@ -108,6 +108,7 @@ let g:cargo_makeprg_params = "build"
 autocmd FileType rust compiler cargo
 autocmd FileType fish compiler fish
 autocmd FileType nginx setlocal mp=sudo\ nginx\ -t\ -c\ %
+autocmd FileType typescript setlocal mp=tsc
 
 " If you want to install not installed plugins on startup.
 if dein#check_install()
@@ -199,6 +200,8 @@ au FileType rust nmap <leader>gd <Plug>(rust-doc)
 
 let g:LanguageClient_serverCommands = {
     \ 'rust': ['rustup', 'run', 'nightly', 'rls'],
+	\ 'javascript': ['/usr/local/lib/node_modules/javascript-typescript-langserver/lib/language-server-stdio.js'],
+	\ 'typescript': ['/usr/local/lib/node_modules/javascript-typescript-langserver/lib/language-server-stdio.js'],
 \ }
 
 " Automatically start language servers.
@@ -251,7 +254,7 @@ vmap <F1> <Nop>
 imap <F1> <Esc>
 
 "strip trailing whitespace on save for certain filetypes
-autocmd FileType c,cpp,java,php,rust,js,vim autocmd BufWritePre <buffer> %s/\s\+$//e
+autocmd FileType c,cpp,java,php,rust,javascript,vim autocmd BufWritePre <buffer> %s/\s\+$//e
 
 "use Windows-style completions for OmniComplete because they're more
 "Dvorak-friendly

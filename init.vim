@@ -240,7 +240,7 @@ vmap <F1> <Nop>
 imap <F1> <Esc>
 
 "strip trailing whitespace on save for certain filetypes
-autocmd FileType c,cpp,java,php,rust,javascript,vim autocmd BufWritePre <buffer> %s/\s\+$//e
+autocmd FileType c,cpp,java,php,rust,javascript,vim,fish autocmd BufWritePre <buffer> %s/\s\+$//e
 
 "use Windows-style completions for OmniComplete because they're more
 "Dvorak-friendly

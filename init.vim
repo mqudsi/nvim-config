@@ -48,7 +48,7 @@ if dein#load_state('$HOME/.config/nvim/dein/')
 
 	"deoplete sources
 	call dein#add('autozimu/LanguageClient-neovim',
-		\{'on_ft': ['rust', 'javascript', 'typescript']})
+		\{'on_ft': ['rust', 'javascript', 'typescript', 'css', 'json', 'html']})
 	call dein#add('zchee/deoplete-clang',
 		\{'on_i': 1}, {'on_ft': ['cpp', 'c']})
 	call dein#add('Shougo/neoinclude.vim',
@@ -187,6 +187,9 @@ let g:LanguageClient_serverCommands = {
     \ 'rust': ['rustup', 'run', 'nightly', 'rls'],
 	\ 'javascript': ['/usr/local/lib/node_modules/javascript-typescript-langserver/lib/language-server-stdio.js'],
 	\ 'typescript': ['/usr/local/lib/node_modules/javascript-typescript-langserver/lib/language-server-stdio.js'],
+	\ 'html': ['html-languageserver', '--stdio'],
+	\ 'json': ['json-languageserver', '--stdio'],
+	\ 'css': ['css-languageserver', '--stdio'],
 \ }
 
 " Automatically start language servers.

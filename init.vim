@@ -138,7 +138,7 @@ endfunction
 function! ConfigDeopleteClang()
   "deoplete-clang configuration
   let clang_path_options = [
-      \'/usr/lib/llvm-3.9/lib/libclang.so',
+      \'/usr/lib/llvm-4.0/lib/libclang.so',
       \'/Library/Developer/CommandLineTools/usr/lib/libclang.dylib',
     \]
   let g:deoplete#sources#clang#libclang_path = PickPath(clang_path_options)

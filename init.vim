@@ -265,20 +265,7 @@ inoremap <F8> <Esc> :w <CR> :Neomake <CR>
 "F12 to go to definition (like Visual Studio)
 noremap <F12> 
 
-if !empty(matchstr(system("uname -a"), "Microsoft"))
-    let g:clipboard = {
-	\ 'name': 'win32yank',
-	\ 'copy': {
-	\	'+': 'noerr win32yank.exe -i --crlf',
-	\	'*': 'noerr win32yank.exe -i --crlf',
-	\	},
-	\ 'paste': {
-	\	'+': 'noerr win32yank.exe -o --lf',
-	\	'*': 'noerr win32yank.exe -o --lf',
-	\	},
-	\ 'cache_enabled': 1,
-	\ }
-endif
+source $HOME/.config/nvim/clipboard.vim
 
 "set termguicolors
 if $TERM == 'xterm-256color'

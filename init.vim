@@ -73,6 +73,8 @@ if dein#load_state('$HOME/.config/nvim/dein/')
 		\{'on_ft': ['javascript']})
 	call dein#add('rhysd/vim-gfm-syntax',
 		\{'on_ft': ['markdown']})
+	call dein#add('mqudsi/meson.vim',
+		\{'on_ft': ['meson']})
 	call dein#add('StanAngeloff/php.vim',
 		\{'on_ft': ['php']})
 	call dein#add('rust-lang/rust.vim',
@@ -99,6 +101,9 @@ autocmd BufNewFile,BufReadPost *.md set filetype=markdown
 autocmd BufRead,BufNewFile *.git/COMMIT_EDITMSG set ft=gitcommit
 autocmd BufRead,BufNewFile *.fish set filetype=fish
 autocmd BufRead,BufNewFile *.expect set filetype=expect
+
+"specify comments for languages that commentary does not support oob
+autocmd FileType meson setlocal commentstring=#\ %s
 
 " Required:
 filetype plugin indent on

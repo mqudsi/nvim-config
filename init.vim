@@ -97,6 +97,7 @@ endif
 
 "specify custom filetypes before loading the filetype plugin
 autocmd BufRead,BufNewfile */*nginx*/*.conf setfiletype nginx
+autocmd BufNewFile,BufRead *.xaml set filetype=xml
 autocmd BufNewFile,BufReadPost *.md set filetype=markdown
 autocmd BufRead,BufNewFile *.git/COMMIT_EDITMSG set ft=gitcommit
 autocmd BufRead,BufNewFile *.fish set filetype=fish

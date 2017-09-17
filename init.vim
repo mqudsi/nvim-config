@@ -103,6 +103,7 @@ autocmd BufRead,BufNewFile *.git/COMMIT_EDITMSG set ft=gitcommit
 autocmd BufRead,BufNewFile *.fish set filetype=fish
 autocmd BufRead,BufNewFile *.expect set filetype=expect
 autocmd BufRead,BufNewFile */php-fpm*.conf set filetype=dosini
+autocmd BufRead /usr/*include/c++/* set filetype=cpp
 
 "specify comments for languages that commentary does not support oob
 autocmd FileType meson setlocal commentstring=#\ %s

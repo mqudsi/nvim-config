@@ -129,7 +129,7 @@ endfunction
 augroup neomake_hooks
     au!
     autocmd User NeomakeJobInit :call StartSpinner()
-    autocmd User NeomakeJobInit :echom "Build started"
+    " autocmd User NeomakeJobInit :echom "Build started"
     autocmd User NeomakeFinished :call StopSpinner()
-    autocmd User NeomakeFinished :echom "Build complete"
+    " autocmd User NeomakeFinished :echom "Build complete"
 augroup END

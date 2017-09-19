@@ -23,7 +23,9 @@ let g:fzf_colors =
 "default search function
 "combines cwd files and open buffers
 function! FzfSearchAll()
-	let list1 = split(system($FZF_DEFAULT_COMMAND), "\n")
+	let search_path = expand("%:p:h")
+	let list1 = split(system($FZF_DEFAULT_COMMAND . ' ' . search_path), "\n")
+	let list1 = map(list1, 'substitute(v:val, escape(getcwd(), "\/"), ".", "")')
 	let list2 = map(range(1, bufnr('$')),'bufname(v:val)')
 	let list3 = split(substitute(execute(":oldfiles"), "[0-9][0-9]*: ", "", "g"), "\n")
 	"remove no longer existent files fromr list3

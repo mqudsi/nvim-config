@@ -33,7 +33,7 @@ if dein#load_state('$HOME/.config/nvim/dein/')
 		\{'on_ft': ['rust', 'c', 'cpp', 'json', 'php', 'python']})
 	call dein#add('ludovicchabant/vim-gutentags')
 	call dein#add('Chiel92/vim-autoformat',
-		\{'on_ft': ['rust', 'c', 'php', 'cpp', 'javascript', 'css',
+		\{'on_ft': ['rust', 'c', 'cpp', 'javascript', 'css',
 		\ 'vim', 'markdown', 'html', 'go', 'csharp']})
 
 	"deoplete and deoplete core plugins

@@ -77,6 +77,8 @@ if dein#load_state('$HOME/.config/nvim/dein/')
 		\{'on_ft': ['meson']})
 	call dein#add('StanAngeloff/php.vim',
 		\{'on_ft': ['php']})
+	call dein#add('PProvost/vim-ps1',
+		\{'on_ft': ['ps1']})
 	call dein#add('rust-lang/rust.vim',
 		\{'on_ft': ['rust']})
 	call dein#add('cespare/vim-toml',
@@ -104,6 +106,7 @@ autocmd BufRead,BufNewFile *.fish set filetype=fish
 autocmd BufRead,BufNewFile *.expect set filetype=expect
 autocmd BufRead,BufNewFile */php-fpm*.conf set filetype=dosini
 autocmd BufRead /usr/*include/c++/* set filetype=cpp
+autocmd BufRead,BufNewFile *.ps1 set filetype=ps1
 
 "specify comments for languages that commentary does not support oob
 autocmd FileType meson setlocal commentstring=#\ %s

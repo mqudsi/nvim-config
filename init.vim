@@ -75,6 +75,8 @@ if dein#load_state('$HOME/.config/nvim/dein/')
 		\{'on_ft': ['markdown']})
 	call dein#add('mqudsi/meson.vim',
 		\{'on_ft': ['meson']})
+	call dein#add('mqudsi/ninja.vim',
+		\{'on_ft': ['ninja']})
 	call dein#add('StanAngeloff/php.vim',
 		\{'on_ft': ['php']})
 	call dein#add('PProvost/vim-ps1',
@@ -107,9 +109,11 @@ autocmd BufRead,BufNewFile *.expect set filetype=expect
 autocmd BufRead,BufNewFile */php-fpm*.conf set filetype=dosini
 autocmd BufRead /usr/*include/c++/* set filetype=cpp
 autocmd BufRead,BufNewFile *.ps1 set filetype=ps1
+autocmd BufRead,BufNewfile */ninja.build set filetype=ninja
 
 "specify comments for languages that commentary does not support oob
 autocmd FileType meson setlocal commentstring=#\ %s
+autocmd FileType ninja setlocal commentstring=#\ %s
 
 " Required:
 filetype plugin indent on
@@ -118,6 +122,8 @@ syntax enable
 let g:cargo_makeprg_params = "build"
 autocmd FileType rust compiler cargo
 autocmd FileType fish compiler fish
+autocmd FileType ninja set mp=ninja
+autocmd FileType ninja set efm=%Eninja:\ error:\ %f:%l:\ %m,%Z%p^\ near\ here,%-C%s
 autocmd FileType nginx setlocal mp=sudo\ nginx\ -t\ -c\ %
 autocmd FileType typescript setlocal mp=tsc
 

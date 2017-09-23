@@ -77,6 +77,8 @@ if dein#load_state('$HOME/.config/nvim/dein/')
 		\{'on_ft': ['meson']})
 	call dein#add('mqudsi/ninja.vim',
 		\{'on_ft': ['ninja']})
+	call dein#add('tbastos/vim-lua',
+		\{'on_ft': ['lua']})
 	call dein#add('StanAngeloff/php.vim',
 		\{'on_ft': ['php']})
 	call dein#add('PProvost/vim-ps1',

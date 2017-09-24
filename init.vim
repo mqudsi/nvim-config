@@ -146,25 +146,33 @@ function! ConfigDeoplete()
     inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
 endfunction
 
+" Removes trailing spaces
+function! Trim(path)
+    return substitute(a:path, "^[ \t\r\n]*\\|[ \t\r\n]*\$", "", "g")
+endfunction
+
 function! PickPath(options)
-  for p in a:options
-    if !empty(glob(p))
-      return p
-    endif
-  endfor
+    for p in a:options
+        let path = glob(p)
+        if !empty(path)
+            return Trim(split(path)[0])
+        endif
+    endfor
 endfunction
 
 function! ConfigDeopleteClang()
   "deoplete-clang configuration
   let clang_path_options = [
-      \'/usr/lib/llvm-4.0/lib/libclang.so',
+      \'/usr/lib/llvm-*/lib/libclang.so',
       \'/Library/Developer/CommandLineTools/usr/lib/libclang.dylib',
+      \'/usr/local/llvm*/lib/libclang.so',
     \]
   let g:deoplete#sources#clang#libclang_path = PickPath(clang_path_options)
 
   let clang_header_options= [
       \'/usr/lib/clang',
       \'/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/',
+      \'/usr/include/clang/',
     \]
   let g:deoplete#sources#clang#clang_header = PickPath(clang_header_options)
 endfunction

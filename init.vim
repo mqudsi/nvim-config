@@ -5,6 +5,7 @@ endif
 
 let g:python3_host_prog = "python3"
 let g:loaded_python_provider = 1
+let g:loaded_ruby_provider = 1
 
 set runtimepath+=$HOME/.config/nvim/dein/repos/github.com/Shougo/dein.vim
 filetype off

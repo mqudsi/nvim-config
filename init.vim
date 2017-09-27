@@ -143,7 +143,7 @@ function! ConfigDeoplete()
     call deoplete#custom#set('clang', 'rank', 99999)
     autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
     "enable tabbing through autocomplete results only when the popup is visible
-    inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
+    " inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
 endfunction
 
 " Removes trailing spaces

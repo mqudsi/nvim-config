@@ -129,7 +129,7 @@ autocmd FileType ninja set mp=ninja
 autocmd FileType ninja set efm=%Eninja:\ error:\ %f:%l:\ %m,%Z%p^\ near\ here,%-C%s
 autocmd FileType nginx setlocal mp=sudo\ nginx\ -t\ -c\ %
 autocmd FileType typescript setlocal mp=tsc
-autocmd FileType html set smartindent
+autocmd FileType html,php set smartindent
 
 " If you want to install not installed plugins on startup.
 if dein#check_install()

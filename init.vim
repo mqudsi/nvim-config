@@ -51,13 +51,13 @@ if dein#load_state('$HOME/.config/nvim/dein/')
 	call dein#add('autozimu/LanguageClient-neovim',
 		\{'on_ft': ['rust', 'javascript', 'typescript', 'json']})
 	call dein#add('zchee/deoplete-clang',
-		\{'on_i': 1}, {'on_ft': ['cpp', 'c']})
+		\{'on_event': 'InsertEnter', 'on_if': "index(['c', 'cpp'], &ft) != -1"})
 	call dein#add('Shougo/neoinclude.vim',
-		\{'on_i': 1}, {'on_ft': ['cpp', 'c']})
+		\{'on_event': 'InsertEnter', 'on_if': "index(['c', 'cpp'], &ft) != -1"})
 	call dein#add('Shougo/neco-vim',
-		\{'on_i': 1}, {'on_ft': ['vim']})
+		\{'on_event': 'InsertEnter', 'on_if': "index(['vim'], &ft) != -1"})
 	call dein#add('ponko2/deoplete-fish',
-		\{'on_i': 1}, {'on_ft': ['fish']})
+		\{'on_event': 'InsertEnter', 'on_if': "index(['fish'], &ft) != -1"})
 	call dein#add('Shougo/neco-syntax',
 		\{'on_i': 1})
 

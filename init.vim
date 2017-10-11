@@ -339,20 +339,31 @@ autocmd FileType vim,tex let b:autoformat_autoindent=0
 cabbrev <expr> rg 'Rg'
 cabbrev <expr> neomake 'Neomake'
 
-function! AutoExpandTabs()
+autocmd BufReadPost * :call DetectTabExpand()
+
+function! DetectTabExpand()
 	let file_path = shellescape(expand("%:p"))
 	if empty(file_path)
 		return
 	endif
-	let space_lines = str2nr(system("grep -c '^ ' " . file_path))
-	let tab_lines =  str2nr(system("grep -c '^\t' " . file_path))
-	if space_lines > tab_lines
-		set expandtab
-	else
-		set noexpandtab
-	endif
+
+	let s:tabs_spaces = [0, 0]
+	let s:tabs_spaces_index = 0
+	call jobstart([&shell, &shcf, "grep -c '^ ' " . file_path . "; grep -c '^\t' " . file_path],
+		\ { 'on_stdout': function('InnerDetectTabExpand') })
 endfunction
 
-autocmd BufReadPost * :call AutoExpandTabs()
+function! InnerDetectTabExpand(job, lines, event) dict
+	let s:tabs_spaces[s:tabs_spaces_index] = str2nr(a:lines[0])
+	let s:tabs_spaces_index = s:tabs_spaces_index + 1
+
+	if s:tabs_spaces_index == 2
+		if s:tabs_spaces[0] > s:tabs_spaces[1] "more spaces than tabs
+			set expandtab
+		else
+			set noexpandtab
+		endif
+	endif
+endfunction
 
 colo evening

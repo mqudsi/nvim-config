@@ -328,22 +328,6 @@ autocmd InsertLeave * setlocal hlsearch lz
 inoremap <silent><Esc> <Esc>:nohl<bar>set nolz<CR>
 inoremap <silent><C-c> <C-c>:nohl<bar>set nolz<CR>
 
-"insert at start of current line by typing in __ (two underscores)
-function! DoubleUnderscore()
-    let b:cur_col = getcurpos()[2]
-    let b:underscore_count = get(b:, "underscore_count", 0)
-    let b:underscore_count += 1
-    " if b:cur_col != 1 || v:count != 0
-    if v:count != 0
-	let b:underscore_count = 0
-    elseif b:underscore_count == 1
-    else
-	:silent call feedkeys('i')
-	let b:underscore_count = 0
-    endif
-endfunction
-nnoremap <silent> _ _:call DoubleUnderscore()<CR>
-
 "Close quickfix when closing a buffer
 "this prevents quickfix from being the only buffer left
 source $HOME/.config/nvim/bufferclose.vim

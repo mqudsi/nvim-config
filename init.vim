@@ -240,10 +240,6 @@ set autoindent
 set smartindent
 set number
 
-set t_Co=256
-let g:solarized_termcolors=256
-let g:solarized_diffmode="high"
-
 :map [H <Home>
 :map [5~  "page up
 :map [6~  "page down

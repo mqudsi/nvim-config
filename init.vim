@@ -301,9 +301,9 @@ vmap <C-s> <esc>:w<CR>gv
 
 "magic search
 function! s:noregexp(pattern) abort
-    let pattern = substitute(pattern, '+', '\\+', "")
-    let pattern = '\V' . substitute(pattern, '\\b', '\\>', "")
-    echom pattern
+    let pattern = substitute(a:pattern, '+', '\\+', "")
+    let pattern = substitute(pattern, '\\b', '\\<', "")
+    " :echom pattern
     return pattern
 endfunction
 
@@ -315,10 +315,12 @@ noremap <silent><expr> z/ incsearch#go(<SID>config())
 "end magic search
 
 "replace search with incsearch
-map / <Plug>(incsearch-forward)
+" map / <Plug>(incsearch-forward)
+map <silent><expr> / incsearch#go(<SID>config())
 map ? <Plug>(incsearch-backward)
 map g/ <Plug>(incsearch-stay)
-let g:incsearch#magic = '\v'
+" let g:incsearch#magic = '\v'
+let g:incsearch#magic = ''
 
 "hide highlight on insert
 autocmd InsertEnter * setlocal nohlsearch

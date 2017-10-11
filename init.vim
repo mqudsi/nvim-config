@@ -64,8 +64,8 @@ if dein#load_state('$HOME/.config/nvim/dein/')
 	"syntax plugins, sorted by filetype
 	call dein#add('hail2u/vim-css3-syntax',
 		\{'on_ft': ['css']})
-	call dein#add('vim-scripts/DoxyGen-Syntax',
-		\{'on_ft': ['*.doxygen']})
+	" call dein#add('vim-scripts/DoxyGen-Syntax',
+	" 	\{'on_ft': ['doxygen']})
 	call dein#add('dag/vim-fish',
 		\{'on_ft': ['fish']})
 	call dein#add('valloric/MatchTagAlways',

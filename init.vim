@@ -103,10 +103,11 @@ if dein#load_state('$HOME/.config/nvim/dein/')
 endif
 
 "specify custom filetypes before loading the filetype plugin
-autocmd BufRead,BufNewfile */*nginx*/*.conf setfiletype nginx
+autocmd BufRead,BufNewfile */*nginx*/*.conf set filetype=nginx
 autocmd BufNewFile,BufRead *.xaml set filetype=xml
-autocmd BufNewFile,BufReadPost *.md set filetype=markdown
-autocmd BufRead,BufNewFile *.git/COMMIT_EDITMSG set ft=gitcommit
+autocmd BufNewFile,BufReadPost *.md call set filetype markdown
+autocmd FileType md set filetype=markdown syntax=markdown
+autocmd BufRead,BufNewFile *.git/COMMIT_EDITMSG set filetype=gitcommit
 autocmd BufRead,BufNewFile *.fish set filetype=fish
 autocmd BufRead,BufNewFile *.expect set filetype=expect
 autocmd BufRead,BufNewFile */php-fpm*.conf set filetype=dosini

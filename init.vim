@@ -19,8 +19,7 @@ if dein#load_state('$HOME/.config/nvim/dein/')
 	call dein#add('Haron-Prime/evening_vim')
 
 	"core plugins that change the behavior of vim and how we use it globally
-	call dein#add('junegunn/fzf',
-		\{'build': './install --all 2>&1 >/dev/null'})
+	call dein#add('junegunn/fzf')
 	call dein#add('jremmen/vim-ripgrep')
 	call dein#add('airblade/vim-gitgutter')
 	call dein#add('haya14busa/incsearch.vim')

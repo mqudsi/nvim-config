@@ -368,6 +368,10 @@ function! InnerDetectTabExpand(job, lines, event) dict
 	endif
 endfunction
 
+if $TERM =~ "256color" && !empty($TMUX)
+	let $TERM = "tmux-256color"
+endif
+
 " work around WSL/nvim xterm-256color redraw bug
 " let $TERM = ""
 colo evening

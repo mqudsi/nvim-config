@@ -24,6 +24,7 @@ if dein#load_state('$HOME/.config/nvim/dein/')
 	call dein#add('jremmen/vim-ripgrep')
 	call dein#add('airblade/vim-gitgutter')
 	call dein#add('haya14busa/incsearch.vim')
+	" call dein#add('othree/eregex.vim')
 	call dein#add('itchyny/lightline.vim')
 	" call dein#add('sickill/vim-pasta')
 	call dein#add('tomtom/tcomment_vim')
@@ -291,9 +292,9 @@ noremap <F12> 
 
 source $HOME/.config/nvim/clipboard.vim
 
-"set termguicolors
 if $TERM == 'xterm-256color'
 	let t_ut = ""
+	" set termguicolors
 end
 
 set matchpairs+=<:>
@@ -322,8 +323,7 @@ noremap <silent><expr> z/ incsearch#go(<SID>config())
 map <silent><expr> / incsearch#go(<SID>config())
 map ? <Plug>(incsearch-backward)
 map g/ <Plug>(incsearch-stay)
-" let g:incsearch#magic = '\v'
-let g:incsearch#magic = ''
+let g:incsearch#magic = '\v'
 
 "hide highlight on insert
 autocmd InsertEnter * setlocal nohlsearch
@@ -369,4 +369,6 @@ function! InnerDetectTabExpand(job, lines, event) dict
 	endif
 endfunction
 
+" work around WSL/nvim xterm-256color redraw bug
+" let $TERM = ""
 colo evening

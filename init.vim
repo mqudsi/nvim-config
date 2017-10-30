@@ -50,10 +50,10 @@ if dein#load_state('$HOME/.config/nvim/dein/')
 	"deoplete sources
 	call dein#add('autozimu/LanguageClient-neovim',
 		\{'on_ft': ['rust', 'javascript', 'typescript', 'json']})
-	call dein#add('zchee/deoplete-clang',
-		\{'on_event': 'InsertEnter', 'on_if': "index(['c', 'cpp'], &ft) != -1"})
-	call dein#add('Shougo/neoinclude.vim',
-		\{'on_event': 'InsertEnter', 'on_if': "index(['c', 'cpp'], &ft) != -1"})
+	" call dein#add('zchee/deoplete-clang',
+	" 	\{'on_event': 'InsertEnter', 'on_if': "index(['c', 'cpp'], &ft) != -1"})
+	" call dein#add('Shougo/neoinclude.vim',
+	" 	\{'on_event': 'InsertEnter', 'on_if': "index(['c', 'cpp'], &ft) != -1"})
 	call dein#add('Shougo/neco-vim',
 		\{'on_event': 'InsertEnter', 'on_if': "index(['vim'], &ft) != -1"})
 	call dein#add('ponko2/deoplete-fish',
@@ -196,7 +196,7 @@ endfunction
 
 let g:neomake_open_list = 1
 call dein#set_hook('deoplete.nvim', 'hook_source', function('ConfigDeoplete'))
-call dein#set_hook('deoplete-clang', 'hook_source', function('ConfigDeopleteClang'))
+" call dein#set_hook('deoplete-clang', 'hook_source', function('ConfigDeopleteClang'))
 call dein#set_hook('neomake', 'hook_source', function('ConfigNeomake'))
 
 let g:deoplete#ignore_sources =  {'_': ['omni', 'omnifunc']}

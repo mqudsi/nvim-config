@@ -194,10 +194,18 @@ function! ConfigNeomake()
 	let g:neomake_cpp_enabled_makers = ['clangxx', 'clangtidy']
 endfunction
 
+function! ConfigLanguageClient()
+	nnoremap <silent> K :call LanguageClient_textDocument_hover()<CR>
+	nnoremap <silent> gd :call LanguageClient_textDocument_definition()<CR>
+	nnoremap <silent> <F2> :call LanguageClient_textDocument_rename()<CR>
+	nnoremap <silent> <M-F> :call LanguageClient_textDocument_references()<CR>
+endfunction
+
 let g:neomake_open_list = 1
 call dein#set_hook('deoplete.nvim', 'hook_source', function('ConfigDeoplete'))
 " call dein#set_hook('deoplete-clang', 'hook_source', function('ConfigDeopleteClang'))
 call dein#set_hook('neomake', 'hook_source', function('ConfigNeomake'))
+call dein#set_hook('LanguageClient-neovim', 'hook_source', function('ConfigLanguageClient'))
 
 let g:deoplete#ignore_sources =  {'_': ['omni', 'omnifunc']}
 let g:deoplete#enable_at_startup = 1
@@ -224,11 +232,6 @@ let g:LanguageClient_serverCommands = {
 
 " Automatically start language servers.
 let g:LanguageClient_autoStart = 1
-
-nnoremap <silent> K :call LanguageClient_textDocument_hover()<CR>
-nnoremap <silent> gd :call LanguageClient_textDocument_definition()<CR>
-nnoremap <silent> <F2> :call LanguageClient_textDocument_rename()<CR>
-nnoremap <silent> <M-F> :call LanguageClient_textDocument_references()<CR>
 
 set mouse=a
 set backspace=indent,eol,start

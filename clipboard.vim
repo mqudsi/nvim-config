@@ -13,8 +13,8 @@ if !empty(matchstr(system("uname -a"), "Microsoft"))
 	\ }
 endif
 
-if !empty($SSH_CLIENT) && executable('lemonade')
-	let ssh_client = systemlist('echo $SSH_CLIENT | egrep -o "^\S+"')[0]
+if !empty($SSH_CONNECTION) && executable('lemonade')
+	let ssh_client = systemlist('echo $SSH_CONNECTION | egrep -o "^\S+"')[0]
 	let g:clipboard = {
 	  \   'name': 'lemonade',
 	  \   'copy': {

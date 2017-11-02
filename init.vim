@@ -299,7 +299,7 @@ end
 
 set matchpairs+=<:>
 "ctrl+s save
-inoremap  :w<CR>
+inoremap  :w<CR><esc>
 nnoremap  :w<CR>
 vmap <C-s> <esc>:w<CR>gv
 

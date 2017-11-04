@@ -299,7 +299,7 @@ end
 
 set matchpairs+=<:>
 "ctrl+s save
-inoremap  :w<CR>
+inoremap  :w<CR><esc>
 nnoremap  :w<CR>
 vmap <C-s> <esc>:w<CR>gv
 
@@ -368,10 +368,6 @@ function! InnerDetectTabExpand(job, lines, event) dict
 		endif
 	endif
 endfunction
-
-if $TERM =~ "256color" && !empty($TMUX)
-	let $TERM = "tmux-256color"
-endif
 
 " work around WSL/nvim xterm-256color redraw bug
 " let $TERM = ""

@@ -272,6 +272,14 @@ nmap <F1> <Nop>
 vmap <F1> <Nop>
 imap <F1> <Esc>
 
+"allow copy-and-paste by mouse selection and ctrl+c/v
+vnoremap <C-c> "*y
+" nnoremap <C-v> "*gP
+inoremap <C-v> <Esc>"*Pi
+" we don't want to disable ctrl+v in normal mode, but we do want
+" copy-and-paste - this is a good compromise. Ctrl+v twice will paste.
+vnoremap <C-v> "*P
+
 "strip trailing whitespace on save for certain filetypes
 " autocmd FileType c,cpp,java,php,rust,javascript,vim,fish autocmd BufWritePre <buffer> %s/\s\+$//e
 autocmd BufWritePre <buffer> %s/\s\+$//e

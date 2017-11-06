@@ -350,22 +350,24 @@ function! DetectTabExpand()
 		return
 	endif
 
-	let s:tabs_spaces = [0, 0]
-	let s:tabs_spaces_index = 0
+	let b:tabs_spaces = [0, 0]
+	let b:tabs_spaces_index = 0
 	call jobstart([&shell, &shcf, "grep -c '^ ' " . file_path . "; grep -c '^\t' " . file_path],
 		\ { 'on_stdout': function('InnerDetectTabExpand') })
 endfunction
 
 function! InnerDetectTabExpand(job, lines, event) dict
-	let s:tabs_spaces[s:tabs_spaces_index] = str2nr(a:lines[0])
-	let s:tabs_spaces_index = s:tabs_spaces_index + 1
+	let b:tabs_spaces[b:tabs_spaces_index] = str2nr(a:lines[0])
+	let b:tabs_spaces_index = b:tabs_spaces_index + 1
 
-	if s:tabs_spaces_index == 2
-		if s:tabs_spaces[0] > s:tabs_spaces[1] "more spaces than tabs
+	if b:tabs_spaces_index == 2
+		if b:tabs_spaces[0] > b:tabs_spaces[1] "more spaces than tabs
 			set expandtab
 		else
 			set noexpandtab
 		endif
+
+		let b:tabs_spaces_index = 0
 	endif
 endfunction
 

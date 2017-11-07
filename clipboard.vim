@@ -13,18 +13,22 @@ if !empty(matchstr(system("uname -a"), "Microsoft"))
 	\ }
 endif
 
+
 if !empty($SSH_CONNECTION) && executable('lemonade')
 	let ssh_client = substitute($SSH_CONNECTION, "\\s.*", "", "")
-	let g:clipboard = {
-	  \   'name': 'lemonade',
-	  \   'copy': {
-	  \      '+': 'lemonade --host ' . ssh_client . ' copy',
-	  \      '*': 'lemonade --host ' . ssh_client . ' copy',
-	  \    },
-	  \   'paste': {
-	  \      '+': 'lemonade --host ' . ssh_client . ' paste',
-	  \      '*': 'lemonade --host ' . ssh_client . ' paste',
-	  \   },
-	  \   'cache_enabled': 1,
-	  \ }
+	"lemonade does not support IPv6
+	if match(ssh_client, "::") != 0
+		let g:clipboard = {
+		  \   'name': 'lemonade',
+		  \   'copy': {
+		  \      '+': 'lemonade --host ' . ssh_client . ' copy',
+		  \      '*': 'lemonade --host ' . ssh_client . ' copy',
+		  \    },
+		  \   'paste': {
+		  \      '+': 'lemonade --host ' . ssh_client . ' paste',
+		  \      '*': 'lemonade --host ' . ssh_client . ' paste',
+		  \   },
+		  \   'cache_enabled': 1,
+		  \ }
+	endif
 endif

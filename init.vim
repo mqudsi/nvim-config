@@ -342,8 +342,9 @@ autocmd BufRead *.rs :setlocal tags=./tags;/,$RUST_SRC_PATH/tags
 " these have bad indentfiles by default, so no autoformatting here
 autocmd FileType vim,tex let b:autoformat_autoindent=0
 
-cabbrev <expr> rg 'Rg'
+cabbrev <expr> autoformat 'Autoformat'
 cabbrev <expr> neomake 'Neomake'
+cabbrev <expr> rg 'Rg'
 
 autocmd BufReadPost * :call DetectTabExpand()
 

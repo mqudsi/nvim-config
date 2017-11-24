@@ -301,11 +301,6 @@ noremap <F12> 
 
 source $HOME/.config/nvim/clipboard.vim
 
-if $TERM == 'xterm-256color'
-	let t_ut = ""
-	" set termguicolors
-end
-
 set matchpairs+=<:>
 "ctrl+s save
 inoremap  :w<CR><esc>

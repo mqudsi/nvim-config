@@ -115,6 +115,7 @@ autocmd BufRead,BufNewFile */php-fpm*.conf set filetype=dosini
 autocmd BufRead /usr/*include/c++/* set filetype=cpp
 autocmd BufRead,BufNewFile *.ps1 set filetype=ps1
 autocmd BufRead,BufNewfile */ninja.build set filetype=ninja
+autocmd BufRead,BufNewFile */tsconfig.json set filetype=javascript
 
 "specify comments for languages that commentary does not support oob
 autocmd FileType meson setlocal commentstring=#\ %s

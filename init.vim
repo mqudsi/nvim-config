@@ -33,6 +33,7 @@ if dein#load_state('$HOME/.config/nvim/dein/')
 
 	"general programming-related plugins
 	call dein#add('tpope/vim-surround')
+	call dein#add('benjifisher/matchit.zip')
 	call dein#add('neomake/neomake',
 		\{'on_ft': ['rust', 'c', 'cpp', 'json', 'php', 'python']})
 	call dein#add('ludovicchabant/vim-gutentags')

@@ -29,6 +29,7 @@ if dein#load_state('$HOME/.config/nvim/dein/')
 	call dein#add('qpkorr/vim-bufkill')
 	call dein#add('sickill/vim-pasta')
 	call dein#add('tomtom/tcomment_vim')
+	call dein#add('tpope/vim-repeat')
 
 	"general programming-related plugins
 	call dein#add('tpope/vim-surround')

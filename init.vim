@@ -26,7 +26,7 @@ if dein#load_state('$HOME/.config/nvim/dein/')
 	call dein#add('haya14busa/incsearch.vim')
 	" call dein#add('othree/eregex.vim')
 	call dein#add('itchyny/lightline.vim')
-	" call dein#add('sickill/vim-pasta')
+	call dein#add('sickill/vim-pasta')
 	call dein#add('tomtom/tcomment_vim')
 
 	"general programming-related plugins

@@ -381,6 +381,10 @@ function! InnerDetectTabExpand(job, lines, event) dict
 	endif
 endfunction
 
+" remap up/down arrow keys to move by screen line
+nnoremap <Up> g<Up>
+nnoremap <Down> g<Down>
+
 " work around WSL/nvim xterm-256color redraw bug
 " let $TERM = ""
 colo evening

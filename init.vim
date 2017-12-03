@@ -105,6 +105,7 @@ if dein#load_state('$HOME/.config/nvim/dein/')
 endif
 
 "specify custom filetypes before loading the filetype plugin
+autocmd BufRead,BufNewfile *.conf set filetype=conf
 autocmd BufRead,BufNewfile */*nginx*/*.conf set filetype=nginx
 autocmd BufNewFile,BufRead *.xaml set filetype=xml
 autocmd BufNewFile,BufReadPost *.md call set filetype markdown

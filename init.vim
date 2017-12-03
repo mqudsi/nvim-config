@@ -308,7 +308,7 @@ source $HOME/.config/nvim/clipboard.vim
 
 set matchpairs+=<:>
 "ctrl+s save
-inoremap  :w<CR><esc>
+inoremap  <esc>:w<CR><esc>
 nnoremap  :w<CR>
 vmap <C-s> <esc>:w<CR>gv
 

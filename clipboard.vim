@@ -28,7 +28,7 @@ if !empty($SSH_CONNECTION) && executable('lemonade')
 		  \      '+': 'lemonade --host ' . ssh_client . ' paste',
 		  \      '*': 'lemonade --host ' . ssh_client . ' paste',
 		  \   },
-		  \   'cache_enabled': 1,
+		  \   'cache_enabled': 0,
 		  \ }
 	endif
 endif

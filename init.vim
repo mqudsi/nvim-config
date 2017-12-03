@@ -12,7 +12,7 @@ filetype off
 
 if dein#load_state('$HOME/.config/nvim/dein/')
 	call dein#begin('$HOME/.config/nvim/dein/')
-	call dein#add('Shougo/dein.vim')
+	call dein#add('Shougo/dein.vim', {'rev': 'master'})
 
 	" Add or remove your plugins here:
 	" call dein#add('flazz/vim-colorschemes')

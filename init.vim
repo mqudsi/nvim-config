@@ -387,4 +387,10 @@ nnoremap <Down> g<Down>
 
 " work around WSL/nvim xterm-256color redraw bug
 " let $TERM = ""
+
+" Force the background color to use the terminal background color, regardless
+" of colorscheme settings. This works around all background repaint bugs in
+" vim and neovim.
+" autocmd colorscheme * :highlight Normal ctermbg=0
+
 colo evening

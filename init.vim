@@ -394,3 +394,5 @@ nnoremap <Down> g<Down>
 " autocmd colorscheme * :highlight Normal ctermbg=0
 
 colo evening
+set cursorline
+" set cursorcolumn

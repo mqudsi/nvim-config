@@ -53,7 +53,8 @@ if dein#load_state('$HOME/.config/nvim/dein/')
 
 	"deoplete sources
 	call dein#add('autozimu/LanguageClient-neovim',
-		\{'on_ft': ['rust', 'javascript', 'typescript', 'json']})
+		\{'on_ft': ['javascript', 'json', 'rust', 'typescript'],
+		\ 'rev': 'next'})
 	" call dein#add('zchee/deoplete-clang',
 	" 	\{'on_event': 'InsertEnter', 'on_if': "index(['c', 'cpp'], &ft) != -1"})
 	" call dein#add('Shougo/neoinclude.vim',

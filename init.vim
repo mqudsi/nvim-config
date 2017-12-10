@@ -395,4 +395,6 @@ nnoremap <Down> g<Down>
 
 colo evening
 set cursorline
+" disable highlighting of cursorline, revert to underline only
+:hi CursorLine ctermbg=NONE cterm=underline
 " set cursorcolumn

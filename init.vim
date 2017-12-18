@@ -296,6 +296,10 @@ autocmd BufWritePre <buffer> %s/\s\+$//e
 "inoremap <C-Space> <C-x><C-o>
 "inoremap <C-@> <C-Space>
 
+" Keep the sign column visible to prevent jarring on/off due to plugin
+" interactions
+set signcolumn="yes"
+
 "F7 to build project (like Visual Studio)
 nnoremap <F7> :w <CR> :Neomake! <CR>
 inoremap <F7> <Esc> :w <CR> :Neomake! <CR>

@@ -112,8 +112,6 @@ endif
 autocmd BufRead,BufNewfile *.conf set filetype=conf
 autocmd BufRead,BufNewfile */*nginx*/*.conf set filetype=nginx
 autocmd BufNewFile,BufRead *.xaml set filetype=xml
-autocmd BufNewFile,BufReadPost *.md call set filetype markdown
-autocmd FileType md set filetype=markdown syntax=markdown
 autocmd BufRead,BufNewFile *.git/COMMIT_EDITMSG set filetype=gitcommit
 autocmd BufRead,BufNewFile *.fish set filetype=fish
 autocmd BufRead,BufNewFile *.expect set filetype=expect

@@ -316,6 +316,9 @@ inoremap  <esc>:w<CR><esc>
 nnoremap  :w<CR>
 vmap <C-s> <esc>:w<CR>gv
 
+"ctrl+a to select all in normal mode
+nnoremap <C-a> ggVG
+
 "magic search
 function! s:noregexp(pattern) abort
     let pattern = substitute(a:pattern, '+', '\\+', "")

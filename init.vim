@@ -358,6 +358,8 @@ autocmd FileType vim,tex let b:autoformat_autoindent=0
 cabbrev <expr> autoformat 'Autoformat'
 cabbrev <expr> neomake 'Neomake'
 cabbrev <expr> rg 'Rg'
+cabbrev <expr> BN 'BF'
+cabbrev <expr> BP 'BB'
 
 autocmd BufReadPost * :call DetectTabExpand()
 

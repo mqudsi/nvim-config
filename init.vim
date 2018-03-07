@@ -288,9 +288,16 @@ inoremap <C-v> <Esc>"*pi
 " paste.
 vnoremap <C-v> "*P
 
-"strip trailing whitespace on save for certain filetypes
-" autocmd FileType c,cpp,java,php,rust,javascript,vim,fish autocmd BufWritePre <buffer> %s/\s\+$//e
-autocmd BufWritePre <buffer> %s/\s\+$//e
+" From https://stackoverflow.com/a/37201230/17027
+" Includes workaround for cursor jumping around on save
+function! <SID>StripTrailingWhitespaces()
+    let l = line(".")
+    let c = col(".")
+    %s/\s\+$//e
+    call cursor(l, c)
+endfun
+
+autocmd BufWritePre * :call <SID>StripTrailingWhitespaces()
 
 "use Windows-style completions for OmniComplete because they're more
 "Dvorak-friendly

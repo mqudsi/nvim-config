@@ -281,9 +281,11 @@ imap <F1> <Esc>
 "allow copy-and-paste by mouse selection and ctrl+c/v
 vnoremap <C-c> "*y
 " nnoremap <C-v> "*gP
-inoremap <C-v> <Esc>"*Pi
-" we don't want to disable ctrl+v in normal mode, but we do want
-" copy-and-paste - this is a good compromise. Ctrl+v twice will paste.
+inoremap <C-v> <Esc>"*pi
+" We don't want to disable ctrl+v in normal mode, but we do want
+" copy-and-paste - this is a good compromise. Ctrl+v twice will paste,
+" as the first <C-v> will enter visual mode, then the second will trigger the
+" paste.
 vnoremap <C-v> "*P
 
 "strip trailing whitespace on save for certain filetypes

@@ -273,7 +273,7 @@ set hidden
 set autowrite
 
 "disable ex mode
-noremap Q <Nop>
+nmap Q <Nop>
 nmap <F1> <Nop>
 vmap <F1> <Nop>
 imap <F1> <Esc>

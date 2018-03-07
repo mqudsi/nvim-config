@@ -403,6 +403,11 @@ endfunction
 nnoremap <Up> g<Up>
 nnoremap <Down> g<Down>
 
+nnoremap <space> <c-d>
+
+" copy text on right-click in visual mode
+vmap <RightMouse> "*y
+
 " work around WSL/nvim xterm-256color redraw bug
 " let $TERM = ""
 

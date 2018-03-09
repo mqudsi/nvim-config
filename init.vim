@@ -310,10 +310,6 @@ autocmd BufWritePre * :call <SID>StripTrailingWhitespaces()
 "inoremap <C-Space> <C-x><C-o>
 "inoremap <C-@> <C-Space>
 
-" Keep the sign column visible to prevent jarring on/off due to plugin
-" interactions
-set signcolumn="yes"
-
 "F7 to build project (like Visual Studio)
 nnoremap <F7> :w <CR> :Neomake! <CR>
 inoremap <F7> <Esc> :w <CR> :Neomake! <CR>
@@ -427,4 +423,12 @@ set cursorline
 " disable highlighting of cursorline, revert to underline only
 :hi CursorLine ctermbg=NONE cterm=underline
 " set cursorcolumn
+
+" Keep the sign column visible to prevent jarring on/off due to plugin
+" interactions
+" this gets cancelled when neomake is loaded, so use an autocmd instead
+" set signcolumn="yes"
+" autocmd BufRead,BufNewFile setlocal signcolumn="yes"
+autocmd BufEnter * sign define dummy
+autocmd BufEnter * execute 'sign place 9999 line=1 name=dummy buffer=' . bufnr('')
 set shortmess +=c

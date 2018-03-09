@@ -42,8 +42,9 @@ if dein#load_state('$HOME/.config/nvim/dein/')
 		\ 'vim', 'markdown', 'html', 'go', 'csharp']})
 
 	"deoplete and deoplete core plugins
-	call dein#add('Shougo/deoplete.nvim',
-		\{'on_i': 1})
+	call dein#add('roxma/nvim-completion-manager')
+	" call dein#add('Shougo/deoplete.nvim',
+	" 	\{'on_i': 1})
 	call dein#add('Shougo/context_filetype.vim',
 		\{'on_i': 1})
 	call dein#add('Shougo/neopairs.vim',
@@ -53,12 +54,17 @@ if dein#load_state('$HOME/.config/nvim/dein/')
 
 	"deoplete sources
 	call dein#add('autozimu/LanguageClient-neovim',
-		\{'on_ft': ['javascript', 'json', 'rust', 'typescript'],
-		\ 'rev': 'master'})
+		\{'rev': 'master'})
 	" call dein#add('zchee/deoplete-clang',
 	" 	\{'on_event': 'InsertEnter', 'on_if': "index(['c', 'cpp'], &ft) != -1"})
-	" call dein#add('Shougo/neoinclude.vim',
-	" 	\{'on_event': 'InsertEnter', 'on_if': "index(['c', 'cpp'], &ft) != -1"})
+	call dein#add('Shougo/neoinclude.vim',
+		\{'on_event': 'InsertEnter', 'on_if': "index(['c', 'cpp'], &ft) != -1"})
+	call dein#add('roxma/ncm-clang',
+		\{'on_event': 'InsertEnter', 'on_if': "index(['c', 'cpp'], &ft) != -1"})
+	call dein#add('othree/csscomplete.vim',
+		\{'on_event': 'InsertEnter', 'on_if': "index(['css'], &ft) != -1"})
+	call dein#add('roxma/ncm-github',
+		\{'on_if': "index(['c', 'cpp', 'gitcommit', 'js', 'ts', 'vim'], &ft) != -1"})
 	call dein#add('Shougo/neco-vim',
 		\{'on_event': 'InsertEnter', 'on_if': "index(['vim'], &ft) != -1"})
 	call dein#add('ponko2/deoplete-fish',
@@ -147,7 +153,6 @@ endif
 "End dein Scripts-------------------------
 
 function! ConfigDeoplete()
-    set shortmess +=c
 	let g:deoplete#auto_complete_delay = 10
 	call deoplete#custom#set('racer', 'rank', 99999)
     call deoplete#custom#set('clang', 'rank', 99999)
@@ -209,7 +214,7 @@ function! ConfigLanguageClient()
 endfunction
 
 let g:neomake_open_list = 1
-call dein#set_hook('deoplete.nvim', 'hook_source', function('ConfigDeoplete'))
+" call dein#set_hook('deoplete.nvim', 'hook_source', function('ConfigDeoplete'))
 " call dein#set_hook('deoplete-clang', 'hook_source', function('ConfigDeopleteClang'))
 call dein#set_hook('neomake', 'hook_source', function('ConfigNeomake'))
 call dein#set_hook('LanguageClient-neovim', 'hook_source', function('ConfigLanguageClient'))
@@ -421,3 +426,4 @@ set cursorline
 " disable highlighting of cursorline, revert to underline only
 :hi CursorLine ctermbg=NONE cterm=underline
 " set cursorcolumn
+set shortmess +=c

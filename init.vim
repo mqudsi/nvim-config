@@ -302,6 +302,7 @@ function! <SID>StripTrailingWhitespaces()
     call cursor(l, c)
 endfun
 
+" autocmd FileType c,cpp,java,php,rust,javascript,vim,fish autocmd BufWritePre :call <SID>StripTrailingWhitespaces()
 autocmd BufWritePre * :call <SID>StripTrailingWhitespaces()
 
 "use Windows-style completions for OmniComplete because they're more

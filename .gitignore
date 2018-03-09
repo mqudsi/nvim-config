@@ -1,3 +1,4 @@
+*.spl
 .netrwhist
 dein/.cache
 dein/cache_nvim

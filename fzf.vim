@@ -1,10 +1,6 @@
 "fzf configuration and ctrl+p to search all natural sources
 
-let g:default_rg_ignore = '-g "!*.{o,out,po}" -g "!tags" -g "!target" -g "!*~"'
 let $FZF_DEFAULT_COMMAND = 'rg --files ' . g:default_rg_ignore
-" let g:rg_command = "rg " . g:default_rg_ignore . ' --vimgrep -S '
-let g:rg_command = 'rg --vimgrep -S ' . g:default_rg_ignore
-let g:rg_highlight = 1
 
 let g:fzf_colors =
 \ { 'fg':      ['fg', 'Normal'],

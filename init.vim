@@ -23,9 +23,7 @@ if dein#load_state('$HOME/.config/nvim/dein/')
 	call dein#add('Haron-Prime/evening_vim')
 
 	"core plugins that change the behavior of vim and how we use it globally
-	call dein#add('junegunn/fzf',
-		\{'build': './install --all 2>&1 >/dev/null'})
-	call dein#add('jremmen/vim-ripgrep')
+	call dein#add('junegunn/fzf')
 	call dein#add('airblade/vim-gitgutter')
 	call dein#add('haya14busa/incsearch.vim')
 	" call dein#add('othree/eregex.vim')
@@ -274,7 +272,6 @@ let g:mta_use_matchparen_group = 0
 hi link MatchTag Underlined
 
 source $HOME/.config/nvim/lightline.vim
-source $HOME/.config/nvim/fzf.vim
 
 set wildignorecase "ignore case for filename completions
 set infercase "allow  to complete without matching case when combined with ignorecase
@@ -378,9 +375,19 @@ autocmd FileType vim,tex let b:autoformat_autoindent=0
 
 cabbrev <expr> autoformat 'Autoformat'
 cabbrev <expr> neomake 'Neomake'
-cabbrev <expr> rg 'Rg'
 cabbrev <expr> BN 'BF'
 cabbrev <expr> BP 'BB'
+
+" ripgrep stuff
+nmap R :Rg<CR>
+cabbrev <expr> rg 'Rg'
+let g:default_rg_ignore = '-g "!*.{o,out,po}" -g "!tags" -g "!target" -g "!*~"'
+" let g:rg_command = "rg " . g:default_rg_ignore . ' --vimgrep -S '
+let g:rg_command = 'rg --vimgrep -S ' . g:default_rg_ignore
+let g:rg_highlight = 1
+
+" fzf.vim must be sourced after ripgrep init above
+source $HOME/.config/nvim/fzf.vim
 
 autocmd BufReadPost * :call DetectTabExpand()
 

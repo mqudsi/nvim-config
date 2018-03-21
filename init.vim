@@ -62,6 +62,7 @@ if dein#load_state('$HOME/.config/nvim/dein/')
 	" 	\{'on_event': 'InsertEnter', 'on_if': "index(['c', 'cpp'], &ft) != -1"})
 	call dein#add('Shougo/neoinclude.vim',
 		\{'on_event': 'InsertEnter', 'on_if': "index(['c', 'cpp'], &ft) != -1"})
+	" call dein#add('Chilledheart/vim-clangd',
 	call dein#add('roxma/ncm-clang',
 		\{'on_event': 'InsertEnter', 'on_if': "index(['c', 'cpp'], &ft) != -1"})
 	call dein#add('othree/csscomplete.vim',
@@ -371,7 +372,8 @@ source $HOME/.config/nvim/bufferclose.vim
 
 autocmd BufRead *.rs :setlocal tags=./tags;/,$RUST_SRC_PATH/tags
 " these have bad indentfiles by default, so no autoformatting here
-autocmd FileType vim,tex let b:autoformat_autoindent=0
+" autocmd FileType vim,tex let b:autoformat_autoindent=0
+autocmd FileType vim let b:autoformat_autoindent=0
 
 cabbrev <expr> autoformat 'Autoformat'
 cabbrev <expr> neomake 'Neomake'
@@ -436,7 +438,8 @@ vmap <RightMouse> "*y
 " autocmd colorscheme * :highlight Normal ctermbg=0
 
 colo evening
-set cursorline
+" cursorline disabled until the resolution of https://github.com/neovim/neovim/issues/8159
+" set cursorline
 " disable highlighting of cursorline, revert to underline only
 :hi CursorLine ctermbg=NONE cterm=underline
 " set cursorcolumn
@@ -448,4 +451,6 @@ set cursorline
 " autocmd BufRead,BufNewFile setlocal signcolumn="yes"
 autocmd BufEnter * sign define dummy
 autocmd BufEnter * execute 'sign place 9999 line=1 name=dummy buffer=' . bufnr('')
+set updatetime=100
 set shortmess +=c
+set shell=bash

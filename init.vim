@@ -7,6 +7,10 @@ let g:python3_host_prog = "python3"
 let g:loaded_python_provider = 1
 let g:loaded_ruby_provider = 1
 
+" must be forward declared
+let g:LanguageClient_diagnosticsList = 'Location' " prevent it from overwriting qfix when loading a file via qfix
+let g:LanguageClient_selectionUI = 'fzf'
+
 set runtimepath+=$HOME/.config/nvim/dein/repos/github.com/Shougo/dein.vim
 filetype off
 
@@ -54,7 +58,8 @@ if dein#load_state('$HOME/.config/nvim/dein/')
 
 	"deoplete sources
 	call dein#add('autozimu/LanguageClient-neovim',
-		\{'rev': 'master'})
+		\{'rev': 'next', 'build': 'bash ./install.sh',
+		\'on_if': "index(['c', 'cpp', 'js', 'rust'], &ft) != -1"})
 	" call dein#add('zchee/deoplete-clang',
 	" 	\{'on_event': 'InsertEnter', 'on_if': "index(['c', 'cpp'], &ft) != -1"})
 	call dein#add('Shougo/neoinclude.vim',
@@ -207,10 +212,14 @@ function! ConfigNeomake()
 endfunction
 
 function! ConfigLanguageClient()
-	nnoremap <silent> K :call LanguageClient_textDocument_hover()<CR>
-	nnoremap <silent> gd :call LanguageClient_textDocument_definition()<CR>
-	nnoremap <silent> <F2> :call LanguageClient_textDocument_rename()<CR>
-	nnoremap <silent> <M-F> :call LanguageClient_textDocument_references()<CR>
+	:call dein#remote_plugins()
+	nmap <silent> K :call LanguageClient_textDocument_hover()<CR>
+	nmap <silent> gd :call LanguageClient_textDocument_definition()<CR>
+	nmap <silent> <F12> :call LanguageClient_textDocument_definition()<CR>
+	nmap <silent> <F2> :call LanguageClient_textDocument_rename()<CR>
+	nmap <silent> <M-F> :call LanguageClient_textDocument_references()<CR>
+	nmap <silent> <C-R> :call LanguageClient_workspace_symbol()<CR>
+	autocmd FileType cpp :let g:LanguageClient_serverCommands['cpp'] = ['clangd-6.0', '-compile-commands-dir=$PWD/build']
 endfunction
 
 let g:neomake_open_list = 1
@@ -234,6 +243,7 @@ let deoplete#tag#cache_limit_size = 5000000
 
 let $RUST_SRC_PATH = glob("$HOME/.rustup/toolchains/nightly*/lib/rustlib/src/rust/src/")
 let g:LanguageClient_serverCommands = {
+	\ 'cpp': ['clangd-6.0', '-compile-commands-dir=$PWD/build'],
     \ 'rust': ['rustup', 'run', 'nightly', 'rls'],
 	\ 'javascript': ['/usr/local/lib/node_modules/javascript-typescript-langserver/lib/language-server-stdio.js'],
 	\ 'typescript': ['/usr/local/lib/node_modules/javascript-typescript-langserver/lib/language-server-stdio.js'],

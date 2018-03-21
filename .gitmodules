@@ -2,3 +2,6 @@
 	path = dein/repos/github.com/Shougo/dein.vim
 	url = git@github.com:Shougo/dein.vim.git
 	branch = master
+[submodule "plugin/vim-ripgrep"]
+	path = plugin/vim-ripgrep
+	url = git@github.com:mqudsi/vim-ripgrep.git

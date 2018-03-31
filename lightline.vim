@@ -90,13 +90,16 @@ endfunction
 
 let s:spinner_index = 0
 let s:active_spinners = 0
-let s:spinner_states = ['|', '/', '--', '\', '|', '/', '--', '\']
-let s:spinner_states = ['┤', '┘', '┴', '└', '├', '┌', '┬', '┐']
-let s:spinner_states = ['←', '↖', '↑', '↗', '→', '↘', '↓', '↙']
-let s:spinner_states = ['←', '↑', '→', '↓']
-let s:spinner_states = ['d', 'q', 'p', 'b']
-let s:spinner_states = ['.', 'o', 'O', '°', 'O', 'o', '.']
-let s:spinner_states = ['■', '□', '▪', '▫', '▪', '□', '■']
+" let s:spinner_states = ['|', '/', '--', '\', '|', '/', '--', '\']
+" let s:spinner_states = ['┤', '┘', '┴', '└', '├', '┌', '┬', '┐']
+" let s:spinner_states = ['←', '↑', '→', '↓']
+" let s:spinner_states = ['d', 'q', 'p', 'b']
+" let s:spinner_states = ['.', 'o', 'O', '°', 'O', 'o', '.']
+if has("wsl")
+    let s:spinner_states = ['←', '↖', '↑', '↗', '→', '↘', '↓', '↙']
+else
+    let s:spinner_states = ['■', '□', '▪', '▫', '▪', '□', '■']
+endif
 
 function! StartSpinner()
     let b:show_spinner = 1

@@ -1,4 +1,4 @@
-if !empty(matchstr(system("uname -a"), "Microsoft"))
+if has("wsl")
     let g:clipboard = {
 	\ 'name': 'win32yank',
 	\ 'copy': {
@@ -12,7 +12,6 @@ if !empty(matchstr(system("uname -a"), "Microsoft"))
 	\ 'cache_enabled': 1,
 	\ }
 endif
-
 
 if !empty($SSH_CONNECTION) && executable('lemonade')
 	let ssh_client = substitute($SSH_CONNECTION, "\\s.*", "", "")

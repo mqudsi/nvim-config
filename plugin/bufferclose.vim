@@ -1,3 +1,6 @@
+"Close quickfix when closing a buffer
+"this prevents quickfix from being the only buffer left
+
 " s:NextNormalWindow() {{{2
 function! s:NextNormalWindow() abort
     for i in range(1, winnr('$'))

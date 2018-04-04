@@ -4,62 +4,89 @@ if &compatible
 endif
 
 let g:python3_host_prog = "python3"
-let g:loaded_python_provider = 1
-let g:loaded_ruby_provider = 1
 
 " must be forward declared
+let g:LanguageClient_autoStart = 1
 let g:LanguageClient_diagnosticsList = 'Location' " prevent it from overwriting qfix when loading a file via qfix
 let g:LanguageClient_selectionUI = 'fzf'
+let g:matchup_matchparen_deferred = 1
 
-set runtimepath+=$HOME/.config/nvim/dein/repos/github.com/Shougo/dein.vim
+" disable the following (neo)vim plugins
+let g:loaded_python_provider = 1
+let g:loaded_ruby_provider = 1
+let g:loaded_tutor_mode_plugin = 1
+
+set runtimepath+=$HOME/.config/nvim/bundle/repos/github.com/Shougo/dein.vim
 filetype off
+syntax off
 
-if dein#load_state('$HOME/.config/nvim/dein/')
-	call dein#begin('$HOME/.config/nvim/dein/')
-	"call dein#add('Shougo/dein.vim', {'rev': 'master'})
+if dein#load_state('$HOME/.config/nvim/bundle/')
+	call dein#begin('$HOME/.config/nvim/bundle/')
+	if !has('nvim')
+	  call dein#add('roxma/nvim-yarp')
+	  call dein#add('roxma/vim-hug-neovim-rpc')
+	endif
 
 	" Add or remove your plugins here:
-	" call dein#add('flazz/vim-colorschemes')
-	call dein#add('Haron-Prime/evening_vim')
+	" call dein#add('flazz/vim-colorschemes',
+		" \{'script_type': 'colors'})
+	call dein#add('Haron-Prime/evening_vim',
+		\{'script_type': 'colors'})
 
 	"core plugins that change the behavior of vim and how we use it globally
+	call dein#add('nixprime/cpsm',
+		\{'build' : 'sh -c "mkdir -p build && cd build && cmake -DPY3:BOOL=ON .. && make install"'})
+	call dein#add('itmammoth/doorboy.vim')
+	call dein#add('kien/ctrlp.vim')
 	call dein#add('junegunn/fzf')
-	call dein#add('airblade/vim-gitgutter')
-	call dein#add('haya14busa/incsearch.vim')
+	" call dein#add('haya14busa/incsearch.vim')
 	" call dein#add('othree/eregex.vim')
+	call dein#add('Yggdroot/indentLine')
 	call dein#add('itchyny/lightline.vim')
-	call dein#add('qpkorr/vim-bufkill')
-	call dein#add('sickill/vim-pasta')
+	call dein#add('mqudsi/vim-ripgrep')
+	" call dein#add('qpkorr/vim-bufkill')
+	call dein#add('sickill/vim-pasta',
+		\{'on_event': 'InsertEnter'})
 	call dein#add('tomtom/tcomment_vim')
-	call dein#add('tpope/vim-repeat')
+	call dein#add('tpope/vim-repeat',
+		\{'on_event': 'InsertEnter'})
 
 	"general programming-related plugins
-	call dein#add('tpope/vim-surround')
-	call dein#add('benjifisher/matchit.zip')
-	call dein#add('neomake/neomake',
-		\{'on_ft': ['rust', 'c', 'cpp', 'json', 'php', 'python']})
-	call dein#add('ludovicchabant/vim-gutentags')
+	call dein#add('vim-scripts/a.vim',
+		\{'on_cmd': 'A'})
 	call dein#add('Chiel92/vim-autoformat',
-		\{'on_ft': ['rust', 'c', 'cpp', 'javascript', 'css',
-		\ 'vim', 'markdown', 'html', 'go', 'csharp']})
+		\{'on_cmd': 'Autoformat'})
+	call dein#add('tpope/vim-surround')
+	call dein#add('andymass/vim-matchup')
+	call dein#add('neomake/neomake',
+		\{'on_cmd': 'Neomake'})
+	call dein#add('ludovicchabant/vim-gutentags',
+		\{'on_event': 'InsertEnter'})
+
+	"git-related extensions
+	call dein#add('rhysd/committia.vim')
+	call dein#add('jreybert/vimagit',
+		\{'on_cmd': ['Magit', 'MagitOnly']})
+	call dein#add('airblade/vim-gitgutter')
+	call dein#add('tpope/vim-rhubarb')
 
 	"deoplete and deoplete core plugins
 	call dein#add('roxma/nvim-completion-manager')
 	" call dein#add('Shougo/deoplete.nvim',
+	"	\{'on_i': 1})
+	" call dein#add('Shougo/context_filetype.vim',
 	" 	\{'on_i': 1})
-	call dein#add('Shougo/context_filetype.vim',
-		\{'on_i': 1})
-	call dein#add('Shougo/neopairs.vim',
-		\{'on_i': 1})
-	call dein#add('Shougo/echodoc.vim',
-		\{'on_i': 1})
+	" call dein#add('Shougo/neopairs.vim',
+	" 	\{'on_i': 1})
+	" call dein#add('Shougo/echodoc.vim',
+	" 	\{'on_i': 1})
 
 	"deoplete sources
 	call dein#add('autozimu/LanguageClient-neovim',
 		\{'rev': 'next', 'build': 'bash ./install.sh',
-		\'on_if': "index(['c', 'cpp', 'js', 'rust'], &ft) != -1"})
+		\'on_ft': ['c', 'cpp', 'js', 'rust']})
 	" call dein#add('zchee/deoplete-clang',
-	" 	\{'on_event': 'InsertEnter', 'on_if': "index(['c', 'cpp'], &ft) != -1"})
+	"	\{'on_event': 'InsertEnter', 'on_if': "index(['c', 'cpp'], &ft) != -1"})
 	call dein#add('Shougo/neoinclude.vim',
 		\{'on_event': 'InsertEnter', 'on_if': "index(['c', 'cpp'], &ft) != -1"})
 	" call dein#add('Chilledheart/vim-clangd',
@@ -67,8 +94,6 @@ if dein#load_state('$HOME/.config/nvim/dein/')
 		\{'on_event': 'InsertEnter', 'on_if': "index(['c', 'cpp'], &ft) != -1"})
 	call dein#add('othree/csscomplete.vim',
 		\{'on_event': 'InsertEnter', 'on_if': "index(['css'], &ft) != -1"})
-	call dein#add('roxma/ncm-github',
-		\{'on_if': "index(['c', 'cpp', 'gitcommit', 'js', 'ts', 'vim'], &ft) != -1"})
 	call dein#add('Shougo/neco-vim',
 		\{'on_event': 'InsertEnter', 'on_if': "index(['vim'], &ft) != -1"})
 	call dein#add('ponko2/deoplete-fish',
@@ -82,11 +107,11 @@ if dein#load_state('$HOME/.config/nvim/dein/')
 		\{'on_ft': ['css']})
 	call dein#add('OrangeT/vim-csharp')
 	" call dein#add('vim-scripts/DoxyGen-Syntax',
-	" 	\{'on_ft': ['doxygen']})
+	"	\{'on_ft': ['doxygen']})
 	call dein#add('dag/vim-fish',
 		\{'on_ft': ['fish']})
-	call dein#add('valloric/MatchTagAlways',
-		\{'on_ft': ['html', 'xml']})
+	call dein#add('elzr/vim-json',
+		\{'on_ft': ['json']})
 	call dein#add('pangloss/vim-javascript',
 		\{'on_ft': ['javascript']})
 	call dein#add('rhysd/vim-gfm-syntax',
@@ -120,34 +145,30 @@ if dein#load_state('$HOME/.config/nvim/dein/')
 endif
 
 "specify custom filetypes before loading the filetype plugin
+autocmd BufRead,BufNewFile *.expect set filetype=expect
+autocmd BufRead,BufNewFile *.fish set filetype=fish
+autocmd BufRead,BufNewFile *.git/COMMIT_EDITMSG set filetype=gitcommit
+autocmd BufRead,BufNewFile *.ps1 set filetype=ps1
+autocmd BufRead,BufNewFile *.xaml set filetype=xml
+autocmd BufRead,BufNewFile */php-fpm*.conf set filetype=dosini
+autocmd BufRead,BufNewFile /usr/*include/c++/* set filetype=cpp
 autocmd BufRead,BufNewfile *.conf set filetype=conf
 autocmd BufRead,BufNewfile */*nginx*/*.conf set filetype=nginx
-autocmd BufNewFile,BufRead *.xaml set filetype=xml
-autocmd BufRead,BufNewFile *.git/COMMIT_EDITMSG set filetype=gitcommit
-autocmd BufRead,BufNewFile *.fish set filetype=fish
-autocmd BufRead,BufNewFile *.expect set filetype=expect
-autocmd BufRead,BufNewFile */php-fpm*.conf set filetype=dosini
-autocmd BufRead /usr/*include/c++/* set filetype=cpp
-autocmd BufRead,BufNewFile *.ps1 set filetype=ps1
 autocmd BufRead,BufNewfile */ninja.build set filetype=ninja
-autocmd BufRead,BufNewFile */tsconfig.json set filetype=javascript
 
 "specify comments for languages that commentary does not support oob
 autocmd FileType meson setlocal commentstring=#\ %s
 autocmd FileType ninja setlocal commentstring=#\ %s
 
-" Required:
-filetype plugin indent on
-syntax enable
-
+"specify default make programs by file type
 let g:cargo_makeprg_params = "build"
-autocmd FileType rust compiler cargo
 autocmd FileType fish compiler fish
-autocmd FileType ninja set mp=ninja
-autocmd FileType ninja set efm=%Eninja:\ error:\ %f:%l:\ %m,%Z%p^\ near\ here,%-C%s
-autocmd FileType nginx setlocal mp=sudo\ nginx\ -t\ -c\ %
-autocmd FileType typescript setlocal mp=tsc
 autocmd FileType html,php set smartindent
+autocmd FileType nginx setlocal mp=sudo\ nginx\ -t\ -c\ %
+autocmd FileType ninja set efm=%Eninja:\ error:\ %f:%l:\ %m,%Z%p^\ near\ here,%-C%s
+autocmd FileType ninja set mp=ninja
+autocmd FileType rust compiler cargo
+autocmd FileType typescript setlocal mp=tsc
 
 " If you want to install not installed plugins on startup.
 if dein#check_install()
@@ -210,21 +231,33 @@ function! ConfigNeomake()
 	let g:neomake_cpp_enabled_makers = ['clangxx', 'clangtidy']
 endfunction
 
+function! AfterNeomake()
+	:echoerr "neomake loaded"
+	"F7 to build project (like Visual Studio)
+	nnoremap <F7> :w <CR> :Neomake! <CR>
+	inoremap <F7> <Esc> :w <CR> :Neomake! <CR>
+	"F8 to build/lint single file
+	nnoremap <F8> :w <CR> :Neomake <CR>
+	inoremap <F8> <Esc> :w <CR> :Neomake <CR>
+endfunction
+
 function! ConfigLanguageClient()
-	:call dein#remote_plugins()
+	" :call dein#remote_plugins()
 	nmap <silent> K :call LanguageClient_textDocument_hover()<CR>
 	nmap <silent> gd :call LanguageClient_textDocument_definition()<CR>
 	nmap <silent> <F12> :call LanguageClient_textDocument_definition()<CR>
 	nmap <silent> <F2> :call LanguageClient_textDocument_rename()<CR>
 	nmap <silent> <M-F> :call LanguageClient_textDocument_references()<CR>
 	nmap <silent> <C-R> :call LanguageClient_workspace_symbol()<CR>
-	autocmd FileType cpp :let g:LanguageClient_serverCommands['cpp'] = ['clangd-6.0', '-compile-commands-dir=$PWD/build']
+	autocmd BufEnter *.cpp :silent LanguageClientStart
+	autocmd BufEnter *.c :silent LanguageClientStart
 endfunction
 
 let g:neomake_open_list = 1
 " call dein#set_hook('deoplete.nvim', 'hook_source', function('ConfigDeoplete'))
 " call dein#set_hook('deoplete-clang', 'hook_source', function('ConfigDeopleteClang'))
-call dein#set_hook('neomake', 'hook_source', function('ConfigNeomake'))
+" call dein#set_hook('neomake', 'hook_source', function('ConfigNeomake'))
+" call dein#set_hook('neomake', 'hook_post_source', function('AfterNeomake'))
 call dein#set_hook('LanguageClient-neovim', 'hook_source', function('ConfigLanguageClient'))
 
 let g:deoplete#ignore_sources =  {'_': ['omni', 'omnifunc']}
@@ -242,7 +275,8 @@ let deoplete#tag#cache_limit_size = 5000000
 
 let $RUST_SRC_PATH = glob("$HOME/.rustup/toolchains/nightly*/lib/rustlib/src/rust/src/")
 let g:LanguageClient_serverCommands = {
-	\ 'cpp': ['clangd-6.0', '-compile-commands-dir=$PWD/build'],
+	\ 'cpp': ['clangd', '-compile-commands-dir=$PWD/build'],
+	\ 'c': ['clangd', '-compile-commands-dir=$PWD/build'],
     \ 'rust': ['rustup', 'run', 'nightly', 'rls'],
 	\ 'javascript': ['/usr/local/lib/node_modules/javascript-typescript-langserver/lib/language-server-stdio.js'],
 	\ 'typescript': ['/usr/local/lib/node_modules/javascript-typescript-langserver/lib/language-server-stdio.js'],
@@ -251,10 +285,11 @@ let g:LanguageClient_serverCommands = {
 	\ 'css': ['css-languageserver', '--stdio'],
 \ }
 
-" Automatically start language servers.
-let g:LanguageClient_autoStart = 1
-
 set mouse=a
+let $NVIM_TUI_ENABLE_CURSOR_SHAPE=1
+set noswapfile
+set autoread
+set laststatus=2
 set backspace=indent,eol,start
 set tabstop=4
 set shiftwidth=4
@@ -275,7 +310,7 @@ hi link MatchTag Underlined
 source $HOME/.config/nvim/lightline.vim
 
 set wildignorecase "ignore case for filename completions
-set infercase "allow  to complete without matching case when combined with ignorecase
+set infercase "allow ctrl+n to complete without matching case when combined with ignorecase
 "set ignorecase "but ignorecase makes regex searches case-insensitive :(
 
 "clear highlight on double esc
@@ -287,6 +322,8 @@ set autowrite
 
 "disable ex mode
 nmap Q <Nop>
+nmap q: <Nop>
+
 nmap <F1> <Nop>
 vmap <F1> <Nop>
 imap <F1> <Esc>
@@ -300,6 +337,18 @@ inoremap <C-v> <Esc>"*pi
 " as the first <C-v> will enter visual mode, then the second will trigger the
 " paste.
 vnoremap <C-v> "*P
+
+" Search for visually selected text, forwards or backwards.
+vnoremap <silent> * :<C-U>
+  \let old_reg=getreg('"')<Bar>let old_regtype=getregtype('"')<CR>
+  \gvy/<C-R><C-R>=substitute(
+  \escape(@", '/\.*$^~['), '\_s\+', '\\_s\\+', 'g')<CR><CR>
+  \gV:call setreg('"', old_reg, old_regtype)<CR>
+vnoremap <silent> # :<C-U>
+  \let old_reg=getreg('"')<Bar>let old_regtype=getregtype('"')<CR>
+  \gvy?<C-R><C-R>=substitute(
+  \escape(@", '?\.*$^~['), '\_s\+', '\\_s\\+', 'g')<CR><CR>
+  \gV:call setreg('"', old_reg, old_regtype)<CR>
 
 " From https://stackoverflow.com/a/37201230/17027
 " Includes workaround for cursor jumping around on save
@@ -318,16 +367,8 @@ autocmd BufWritePre * :call <SID>StripTrailingWhitespaces()
 "inoremap <C-Space> <C-x><C-o>
 "inoremap <C-@> <C-Space>
 
-"F7 to build project (like Visual Studio)
-nnoremap <F7> :w <CR> :Neomake! <CR>
-inoremap <F7> <Esc> :w <CR> :Neomake! <CR>
-"F8 to build/lint single file
-nnoremap <F8> :w <CR> :Neomake <CR>
-inoremap <F8> <Esc> :w <CR> :Neomake <CR>
 "F12 to go to definition (like Visual Studio)
 noremap <F12> 
-
-source $HOME/.config/nvim/clipboard.vim
 
 set matchpairs+=<:>
 "ctrl+s save
@@ -338,27 +379,27 @@ vmap <C-s> <esc>:w<CR>gv
 "ctrl+a to select all in normal mode
 nnoremap <C-a> ggVG
 
-"magic search
-function! s:noregexp(pattern) abort
-    let pattern = substitute(a:pattern, '+', '\\+', "")
-    let pattern = substitute(pattern, '\\b', '\\<', "")
-    " :echom pattern
-    return pattern
-endfunction
-
-function! s:config() abort
-    return {'converters': [function('s:noregexp')]}
-endfunction
-
-noremap <silent><expr> z/ incsearch#go(<SID>config())
-"end magic search
-
-"replace search with incsearch
-" map / <Plug>(incsearch-forward)
-map <silent><expr> / incsearch#go(<SID>config())
-map ? <Plug>(incsearch-backward)
-map g/ <Plug>(incsearch-stay)
-let g:incsearch#magic = '\v'
+" "magic search
+" function! s:noregexp(pattern) abort
+"     let pattern = substitute(a:pattern, '+', '\\+', "")
+"     let pattern = substitute(pattern, '\\b', '\\<', "")
+"     " :echom pattern
+"     return pattern
+" endfunction
+"
+" function! s:config() abort
+"     return {'converters': [function('s:noregexp')]}
+" endfunction
+"
+" noremap <silent><expr> z/ incsearch#go(<SID>config())
+" "end magic search
+"
+" "replace search with incsearch
+" " map / <Plug>(incsearch-forward)
+" map <silent><expr> / incsearch#go(<SID>config())
+" map ? <Plug>(incsearch-backward)
+" map g/ <Plug>(incsearch-stay)
+" let g:incsearch#magic = '\v'
 
 "hide highlight on insert
 autocmd InsertEnter * setlocal nohlsearch
@@ -366,19 +407,13 @@ autocmd InsertLeave * setlocal hlsearch lz
 inoremap <silent><Esc> <Esc>:nohl<bar>set nolz<CR>
 inoremap <silent><C-c> <C-c>:nohl<bar>set nolz<CR>
 
-"Close quickfix when closing a buffer
-"this prevents quickfix from being the only buffer left
-source $HOME/.config/nvim/bufferclose.vim
-
 autocmd BufRead *.rs :setlocal tags=./tags;/,$RUST_SRC_PATH/tags
 " these have bad indentfiles by default, so no autoformatting here
 " autocmd FileType vim,tex let b:autoformat_autoindent=0
 autocmd FileType vim let b:autoformat_autoindent=0
 
 cabbrev <expr> autoformat 'Autoformat'
-cabbrev <expr> neomake 'Neomake'
-cabbrev <expr> BN 'BF'
-cabbrev <expr> BP 'BB'
+" cabbrev <expr> neomake 'Neomake'
 
 " ripgrep stuff
 nmap R :Rg<CR>
@@ -388,8 +423,9 @@ let g:default_rg_ignore = '-g "!*.{o,out,po}" -g "!tags" -g "!target" -g "!*~"'
 let g:rg_command = 'rg --vimgrep -S ' . g:default_rg_ignore
 let g:rg_highlight = 1
 
-" fzf.vim must be sourced after ripgrep init above
-source $HOME/.config/nvim/fzf.vim
+"map fzf to ctrl+p
+" noremap <c-p> :call ctrlp#CtrlP()<CR>
+let g:ctrlp_match_func = {'match': 'cpsm#CtrlPMatch'}
 
 autocmd BufReadPost * :call DetectTabExpand()
 
@@ -423,8 +459,14 @@ endfunction
 " remap up/down arrow keys to move by screen line
 nnoremap <Up> g<Up>
 nnoremap <Down> g<Down>
+nnoremap <silent> <Home> g<Home>
+nnoremap <silent> <End> g<End>
+inoremap <silent> <Home> <c-o>g<Home>
+inoremap <silent> <End> <c-o>g<End>
 
-nnoremap <space> <c-d>
+" keep selections after realign
+vmap < <gv
+vmap > >gv
 
 " copy text on right-click in visual mode
 vmap <RightMouse> "*y
@@ -451,6 +493,48 @@ colo evening
 " autocmd BufRead,BufNewFile setlocal signcolumn="yes"
 autocmd BufEnter * sign define dummy
 autocmd BufEnter * execute 'sign place 9999 line=1 name=dummy buffer=' . bufnr('')
+
+" Reduce vim updatetime to allow gitgutter and others to reflect things faster
 set updatetime=100
+
+" Remove unneeded spam from completions status messages
 set shortmess +=c
+
+" Fish is our primary shell, but this makes things predictable:
 set shell=bash
+
+" IndentLine configuration
+let g:indentLine_char = '┆'
+let g:indentLine_color_term = 239
+
+" Improve granularity of undo
+inoremap <CR> <C-G>u<CR>
+function! s:start_delete(key)
+    let l:result = a:key
+    if !s:deleting
+        let l:result = "\<C-G>u".l:result
+    endif
+    let s:deleting = 1
+    return l:result
+endfunction
+
+function! s:check_undo_break(char)
+    if s:deleting
+        let s:deleting = 0
+        call feedkeys("\<BS>\<C-G>u".a:char, 'n')
+    endif
+endfunction
+
+augroup smartundo
+    autocmd!
+    autocmd InsertEnter * let s:deleting = 0
+    autocmd InsertCharPre * call s:check_undo_break(v:char)
+augroup END
+
+inoremap <expr> <BS> <SID>start_delete("\<BS>")
+inoremap <expr> <C-W> <SID>start_delete("\<C-W>")
+inoremap <expr> <C-U> <SID>start_delete("\<C-U>")
+
+" After everything else
+filetype plugin indent on
+syntax enable

@@ -1,6 +1,7 @@
 *.spl
 .netrwhist
-dein/.cache
-dein/cache_nvim
-dein/repos
-dein/state_nvim.vim
+bundle/.cache
+bundle/cache_nvim
+bundle/.cache
+bundle/repos
+bundle/state_nvim.vim

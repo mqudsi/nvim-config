@@ -7,7 +7,8 @@ let g:python3_host_prog = "python3"
 let g:loaded_python_provider = 1
 let g:loaded_ruby_provider = 1
 
-" must be forward declared
+" LanguageClient options must be forward declared
+let g:LanguageClient_autoStart = 1
 let g:LanguageClient_diagnosticsList = 'Location' " prevent it from overwriting qfix when loading a file via qfix
 let g:LanguageClient_selectionUI = 'fzf'
 

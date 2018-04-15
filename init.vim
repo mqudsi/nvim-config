@@ -35,6 +35,7 @@ if dein#load_state('$HOME/.config/nvim/dein/')
 	call dein#add('tpope/vim-repeat')
 
 	"general programming-related plugins
+	call dein#add('sheerun/vim-polyglot')
 	call dein#add('tpope/vim-surround')
 	call dein#add('benjifisher/matchit.zip')
 	call dein#add('neomake/neomake',

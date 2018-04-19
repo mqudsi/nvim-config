@@ -400,6 +400,7 @@ vmap <RightMouse> "*y
 " vim and neovim.
 " autocmd colorscheme * :highlight Normal ctermbg=0
 
+set termguicolors
 colo evening
 " cursorline disabled until the resolution of https://github.com/neovim/neovim/issues/8159
 " set cursorline

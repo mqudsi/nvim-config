@@ -442,7 +442,8 @@ vmap <RightMouse> "*y
 " autocmd colorscheme * :highlight Normal ctermbg=0
 
 set termguicolors
-colo evening
+" colo evening
+let g:colors_name = "evening"
 " cursorline disabled until the resolution of https://github.com/neovim/neovim/issues/8159
 " set cursorline
 " disable highlighting of cursorline, revert to underline only

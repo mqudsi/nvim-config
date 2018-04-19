@@ -5,7 +5,7 @@ endif
 
 let g:python3_host_prog = "python3"
 
-" must be forward declared
+" Options which must be forward declared
 let g:LanguageClient_autoStart = 1
 let g:LanguageClient_diagnosticsList = 'Location' " prevent it from overwriting qfix when loading a file via qfix
 let g:LanguageClient_selectionUI = 'fzf'
@@ -28,10 +28,8 @@ if dein#load_state('$HOME/.config/nvim/bundle/')
 	endif
 
 	" Add or remove your plugins here:
-	" call dein#add('flazz/vim-colorschemes',
-		" \{'script_type': 'colors'})
-	call dein#add('Haron-Prime/evening_vim',
-		\{'script_type': 'colors'})
+	" call dein#add('flazz/vim-colorschemes')
+	" call dein#add('Haron-Prime/evening_vim')
 
 	"core plugins that change the behavior of vim and how we use it globally
 	call dein#add('nixprime/cpsm',
@@ -56,6 +54,9 @@ if dein#load_state('$HOME/.config/nvim/bundle/')
 		\{'on_cmd': 'A'})
 	call dein#add('Chiel92/vim-autoformat',
 		\{'on_cmd': 'Autoformat'})
+	call dein#add('tpope/vim-endwise.git',
+		\{'on_ft': ['vim']}) "handle only languages with PITA syntax
+	call dein#add('sheerun/vim-polyglot')
 	call dein#add('tpope/vim-surround')
 	call dein#add('andymass/vim-matchup')
 	call dein#add('neomake/neomake',
@@ -164,9 +165,11 @@ autocmd FileType ninja setlocal commentstring=#\ %s
 let g:cargo_makeprg_params = "build"
 autocmd FileType fish compiler fish
 autocmd FileType html,php set smartindent
-autocmd FileType nginx setlocal mp=sudo\ nginx\ -t\ -c\ %
+autocmd FileType ninja set mp=ninja
+autocmd FileType tex set mp=xelatex\ -halt-on-error\ %:S\;rm\ -f\ %:r:S.\{log,aux,out\}
 autocmd FileType ninja set efm=%Eninja:\ error:\ %f:%l:\ %m,%Z%p^\ near\ here,%-C%s
 autocmd FileType ninja set mp=ninja
+autocmd FileType nginx setlocal mp=sudo\ nginx\ -t\ -c\ %
 autocmd FileType rust compiler cargo
 autocmd FileType typescript setlocal mp=tsc
 
@@ -176,15 +179,6 @@ if dein#check_install()
 endif
 
 "End dein Scripts-------------------------
-
-function! ConfigDeoplete()
-	let g:deoplete#auto_complete_delay = 10
-	call deoplete#custom#set('racer', 'rank', 99999)
-    call deoplete#custom#set('clang', 'rank', 99999)
-    autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
-    "enable tabbing through autocomplete results only when the popup is visible
-    " inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
-endfunction
 
 " Removes trailing spaces
 function! Trim(path)
@@ -198,23 +192,6 @@ function! PickPath(options)
             return Trim(split(path)[0])
         endif
     endfor
-endfunction
-
-function! ConfigDeopleteClang()
-  "deoplete-clang configuration
-  let clang_path_options = [
-      \'/usr/lib/llvm-*/lib/libclang.so',
-      \'/Library/Developer/CommandLineTools/usr/lib/libclang.dylib',
-      \'/usr/local/llvm*/lib/libclang.so',
-    \]
-  let g:deoplete#sources#clang#libclang_path = PickPath(clang_path_options)
-
-  let clang_header_options= [
-      \'/usr/lib/clang',
-      \'/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/',
-      \'/usr/include/clang/',
-    \]
-  let g:deoplete#sources#clang#clang_header = PickPath(clang_header_options)
 endfunction
 
 function! ConfigNeomake()
@@ -244,7 +221,9 @@ endfunction
 function! ConfigLanguageClient()
 	" :call dein#remote_plugins()
 	nmap <silent> K :call LanguageClient_textDocument_hover()<CR>
+	nunmap gd
 	nmap <silent> gd :call LanguageClient_textDocument_definition()<CR>
+	nunmap <F12>
 	nmap <silent> <F12> :call LanguageClient_textDocument_definition()<CR>
 	nmap <silent> <F2> :call LanguageClient_textDocument_rename()<CR>
 	nmap <silent> <M-F> :call LanguageClient_textDocument_references()<CR>
@@ -254,29 +233,14 @@ function! ConfigLanguageClient()
 endfunction
 
 let g:neomake_open_list = 1
-" call dein#set_hook('deoplete.nvim', 'hook_source', function('ConfigDeoplete'))
-" call dein#set_hook('deoplete-clang', 'hook_source', function('ConfigDeopleteClang'))
 " call dein#set_hook('neomake', 'hook_source', function('ConfigNeomake'))
 " call dein#set_hook('neomake', 'hook_post_source', function('AfterNeomake'))
 call dein#set_hook('LanguageClient-neovim', 'hook_source', function('ConfigLanguageClient'))
 
-let g:deoplete#ignore_sources =  {'_': ['omni', 'omnifunc']}
-let g:deoplete#enable_at_startup = 1
-" let g:deoplete#enable_ignore_case = 1
-let g:deoplete#enable_smart_case = 1
-" let g:deoplete#enable_camel_case = 1
-let g:deoplete#enable_refresh_always = 1
-let deoplete#tag#cache_limit_size = 5000000
-" let g:deoplete#sources = {}
-" let g:deoplete#sources._ = ['buffer', 'tag']
-" let g:deoplete#sources.cpp = ['clang']
-" let g:deoplete#sources.rust = ['rust', 'buffer', 'tag']
-" autocmd CmdwinEnter * let b:deoplete_sources = ['buffer']
-
 let $RUST_SRC_PATH = glob("$HOME/.rustup/toolchains/nightly*/lib/rustlib/src/rust/src/")
 let g:LanguageClient_serverCommands = {
-	\ 'cpp': ['clangd', '-compile-commands-dir=$PWD/build'],
 	\ 'c': ['clangd', '-compile-commands-dir=$PWD/build'],
+	\ 'cpp': ['clangd', '-compile-commands-dir=$PWD/build'],
     \ 'rust': ['rustup', 'run', 'nightly', 'rls'],
 	\ 'javascript': ['/usr/local/lib/node_modules/javascript-typescript-langserver/lib/language-server-stdio.js'],
 	\ 'typescript': ['/usr/local/lib/node_modules/javascript-typescript-langserver/lib/language-server-stdio.js'],
@@ -284,6 +248,8 @@ let g:LanguageClient_serverCommands = {
 	\ 'json': ['json-languageserver', '--stdio'],
 	\ 'css': ['css-languageserver', '--stdio'],
 \ }
+
+" Automatically start language servers.
 
 set mouse=a
 let $NVIM_TUI_ENABLE_CURSOR_SHAPE=1
@@ -302,6 +268,8 @@ set number
 :map [H <Home>
 :map [5~  "page up
 :map [6~  "page down
+:map <M-left> :normal <Home><CR>
+:map <M-right> :normal <End><CR>
 
 " colors for MatchTagAlways highlights
 let g:mta_use_matchparen_group = 0
@@ -324,6 +292,7 @@ set autowrite
 nmap Q <Nop>
 nmap q: <Nop>
 
+"disable F1
 nmap <F1> <Nop>
 vmap <F1> <Nop>
 imap <F1> <Esc>
@@ -362,18 +331,13 @@ endfun
 " autocmd FileType c,cpp,java,php,rust,javascript,vim,fish autocmd BufWritePre :call <SID>StripTrailingWhitespaces()
 autocmd BufWritePre * :call <SID>StripTrailingWhitespaces()
 
-"use Windows-style completions for OmniComplete because they're more
-"Dvorak-friendly
-"inoremap <C-Space> <C-x><C-o>
-"inoremap <C-@> <C-Space>
-
 "F12 to go to definition (like Visual Studio)
-noremap <F12> 
+noremap <F12> <C-]>
 
 set matchpairs+=<:>
 "ctrl+s save
-inoremap  <esc>:w<CR><esc>
-nnoremap  :w<CR>
+inoremap <C-s> <esc>:w<CR><esc>
+nnoremap <C-s> :w<CR>
 vmap <C-s> <esc>:w<CR>gv
 
 "ctrl+a to select all in normal mode
@@ -479,6 +443,7 @@ vmap <RightMouse> "*y
 " vim and neovim.
 " autocmd colorscheme * :highlight Normal ctermbg=0
 
+set termguicolors
 colo evening
 " cursorline disabled until the resolution of https://github.com/neovim/neovim/issues/8159
 " set cursorline

@@ -228,6 +228,8 @@ set number
 :map [H <Home>
 :map [5~  "page up
 :map [6~  "page down
+:map <M-left> :normal <Home><CR>
+:map <M-right> :normal <End><CR>
 
 " colors for MatchTagAlways highlights
 let g:mta_use_matchparen_group = 0
@@ -286,14 +288,14 @@ inoremap <F7> <Esc> :w <CR> :Neomake! <CR>
 nnoremap <F8> :w <CR> :Neomake <CR>
 inoremap <F8> <Esc> :w <CR> :Neomake <CR>
 "F12 to go to definition (like Visual Studio)
-noremap <F12> 
+noremap <F12> <C-]>
 
 source $HOME/.config/nvim/clipboard.vim
 
 set matchpairs+=<:>
 "ctrl+s save
-inoremap  <esc>:w<CR><esc>
-nnoremap  :w<CR>
+inoremap <C-s> <esc>:w<CR><esc>
+nnoremap <C-s> :w<CR>
 vmap <C-s> <esc>:w<CR>gv
 
 "ctrl+a to select all in normal mode

@@ -33,6 +33,8 @@ if dein#load_state('$HOME/.config/nvim/dein/')
 	call dein#add('sickill/vim-pasta')
 	call dein#add('tomtom/tcomment_vim')
 	call dein#add('tpope/vim-repeat')
+	call dein#add('tpope/vim-endwise.git',
+		\{'on_ft': ['vim']}) "handle only languages with PITA syntax
 
 	"general programming-related plugins
 	call dein#add('sheerun/vim-polyglot')

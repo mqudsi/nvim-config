@@ -189,12 +189,13 @@ endfunction
 
 function! ConfigLanguageClient()
 	nmap <silent> K :call LanguageClient_textDocument_hover()<CR>
+	nunmap gd
 	nmap <silent> gd :call LanguageClient_textDocument_definition()<CR>
+	nunmap <F12>
 	nmap <silent> <F12> :call LanguageClient_textDocument_definition()<CR>
 	nmap <silent> <F2> :call LanguageClient_textDocument_rename()<CR>
 	nmap <silent> <M-F> :call LanguageClient_textDocument_references()<CR>
 	nmap <silent> <C-R> :call LanguageClient_workspace_symbol()<CR>
-	autocmd FileType cpp :let g:LanguageClient_serverCommands['cpp'] = ['clangd-6.0', '-compile-commands-dir=$PWD/build']
 endfunction
 
 let g:neomake_open_list = 1
@@ -203,7 +204,7 @@ call dein#set_hook('LanguageClient-neovim', 'hook_source', function('ConfigLangu
 
 let $RUST_SRC_PATH = glob("$HOME/.rustup/toolchains/nightly*/lib/rustlib/src/rust/src/")
 let g:LanguageClient_serverCommands = {
-	\ 'cpp': ['clangd-6.0', '-compile-commands-dir=$PWD/build'],
+	\ 'cpp': ['clangd', '-compile-commands-dir=' . getcwd() . '/build'],
     \ 'rust': ['rustup', 'run', 'nightly', 'rls'],
 	\ 'javascript': ['/usr/local/lib/node_modules/javascript-typescript-langserver/lib/language-server-stdio.js'],
 	\ 'typescript': ['/usr/local/lib/node_modules/javascript-typescript-langserver/lib/language-server-stdio.js'],
@@ -213,7 +214,6 @@ let g:LanguageClient_serverCommands = {
 \ }
 
 " Automatically start language servers.
-let g:LanguageClient_autoStart = 1
 
 set mouse=a
 set backspace=indent,eol,start

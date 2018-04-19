@@ -275,8 +275,6 @@ set number
 let g:mta_use_matchparen_group = 0
 hi link MatchTag Underlined
 
-source $HOME/.config/nvim/lightline.vim
-
 set wildignorecase "ignore case for filename completions
 set infercase "allow ctrl+n to complete without matching case when combined with ignorecase
 "set ignorecase "but ignorecase makes regex searches case-insensitive :(

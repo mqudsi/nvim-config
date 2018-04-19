@@ -146,6 +146,7 @@ let g:cargo_makeprg_params = "build"
 autocmd FileType rust compiler cargo
 autocmd FileType fish compiler fish
 autocmd FileType ninja set mp=ninja
+autocmd FileType tex set mp=xelatex\ -halt-on-error\ %:S\;rm\ -f\ %:r:S.\{log,aux,out\}
 autocmd FileType ninja set efm=%Eninja:\ error:\ %f:%l:\ %m,%Z%p^\ near\ here,%-C%s
 autocmd FileType nginx setlocal mp=sudo\ nginx\ -t\ -c\ %
 autocmd FileType typescript setlocal mp=tsc

@@ -159,15 +159,6 @@ endif
 
 "End dein Scripts-------------------------
 
-function! ConfigDeoplete()
-	let g:deoplete#auto_complete_delay = 10
-	call deoplete#custom#set('racer', 'rank', 99999)
-    call deoplete#custom#set('clang', 'rank', 99999)
-    autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
-    "enable tabbing through autocomplete results only when the popup is visible
-    " inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
-endfunction
-
 " Removes trailing spaces
 function! Trim(path)
     return substitute(a:path, "^[ \t\r\n]*\\|[ \t\r\n]*\$", "", "g")
@@ -180,23 +171,6 @@ function! PickPath(options)
             return Trim(split(path)[0])
         endif
     endfor
-endfunction
-
-function! ConfigDeopleteClang()
-  "deoplete-clang configuration
-  let clang_path_options = [
-      \'/usr/lib/llvm-*/lib/libclang.so',
-      \'/Library/Developer/CommandLineTools/usr/lib/libclang.dylib',
-      \'/usr/local/llvm*/lib/libclang.so',
-    \]
-  let g:deoplete#sources#clang#libclang_path = PickPath(clang_path_options)
-
-  let clang_header_options= [
-      \'/usr/lib/clang',
-      \'/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/',
-      \'/usr/include/clang/',
-    \]
-  let g:deoplete#sources#clang#clang_header = PickPath(clang_header_options)
 endfunction
 
 function! ConfigNeomake()
@@ -214,7 +188,6 @@ function! ConfigNeomake()
 endfunction
 
 function! ConfigLanguageClient()
-	:call dein#remote_plugins()
 	nmap <silent> K :call LanguageClient_textDocument_hover()<CR>
 	nmap <silent> gd :call LanguageClient_textDocument_definition()<CR>
 	nmap <silent> <F12> :call LanguageClient_textDocument_definition()<CR>
@@ -225,23 +198,8 @@ function! ConfigLanguageClient()
 endfunction
 
 let g:neomake_open_list = 1
-" call dein#set_hook('deoplete.nvim', 'hook_source', function('ConfigDeoplete'))
-" call dein#set_hook('deoplete-clang', 'hook_source', function('ConfigDeopleteClang'))
 call dein#set_hook('neomake', 'hook_source', function('ConfigNeomake'))
 call dein#set_hook('LanguageClient-neovim', 'hook_source', function('ConfigLanguageClient'))
-
-let g:deoplete#ignore_sources =  {'_': ['omni', 'omnifunc']}
-let g:deoplete#enable_at_startup = 1
-" let g:deoplete#enable_ignore_case = 1
-let g:deoplete#enable_smart_case = 1
-" let g:deoplete#enable_camel_case = 1
-let g:deoplete#enable_refresh_always = 1
-let deoplete#tag#cache_limit_size = 5000000
-" let g:deoplete#sources = {}
-" let g:deoplete#sources._ = ['buffer', 'tag']
-" let g:deoplete#sources.cpp = ['clang']
-" let g:deoplete#sources.rust = ['rust', 'buffer', 'tag']
-" autocmd CmdwinEnter * let b:deoplete_sources = ['buffer']
 
 let $RUST_SRC_PATH = glob("$HOME/.rustup/toolchains/nightly*/lib/rustlib/src/rust/src/")
 let g:LanguageClient_serverCommands = {

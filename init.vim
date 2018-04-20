@@ -166,7 +166,7 @@ let g:cargo_makeprg_params = "build"
 autocmd FileType fish compiler fish
 autocmd FileType html,php set smartindent
 autocmd FileType ninja set mp=ninja
-autocmd FileType tex set mp=xelatex\ -halt-on-error\ %:S\;rm\ -f\ %:r:S.\{log,aux,out\}
+autocmd FileType tex set mp=xelatex\ -halt-on-error\ %:S\;rm\ -f\ %:r:S.\{log,aux,out\}\ %:r:h:S/texput.log
 autocmd FileType ninja set efm=%Eninja:\ error:\ %f:%l:\ %m,%Z%p^\ near\ here,%-C%s
 autocmd FileType ninja set mp=ninja
 autocmd FileType nginx setlocal mp=sudo\ nginx\ -t\ -c\ %

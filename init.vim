@@ -228,8 +228,7 @@ function! ConfigLanguageClient()
 	nmap <silent> <F2> :call LanguageClient_textDocument_rename()<CR>
 	nmap <silent> <M-F> :call LanguageClient_textDocument_references()<CR>
 	nmap <silent> <C-R> :call LanguageClient_workspace_symbol()<CR>
-	autocmd BufEnter *.cpp :silent LanguageClientStart
-	autocmd BufEnter *.c :silent LanguageClientStart
+	autocmd BufEnter *.c,*.cpp,*.js,*.rs,*.ts :silent! LanguageClientStart
 endfunction
 
 let g:neomake_open_list = 1

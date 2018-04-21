@@ -221,9 +221,9 @@ endfunction
 function! ConfigLanguageClient()
 	" :call dein#remote_plugins()
 	nmap <silent> K :call LanguageClient_textDocument_hover()<CR>
-	nunmap gd
+	silent! nunmap gd
 	nmap <silent> gd :call LanguageClient_textDocument_definition()<CR>
-	nunmap <F12>
+	silent! nunmap <F12>
 	nmap <silent> <F12> :call LanguageClient_textDocument_definition()<CR>
 	nmap <silent> <F2> :call LanguageClient_textDocument_rename()<CR>
 	nmap <silent> <M-F> :call LanguageClient_textDocument_references()<CR>

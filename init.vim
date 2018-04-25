@@ -227,7 +227,8 @@ function! ConfigLanguageClient()
 	nmap <silent> <F12> :call LanguageClient_textDocument_definition()<CR>
 	nmap <silent> <F2> :call LanguageClient_textDocument_rename()<CR>
 	nmap <silent> <M-F> :call LanguageClient_textDocument_references()<CR>
-	nmap <silent> <C-R> :call LanguageClient_workspace_symbol()<CR>
+	" See https://vi.stackexchange.com/a/4291/13499
+	" nmap <silent> <C-R> :call LanguageClient_workspace_symbol()<CR>
 	autocmd BufEnter *.c,*.cpp,*.js,*.rs,*.ts :silent! LanguageClientStart
 endfunction
 

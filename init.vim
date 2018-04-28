@@ -16,6 +16,10 @@ let g:loaded_python_provider = 1
 let g:loaded_ruby_provider = 1
 let g:loaded_tutor_mode_plugin = 1
 
+" indentLine completely breaks some syntaxes, notably markdown and latex
+" See https://github.com/Yggdroot/indentLine/issues/78
+let g:indentLine_fileTypeExclude = ['tex', 'markdown']
+
 set runtimepath+=$HOME/.config/nvim/bundle/repos/github.com/Shougo/dein.vim
 filetype off
 syntax off

@@ -254,7 +254,7 @@ let g:LanguageClient_serverCommands = {
 
 set mouse=a
 let $NVIM_TUI_ENABLE_CURSOR_SHAPE=1
-set noswapfile
+set nofsync
 set autoread
 set laststatus=2
 set backspace=indent,eol,start

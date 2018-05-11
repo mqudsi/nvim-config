@@ -91,8 +91,6 @@ if dein#load_state('$HOME/.config/nvim/bundle/')
 		\'on_ft': ['c', 'cpp', 'js', 'rust', 'typescript']})
 	" call dein#add('zchee/deoplete-clang',
 	"	\{'on_event': 'InsertEnter', 'on_if': "index(['c', 'cpp'], &ft) != -1"})
-	call dein#add('Shougo/neoinclude.vim',
-		\{'on_event': 'InsertEnter', 'on_if': "index(['c', 'cpp'], &ft) != -1"})
 	" call dein#add('Chilledheart/vim-clangd',
 	call dein#add('roxma/ncm-clang',
 		\{'on_event': 'InsertEnter', 'on_if': "index(['c', 'cpp'], &ft) != -1"})

@@ -267,8 +267,8 @@ set smartindent
 set number
 
 :map [H <Home>
-:map [5~  "page up
-:map [6~  "page down
+:map [5~ <C-B> "page up
+:map [6~ <C-F> "page down
 :map <M-left> :normal <Home><CR>
 :map <M-right> :normal <End><CR>
 

@@ -367,6 +367,9 @@ vmap <C-s> <esc>:w<CR>gv
 "ctrl+a to select all in normal mode
 nnoremap <C-a> ggVG
 
+"alt+a to switch to header file, courtesy of a.vim
+nnoremap <M-a> :A<CR>
+
 " "magic search
 " function! s:noregexp(pattern) abort
 "     let pattern = substitute(a:pattern, '+', '\\+', "")

@@ -338,7 +338,12 @@ autocmd BufWritePre * :call <SID>StripTrailingWhitespaces()
 "F12 to go to definition (like Visual Studio)
 noremap <F12> <C-]>
 
+" enable % to match angle brackets
 set matchpairs+=<:>
+" set a timeout (in ms) for matchpairs to prevent any sluggishness
+let g:matchparen_timeout = 20
+let g:matchparen_insert_timeout = 20
+
 "ctrl+s save
 inoremap <C-s> <esc>:w<CR><esc>
 nnoremap <C-s> :w<CR>

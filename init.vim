@@ -44,6 +44,8 @@ if dein#load_state('$HOME/.config/nvim/bundle/')
 	" call dein#add('othree/eregex.vim')
 	call dein#add('Yggdroot/indentLine')
 	call dein#add('itchyny/lightline.vim')
+	call dein#add('alvan/vim-closetag',
+		\{'on_ft': ['html', 'xhtml', 'xml']})
 	call dein#add('mqudsi/vim-ripgrep')
 	" call dein#add('qpkorr/vim-bufkill')
 	call dein#add('sickill/vim-pasta',
@@ -152,6 +154,7 @@ autocmd BufRead,BufNewFile *.fish set filetype=fish
 autocmd BufRead,BufNewFile *.git/COMMIT_EDITMSG set filetype=gitcommit
 autocmd BufRead,BufNewFile *.ps1 set filetype=ps1
 autocmd BufRead,BufNewFile *.xaml set filetype=xml
+autocmd BufRead,BufNewFile *.csproj,*.targets set filetype=xml
 autocmd BufRead,BufNewFile */php-fpm*.conf set filetype=dosini
 autocmd BufRead,BufNewFile /usr/*include/c++/* set filetype=cpp
 autocmd BufRead,BufNewfile *.conf set filetype=conf

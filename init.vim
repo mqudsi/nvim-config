@@ -32,7 +32,8 @@ if dein#load_state('$HOME/.config/nvim/bundle/')
 
 	"core plugins that change the behavior of vim and how we use it globally
 	call dein#add('nixprime/cpsm',
-		\{'build' : 'sh -c "mkdir -p build && cd build && cmake -DPY3:BOOL=ON .. && make install"'})
+		\{'rev': 'mqudsi',
+		\'build' : 'sh -c "mkdir -p build && cd build && cmake -DPY3:BOOL=ON .. && make install"'})
 	call dein#add('kien/ctrlp.vim')
 	call dein#add('junegunn/fzf')
 	" call dein#add('haya14busa/incsearch.vim')

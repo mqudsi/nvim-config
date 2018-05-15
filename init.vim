@@ -289,6 +289,8 @@ nnoremap <silent> <esc> :noh<cr>:ccl<cr>:lclose<esc>
 "automatically save on buffer change
 set hidden
 set autowrite
+"reload file if it hasn't been changed since save but it's changed on disk
+set autoread
 
 "disable ex mode
 nmap Q <Nop>

@@ -316,7 +316,7 @@ imap <F1> <Esc>
 "allow copy-and-paste by mouse selection and ctrl+c/v
 vnoremap <C-c> "*y
 " nnoremap <C-v> "*gP
-inoremap <C-v> <Esc>"*pla
+inoremap <C-v> <Esc>"*pa
 " We don't want to disable ctrl+v in normal mode, but we do want
 " copy-and-paste - this is a good compromise. Ctrl+v twice will paste,
 " as the first <C-v> will enter visual mode, then the second will trigger the

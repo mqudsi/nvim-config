@@ -3,6 +3,7 @@ if &compatible
 	set nocompatible
 endif
 
+let s:nvimroot = '$HOME/.config/nvim'
 let g:python3_host_prog = "python3"
 
 " Options which must be forward declared
@@ -241,7 +242,7 @@ endfunction
 function! ConfigLanguageClient()
 	"next line is needed unless LC is loaded unconditionally
 	" :call dein#remote_plugins()
-	autocmd BufEnter *.c,*.cpp,*.js,*.rs,*.ts
+	autocmd BufEnter *.c,*.cpp,*.js,*.rs,*.ts,*.sh,*.py :call LanguageClientSupportedLanguage()
 endfunction
 
 call dein#set_hook('neomake', 'hook_source', function('ConfigNeomake'))
@@ -257,16 +258,24 @@ let g:deoplete#enable_smart_case = 1
 let g:deoplete#enable_refresh_always = 1
 let deoplete#tag#cache_limit_size = 5000000
 
+" LSP providers installation instructions:
+" * c/cpp: sudo apt-get install clang-tools-7 (under Debian/Ubuntu)
+" * rust: rustup component add rls-preview --toolchain=nightly
+" * python: sudo pip3 install python-language-server
+" * bash/js/ts/css/html/json: `yarn install` in config root
+
+let s:node = s:nvimroot + '/node_modules'
 let g:LanguageClient_serverCommands = {
+	\ 'bash': ['node', s:node + '/bash-language-server/bin/main.js', 'start'],
 	\ 'c': ['clangd', '-compile-commands-dir=$PWD/build'],
 	\ 'cpp': ['clangd', '-compile-commands-dir=$PWD/build'],
-    \ 'rust': ['rustup', 'run', 'nightly', 'rls'],
-	\ 'javascript': ['/usr/local/lib/node_modules/javascript-typescript-langserver/lib/language-server-stdio.js'],
-	\ 'typescript': ['/usr/local/lib/node_modules/javascript-typescript-langserver/lib/language-server-stdio.js'],
-	\ 'html': ['html-languageserver', '--stdio'],
-	\ 'json': ['json-languageserver', '--stdio'],
-	\ 'css': ['css-languageserver', '--stdio'],
+	\ 'css': ['node', s:node + '/vscode-css-languageserver-bin/cssServerMain.js', '--stdio'],
+	\ 'html': ['node', s:node + '/vscode-html-languageserver-bin/htmlServerMain.js', '--stdio'],
+	\ 'javascript': ['node', s:node + '/typescript-language-server/lib/cli.js', '--stdio'],
+	\ 'json': ['node', s:node + '/vscode-json-languageserver/bin/vscode-json-languageserver', '--stdio'],
 	\ 'python': ['pyls'],
+	\ 'typescript': ['node', s:node + '/typescript-language-server/lib/cli.js', '--stdio'],
+    \ 'rust': ['rustup', 'run', 'nightly', 'rls'],
 \ }
 
 set mouse=a

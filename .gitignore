@@ -5,3 +5,4 @@ bundle/cache_nvim
 bundle/.cache
 bundle/repos
 bundle/state_nvim.vim
+node_modules/

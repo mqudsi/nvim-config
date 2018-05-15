@@ -482,8 +482,18 @@ set shell=bash
 let g:indentLine_char = '┆'
 let g:indentLine_color_term = 239
 
-" Improve granularity of undo
-inoremap <CR> <C-G>u<CR>
+:silent inoremap <CR>=EnhancedEnter()
+
+function! EnhancedEnter()
+	if pumvisible()
+		" <Enter> with item selected causes that item to be inserted
+		feedkeys('\<C-y>')
+	else
+		" Improve granularity of undo
+		feedkeys("\<C-g>u\<CR>")
+	endif
+endfunction
+
 function! s:start_delete(key)
     let l:result = a:key
     if !s:deleting

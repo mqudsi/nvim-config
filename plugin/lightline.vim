@@ -75,7 +75,7 @@ let g:lightline.component_function = {
 " endfunction
 
 function! LightlineNeomake()
-    if !exists(':Neomake')
+    if !exists('g:enable_LightlineNeomake')
         return
     endif
 
@@ -128,11 +128,11 @@ function! SpinnerText()
 
     return s:spinner_states[s:spinner_index]
 endfunction
-
-augroup neomake_hooks
-    au!
-    autocmd User NeomakeJobInit :call StartSpinner()
-    " autocmd User NeomakeJobInit :echom "Build started"
-    autocmd User NeomakeFinished :call StopSpinner()
-    " autocmd User NeomakeFinished :echom "Build complete"
-augroup END
+"
+" augroup neomake_hooks
+"     au!
+"     autocmd User NeomakeJobInit :call StartSpinner()
+"     " autocmd User NeomakeJobInit :echom "Build started"
+"     autocmd User NeomakeFinished :call StopSpinner()
+"     " autocmd User NeomakeFinished :echom "Build complete"
+" augroup END

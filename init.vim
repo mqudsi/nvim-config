@@ -26,14 +26,9 @@ syntax off
 
 if dein#load_state('$HOME/.config/nvim/bundle/')
 	call dein#begin('$HOME/.config/nvim/bundle/')
-	if !has('nvim')
-	  call dein#add('roxma/nvim-yarp')
-	  call dein#add('roxma/vim-hug-neovim-rpc')
-	endif
 
 	" Add or remove your plugins here:
 	" call dein#add('flazz/vim-colorschemes')
-	" call dein#add('Haron-Prime/evening_vim')
 
 	"core plugins that change the behavior of vim and how we use it globally
 	call dein#add('nixprime/cpsm',
@@ -65,7 +60,8 @@ if dein#load_state('$HOME/.config/nvim/bundle/')
 	call dein#add('tpope/vim-surround')
 	call dein#add('andymass/vim-matchup')
 	call dein#add('neomake/neomake',
-		\{'on_cmd': 'Neomake'})
+		\{'lazy': 1,
+		\'on_cmd': 'Neomake'})
 	call dein#add('ludovicchabant/vim-gutentags',
 		\{'on_event': 'InsertEnter'})
 
@@ -77,33 +73,21 @@ if dein#load_state('$HOME/.config/nvim/bundle/')
 	call dein#add('tpope/vim-rhubarb')
 
 	"deoplete and deoplete core plugins
-	call dein#add('roxma/nvim-completion-manager')
-	" call dein#add('Shougo/deoplete.nvim',
-	"	\{'on_i': 1})
-	" call dein#add('Shougo/context_filetype.vim',
-	" 	\{'on_i': 1})
-	" call dein#add('Shougo/neopairs.vim',
-	" 	\{'on_i': 1})
+	call dein#add('Shougo/deoplete.nvim')
+	call dein#add('Shougo/context_filetype.vim',
+		\{'on_event': 'InsertEnter'})
+	"requires cmdheight=2 to show function signature in cmdline, or else noshowmode
 	" call dein#add('Shougo/echodoc.vim',
 	" 	\{'on_i': 1})
 
 	"deoplete sources
 	call dein#add('autozimu/LanguageClient-neovim',
-		\{'rev': 'next', 'build': 'bash ./install.sh',
-		\'on_ft': ['c', 'cpp', 'js', 'rust', 'typescript']})
-	" call dein#add('zchee/deoplete-clang',
-	"	\{'on_event': 'InsertEnter', 'on_if': "index(['c', 'cpp'], &ft) != -1"})
-	" call dein#add('Chilledheart/vim-clangd',
-	call dein#add('roxma/ncm-clang',
-		\{'on_event': 'InsertEnter', 'on_if': "index(['c', 'cpp'], &ft) != -1"})
+		\{'rev': 'next', 'build': 'bash ./install.sh'})
+		" \'on_ft': ['c', 'cpp', 'js', 'rust', 'typescript']})
 	call dein#add('othree/csscomplete.vim',
 		\{'on_event': 'InsertEnter', 'on_if': "index(['css'], &ft) != -1"})
-	call dein#add('Shougo/neco-vim',
-		\{'on_event': 'InsertEnter', 'on_if': "index(['vim'], &ft) != -1"})
 	call dein#add('ponko2/deoplete-fish',
 		\{'on_event': 'InsertEnter', 'on_if': "index(['fish'], &ft) != -1"})
-	call dein#add('Shougo/neco-syntax',
-		\{'on_i': 1})
 
 	"syntax plugins, sorted by filetype
 	call dein#add('ARM9/arm-syntax-vim.git')
@@ -184,11 +168,22 @@ endif
 
 "End dein Scripts-------------------------
 
+function! ConfigDeoplete()
+    set shortmess +=c
+	call deoplete#custom#option('auto_complete_delay', 20)
+	call deoplete#custom#set('racer', 'rank', 99999)
+    call deoplete#custom#set('clang', 'rank', 99999)
+    autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
+    "enable tabbing through autocomplete results only when the popup is visible
+    " inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
+endfunction
+
 " Removes trailing spaces
 function! Trim(path)
     return substitute(a:path, "^[ \t\r\n]*\\|[ \t\r\n]*\$", "", "g")
 endfunction
 
+" Finds the first valid path of the possible paths array passed in as `options`
 function! PickPath(options)
     for p in a:options
         let path = glob(p)
@@ -199,6 +194,7 @@ function! PickPath(options)
 endfunction
 
 function! ConfigNeomake()
+	let g:neomake_open_list = 1
 	let g:neomake_enabled_makers = ['makeprg']
 	let g:neomake_makeprg_maker = {
 		\ 'exe': &makeprg,
@@ -213,35 +209,53 @@ function! ConfigNeomake()
 endfunction
 
 function! AfterNeomake()
-	:echoerr "neomake loaded"
 	"F7 to build project (like Visual Studio)
 	nnoremap <F7> :w <CR> :Neomake! <CR>
 	inoremap <F7> <Esc> :w <CR> :Neomake! <CR>
 	"F8 to build/lint single file
 	nnoremap <F8> :w <CR> :Neomake <CR>
 	inoremap <F8> <Esc> :w <CR> :Neomake <CR>
+
+	"see plugin/lightline.vim
+	let g:enable_LightlineNeomake = 1
 endfunction
 
-function! ConfigLanguageClient()
-	" :call dein#remote_plugins()
+function! LanguageClientSupportedLanguage()
+	if exists(b:lcStarted)
+		return
+	endif
+
+	:silent! LanguageClientStart
+	let b:lcStarted = 1
+
 	nmap <silent> K :call LanguageClient_textDocument_hover()<CR>
 	silent! nunmap gd
 	nmap <silent> gd :call LanguageClient_textDocument_definition()<CR>
-	silent! nunmap <F12>
-	nmap <silent> <F12> :call LanguageClient_textDocument_definition()<CR>
 	nmap <silent> <F2> :call LanguageClient_textDocument_rename()<CR>
 	nmap <silent> <M-F> :call LanguageClient_textDocument_references()<CR>
 	" See https://vi.stackexchange.com/a/4291/13499
 	" nmap <silent> <C-R> :call LanguageClient_workspace_symbol()<CR>
-	autocmd BufEnter *.c,*.cpp,*.js,*.rs,*.ts :silent! LanguageClientStart
 endfunction
 
-let g:neomake_open_list = 1
-" call dein#set_hook('neomake', 'hook_source', function('ConfigNeomake'))
-" call dein#set_hook('neomake', 'hook_post_source', function('AfterNeomake'))
+function! ConfigLanguageClient()
+	"next line is needed unless LC is loaded unconditionally
+	" :call dein#remote_plugins()
+	autocmd BufEnter *.c,*.cpp,*.js,*.rs,*.ts
+endfunction
+
+call dein#set_hook('neomake', 'hook_source', function('ConfigNeomake'))
+call dein#set_hook('neomake', 'hook_post_source', function('AfterNeomake'))
+call dein#set_hook('deoplete.nvim', 'hook_source', function('ConfigDeoplete'))
 call dein#set_hook('LanguageClient-neovim', 'hook_source', function('ConfigLanguageClient'))
 
-let $RUST_SRC_PATH = glob("$HOME/.rustup/toolchains/nightly*/lib/rustlib/src/rust/src/")
+let g:deoplete#ignore_sources =  {'_': ['omni', 'omnifunc']}
+let g:deoplete#enable_at_startup = 1
+" let g:deoplete#enable_ignore_case = 1
+let g:deoplete#enable_smart_case = 1
+" let g:deoplete#enable_camel_case = 1
+let g:deoplete#enable_refresh_always = 1
+let deoplete#tag#cache_limit_size = 5000000
+
 let g:LanguageClient_serverCommands = {
 	\ 'c': ['clangd', '-compile-commands-dir=$PWD/build'],
 	\ 'cpp': ['clangd', '-compile-commands-dir=$PWD/build'],
@@ -252,8 +266,6 @@ let g:LanguageClient_serverCommands = {
 	\ 'json': ['json-languageserver', '--stdio'],
 	\ 'css': ['css-languageserver', '--stdio'],
 \ }
-
-" Automatically start language servers.
 
 set mouse=a
 let $NVIM_TUI_ENABLE_CURSOR_SHAPE=1
@@ -304,7 +316,7 @@ imap <F1> <Esc>
 "allow copy-and-paste by mouse selection and ctrl+c/v
 vnoremap <C-c> "*y
 " nnoremap <C-v> "*gP
-inoremap <C-v> <Esc>"*pi
+inoremap <C-v> <Esc>"*pla
 " We don't want to disable ctrl+v in normal mode, but we do want
 " copy-and-paste - this is a good compromise. Ctrl+v twice will paste,
 " as the first <C-v> will enter visual mode, then the second will trigger the
@@ -323,16 +335,19 @@ vnoremap <silent> # :<C-U>
   \escape(@", '?\.*$^~['), '\_s\+', '\\_s\\+', 'g')<CR><CR>
   \gV:call setreg('"', old_reg, old_regtype)<CR>
 
-" From https://stackoverflow.com/a/37201230/17027
 " Includes workaround for cursor jumping around on save
+" From https://stackoverflow.com/a/37201230/17027
 function! <SID>StripTrailingWhitespaces()
+	if index([], &ft) != -1
+		return
+	endif
+
     let l = line(".")
     let c = col(".")
     %s/\s\+$//e
     call cursor(l, c)
 endfun
 
-" autocmd FileType c,cpp,java,php,rust,javascript,vim,fish autocmd BufWritePre :call <SID>StripTrailingWhitespaces()
 autocmd BufWritePre * :call <SID>StripTrailingWhitespaces()
 
 "F12 to go to definition (like Visual Studio)
@@ -386,7 +401,7 @@ autocmd BufRead *.rs :setlocal tags=./tags;/,$RUST_SRC_PATH/tags
 autocmd FileType vim let b:autoformat_autoindent=0
 
 cabbrev <expr> autoformat 'Autoformat'
-" cabbrev <expr> neomake 'Neomake'
+cabbrev <expr> neomake 'Neomake'
 
 " ripgrep stuff
 nmap R :Rg<CR>
@@ -470,7 +485,7 @@ autocmd BufEnter * sign define dummy
 autocmd BufEnter * execute 'sign place 9999 line=1 name=dummy buffer=' . bufnr('')
 
 " Reduce vim updatetime to allow gitgutter and others to reflect things faster
-set updatetime=100
+set updatetime=100 "ms
 
 " Remove unneeded spam from completions status messages
 set shortmess +=c

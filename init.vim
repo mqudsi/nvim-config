@@ -261,16 +261,17 @@ let deoplete#tag#cache_limit_size = 5000000
 
 let s:node = s:nvimroot . '/node_modules'
 let g:LanguageClient_serverCommands = {
-	\ 'bash': ['node', s:node . '/bash-language-server/bin/main.js', 'start'],
 	\ 'c': ['clangd', '-compile-commands-dir=$PWD/build'],
 	\ 'cpp': ['clangd', '-compile-commands-dir=$PWD/build'],
 	\ 'css': ['node', s:node . '/vscode-css-languageserver-bin/cssServerMain.js', '--stdio'],
 	\ 'html': ['node', s:node . '/vscode-html-languageserver-bin/htmlServerMain.js', '--stdio'],
-	\ 'javascript': ['node', s:node . '/typescript-language-server/lib/cli.js', '--stdio'],
 	\ 'json': ['node', s:node . '/vscode-json-languageserver/bin/vscode-json-languageserver', '--stdio'],
 	\ 'python': ['pyls'],
-	\ 'typescript': ['node', s:node . '/typescript-language-server/lib/cli.js', '--stdio'],
-    \ 'rust': ['rustup', 'run', 'nightly', 'rls'],
+	\ 'javascript': ['node', s:node . '/typescript-language-server/lib/cli.js', '--stdio'],
+	\ 'typescript': ['node', s:node . '/typescript-language-server/lib/cli.js'],
+	\ 'rust': ['rustup', 'run', 'nightly', 'rls'],
+	\ 'bash': ['node', s:node . '/bash-language-server/bin/main.js', 'start'],
+	\ 'sh': ['node', s:node . '/bash-language-server/bin/main.js', 'start'],
 \ }
 
 set mouse=a

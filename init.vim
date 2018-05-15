@@ -266,6 +266,7 @@ let g:LanguageClient_serverCommands = {
 	\ 'html': ['html-languageserver', '--stdio'],
 	\ 'json': ['json-languageserver', '--stdio'],
 	\ 'css': ['css-languageserver', '--stdio'],
+	\ 'python': ['pyls'],
 \ }
 
 set mouse=a

@@ -3,10 +3,12 @@ if &compatible
 	set nocompatible
 endif
 
-let s:nvimroot = '$HOME/.config/nvim'
+let s:nvimroot = $HOME . '/.config/nvim'
 let g:python3_host_prog = "python3"
 
 " Options which must be forward declared
+
+let g:LanguageClient_loggingLevel = 'DEBUG'
 let g:LanguageClient_autoStart = 1
 let g:LanguageClient_diagnosticsList = 'Location' " prevent it from overwriting qfix when loading a file via qfix
 let g:LanguageClient_selectionUI = 'fzf'
@@ -228,7 +230,6 @@ function! LanguageClientSupportedLanguage()
 		return
 	endif
 
-	call LanguageClient_setLoggingLevel('DEBUG')
 	LanguageClientStart
 	let b:lcStarted = 1
 
@@ -259,19 +260,19 @@ let deoplete#tag#cache_limit_size = 5000000
 " * python: sudo pip3 install python-language-server
 " * bash/js/ts/css/html/json: `yarn install` in config root
 
-let s:node = s:nvimroot . '/node_modules'
+let s:node = s:nvimroot . '/node_modules/.bin/'
 let g:LanguageClient_serverCommands = {
 	\ 'c': ['clangd', '-compile-commands-dir=$PWD/build'],
 	\ 'cpp': ['clangd', '-compile-commands-dir=$PWD/build'],
-	\ 'css': ['node', s:node . '/vscode-css-languageserver-bin/cssServerMain.js', '--stdio'],
-	\ 'html': ['node', s:node . '/vscode-html-languageserver-bin/htmlServerMain.js', '--stdio'],
-	\ 'json': ['node', s:node . '/vscode-json-languageserver/bin/vscode-json-languageserver', '--stdio'],
-	\ 'python': ['pyls'],
-	\ 'javascript': ['node', s:node . '/typescript-language-server/lib/cli.js', '--stdio'],
-	\ 'typescript': ['node', s:node . '/typescript-language-server/lib/cli.js'],
 	\ 'rust': ['rustup', 'run', 'nightly', 'rls'],
-	\ 'bash': ['node', s:node . '/bash-language-server/bin/main.js', 'start'],
-	\ 'sh': ['node', s:node . '/bash-language-server/bin/main.js', 'start'],
+	\ 'python': ['pyls'],
+	\ 'css': [s:node . 'css-languageserver', '--stdio'],
+	\ 'html': [s:node . 'html-languageserver', '--stdio'],
+	\ 'json': [s:node . 'vscode-json-languageserver', '--stdio'],
+	\ 'javascript': [s:node . 'typescript-language-server', '--stdio'],
+	\ 'typescript': [s:node . 'typescript-language-server', '--stdio'],
+	\ 'bash': [s:node . 'bash-language-server', 'start'],
+	\ 'sh': [s:node . 'bash-language-server', 'start'],
 \ }
 
 set mouse=a

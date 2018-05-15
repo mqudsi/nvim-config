@@ -222,12 +222,14 @@ function! AfterNeomake()
 	let g:enable_LightlineNeomake = 1
 endfunction
 
+autocmd BufEnter *.c,*.cpp,*.js,*.rs,*.ts,*.sh,*.py :call LanguageClientSupportedLanguage()
 function! LanguageClientSupportedLanguage()
-	if exists(b:lcStarted)
+	if exists('b:lcStarted')
 		return
 	endif
 
-	:silent! LanguageClientStart
+	call LanguageClient_setLoggingLevel('DEBUG')
+	LanguageClientStart
 	let b:lcStarted = 1
 
 	nmap <silent> K :call LanguageClient_textDocument_hover()<CR>
@@ -239,16 +241,9 @@ function! LanguageClientSupportedLanguage()
 	" nmap <silent> <C-R> :call LanguageClient_workspace_symbol()<CR>
 endfunction
 
-function! ConfigLanguageClient()
-	"next line is needed unless LC is loaded unconditionally
-	" :call dein#remote_plugins()
-	autocmd BufEnter *.c,*.cpp,*.js,*.rs,*.ts,*.sh,*.py :call LanguageClientSupportedLanguage()
-endfunction
-
 call dein#set_hook('neomake', 'hook_source', function('ConfigNeomake'))
 call dein#set_hook('neomake', 'hook_post_source', function('AfterNeomake'))
 call dein#set_hook('deoplete.nvim', 'hook_source', function('ConfigDeoplete'))
-call dein#set_hook('LanguageClient-neovim', 'hook_source', function('ConfigLanguageClient'))
 
 let g:deoplete#ignore_sources =  {'_': ['omni', 'omnifunc']}
 let g:deoplete#enable_at_startup = 1
@@ -264,17 +259,17 @@ let deoplete#tag#cache_limit_size = 5000000
 " * python: sudo pip3 install python-language-server
 " * bash/js/ts/css/html/json: `yarn install` in config root
 
-let s:node = s:nvimroot + '/node_modules'
+let s:node = s:nvimroot . '/node_modules'
 let g:LanguageClient_serverCommands = {
-	\ 'bash': ['node', s:node + '/bash-language-server/bin/main.js', 'start'],
+	\ 'bash': ['node', s:node . '/bash-language-server/bin/main.js', 'start'],
 	\ 'c': ['clangd', '-compile-commands-dir=$PWD/build'],
 	\ 'cpp': ['clangd', '-compile-commands-dir=$PWD/build'],
-	\ 'css': ['node', s:node + '/vscode-css-languageserver-bin/cssServerMain.js', '--stdio'],
-	\ 'html': ['node', s:node + '/vscode-html-languageserver-bin/htmlServerMain.js', '--stdio'],
-	\ 'javascript': ['node', s:node + '/typescript-language-server/lib/cli.js', '--stdio'],
-	\ 'json': ['node', s:node + '/vscode-json-languageserver/bin/vscode-json-languageserver', '--stdio'],
+	\ 'css': ['node', s:node . '/vscode-css-languageserver-bin/cssServerMain.js', '--stdio'],
+	\ 'html': ['node', s:node . '/vscode-html-languageserver-bin/htmlServerMain.js', '--stdio'],
+	\ 'javascript': ['node', s:node . '/typescript-language-server/lib/cli.js', '--stdio'],
+	\ 'json': ['node', s:node . '/vscode-json-languageserver/bin/vscode-json-languageserver', '--stdio'],
 	\ 'python': ['pyls'],
-	\ 'typescript': ['node', s:node + '/typescript-language-server/lib/cli.js', '--stdio'],
+	\ 'typescript': ['node', s:node . '/typescript-language-server/lib/cli.js', '--stdio'],
     \ 'rust': ['rustup', 'run', 'nightly', 'rls'],
 \ }
 

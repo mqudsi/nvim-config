@@ -13,6 +13,7 @@ let g:LanguageClient_autoStart = 0
 let g:LanguageClient_diagnosticsList = 'Location' " prevent it from overwriting qfix when loading a file via qfix
 let g:LanguageClient_selectionUI = 'fzf'
 let g:matchup_matchparen_deferred = 1
+let g:polyglot_disabled = ['latex']
 
 " disable the following (neo)vim plugins
 let g:loaded_python_provider = 1
@@ -62,7 +63,8 @@ if dein#load_state('$HOME/.config/nvim/bundle/')
 		\{'on_ft': ['vim']}) "handle only languages with PITA syntax
 	call dein#add('sheerun/vim-polyglot')
 	call dein#add('tpope/vim-surround')
-	call dein#add('andymass/vim-matchup')
+	" disable vim-matchup for latex
+	" call dein#add('andymass/vim-matchup')
 	call dein#add('neomake/neomake',
 		\{'lazy': 1,
 		\'on_cmd': 'Neomake'})
@@ -128,8 +130,8 @@ if dein#load_state('$HOME/.config/nvim/bundle/')
 		\{'on_ft': ['typescript']})
 	call dein#add('Quramy/tsuquyomi',
 		\{'on_ft': ['typescript']})
-	call dein#add('lervag/vimtex',
-		\{'on_ft': ['tex']})
+	" call dein#add('lervag/vimtex',
+	" 	\{'on_ft': ['tex']})
 
 	" Required:
 	call dein#end()

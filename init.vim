@@ -177,8 +177,8 @@ endif
 function! ConfigDeoplete()
     set shortmess +=c
 	call deoplete#custom#option('auto_complete_delay', 20)
-	call deoplete#custom#set('racer', 'rank', 99999)
-    call deoplete#custom#set('clang', 'rank', 99999)
+	call deoplete#custom#source('_', 'matchers', ['matcher_cpsm'])
+	call deoplete#custom#source('_', 'sorters', []) "sorting already done by cpsm, don't resort
     autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
     "enable tabbing through autocomplete results only when the popup is visible
     " inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"

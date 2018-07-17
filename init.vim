@@ -32,7 +32,8 @@ if dein#load_state('$HOME/.config/nvim/bundle/')
 	call dein#begin('$HOME/.config/nvim/bundle/')
 
 	" Add or remove your plugins here:
-	" call dein#add('flazz/vim-colorschemes')
+	call dein#add('flazz/vim-colorschemes')
+	call dein#add('danilo-augusto/vim-afterglow')
 
 	"core plugins that change the behavior of vim and how we use it globally
 	call dein#add('nixprime/cpsm',

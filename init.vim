@@ -9,7 +9,7 @@ let g:python3_host_prog = "python3"
 " Options which must be forward declared
 
 let g:LanguageClient_loggingLevel = 'DEBUG'
-let g:LanguageClient_autoStart = 1
+let g:LanguageClient_autoStart = 0
 let g:LanguageClient_diagnosticsList = 'Location' " prevent it from overwriting qfix when loading a file via qfix
 let g:LanguageClient_selectionUI = 'fzf'
 let g:matchup_matchparen_deferred = 1
@@ -226,13 +226,6 @@ endfunction
 
 autocmd BufEnter *.c,*.cpp,*.js,*.rs,*.ts,*.sh,*.py :call LanguageClientSupportedLanguage()
 function! LanguageClientSupportedLanguage()
-	if exists('b:lcStarted')
-		return
-	endif
-
-	LanguageClientStart
-	let b:lcStarted = 1
-
 	nmap <silent> K :call LanguageClient_textDocument_hover()<CR>
 	silent! nunmap gd
 	nmap <silent> gd :call LanguageClient_textDocument_definition()<CR>
@@ -240,6 +233,17 @@ function! LanguageClientSupportedLanguage()
 	nmap <silent> <M-F> :call LanguageClient_textDocument_references()<CR>
 	" See https://vi.stackexchange.com/a/4291/13499
 	" nmap <silent> <C-R> :call LanguageClient_workspace_symbol()<CR>
+
+	"ignore buffer source when we have valid completions
+	call deoplete#custom#option('ignore_sources', { &ft: ['buffer', 'member', 'around', 'omni', 'omnifunc'] })
+
+	"now start LanguageClient only if it wasn't already started
+	if exists('b:lcStarted')
+		return
+	endif
+
+	silent! LanguageClientStart
+	let b:lcStarted = 1
 endfunction
 
 call dein#set_hook('neomake', 'hook_source', function('ConfigNeomake'))

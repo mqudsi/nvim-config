@@ -421,7 +421,7 @@ cabbrev <expr> autoformat 'Autoformat'
 cabbrev <expr> neomake 'Neomake'
 
 " ripgrep stuff
-nmap R :Rg<CR>
+nmap <m-r> :Rg<CR>
 cabbrev <expr> rg 'Rg'
 let g:default_rg_ignore = '-g "!*.{o,out,po}" -g "!tags" -g "!target" -g "!*~"'
 " let g:rg_command = "rg " . g:default_rg_ignore . ' --vimgrep -S '

@@ -552,6 +552,7 @@ augroup END
 inoremap <expr> <BS> <SID>start_delete("\<BS>")
 inoremap <expr> <C-W> <SID>start_delete("\<C-W>")
 inoremap <expr> <C-U> <SID>start_delete("\<C-U>")
+inoremap <expr> <M-C-H> <SID>start_delete("\<C-W>")
 
 " After everything else
 filetype plugin indent on

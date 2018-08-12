@@ -8,9 +8,10 @@ let g:python3_host_prog = "python3"
 
 " Options which must be forward declared
 
-let g:LanguageClient_loggingLevel = 'DEBUG'
 let g:LanguageClient_autoStart = 0
 let g:LanguageClient_diagnosticsList = 'Location' " prevent it from overwriting qfix when loading a file via qfix
+let g:LanguageClient_hasSnippetSupport = 0
+let g:LanguageClient_loggingLevel = 'DEBUG'
 let g:LanguageClient_selectionUI = 'fzf'
 let g:matchup_matchparen_deferred = 1
 let g:polyglot_disabled = ['latex']
@@ -180,6 +181,7 @@ function! ConfigDeoplete()
 	call deoplete#custom#option('auto_complete_delay', 20)
 	call deoplete#custom#source('_', 'matchers', ['matcher_cpsm'])
 	call deoplete#custom#source('_', 'sorters', []) "sorting already done by cpsm, don't resort
+
     autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
     "enable tabbing through autocomplete results only when the popup is visible
     " inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
@@ -238,7 +240,7 @@ function! LanguageClientSupportedLanguage()
 	" nmap <silent> <C-R> :call LanguageClient_workspace_symbol()<CR>
 
 	"ignore buffer source when we have valid completions
-	call deoplete#custom#option('ignore_sources', { &ft: ['buffer', 'member', 'around', 'omni', 'omnifunc'] })
+	call deoplete#custom#option('ignore_sources', { &ft: ['buffer', 'member', 'around', 'omni', 'omnifunc', 'tags', 'tag'] })
 
 	"now start LanguageClient only if it wasn't already started
 	if exists('b:lcStarted')
@@ -253,13 +255,16 @@ call dein#set_hook('neomake', 'hook_source', function('ConfigNeomake'))
 call dein#set_hook('neomake', 'hook_post_source', function('AfterNeomake'))
 call dein#set_hook('deoplete.nvim', 'hook_source', function('ConfigDeoplete'))
 
-let g:deoplete#ignore_sources =  {'_': ['omni', 'omnifunc']}
-let g:deoplete#enable_at_startup = 1
-" let g:deoplete#enable_ignore_case = 1
-let g:deoplete#enable_smart_case = 1
-" let g:deoplete#enable_camel_case = 1
-let g:deoplete#enable_refresh_always = 1
-let deoplete#tag#cache_limit_size = 5000000
+" deoplete configuration
+let g:deoplete#enable_at_startup = 0
+call deoplete#custom#option({
+	\'auto_complete_delay': 100,
+	\'ignore_sources': { '_': ['omni', 'omnifunc', 'snippet'] },
+	\'camel_case': 1,
+	\'max_list': 250,
+	\'num_processes': 8
+\})
+autocmd InsertEnter * call deoplete#enable()
 
 " LSP providers installation instructions:
 " * c/cpp: sudo apt-get install clang-tools-7 (under Debian/Ubuntu)

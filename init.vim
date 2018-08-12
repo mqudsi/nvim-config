@@ -496,6 +496,7 @@ vmap <RightMouse> "*y
 " of colorscheme settings. This works around all background repaint bugs in
 " vim and neovim.
 " autocmd colorscheme * :highlight Normal ctermbg=0
+" autocmd colorscheme * :hi Normal guibg=#2E2E2E
 
 set termguicolors
 " colo evening
@@ -519,9 +520,6 @@ set updatetime=100 "ms
 
 " Remove unneeded spam from completions status messages
 set shortmess +=c
-
-" Fish is our primary shell, but this makes things predictable:
-set shell=bash
 
 " IndentLine configuration
 let g:indentLine_char = '┆'

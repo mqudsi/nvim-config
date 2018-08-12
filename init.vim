@@ -40,7 +40,7 @@ if dein#load_state('$HOME/.config/nvim/bundle/')
 	call dein#add('nixprime/cpsm',
 		\{'rev': 'mqudsi',
 		\'build' : 'sh -c "mkdir -p build && cd build && cmake -DPY3:BOOL=ON .. && make install"'})
-	call dein#add('kien/ctrlp.vim')
+	" call dein#add('kien/ctrlp.vim')
 	call dein#add('junegunn/fzf')
 	" call dein#add('haya14busa/incsearch.vim')
 	" call dein#add('othree/eregex.vim')
@@ -563,6 +563,9 @@ inoremap <expr> <BS> <SID>start_delete("\<BS>")
 inoremap <expr> <C-W> <SID>start_delete("\<C-W>")
 inoremap <expr> <C-U> <SID>start_delete("\<C-U>")
 inoremap <expr> <M-C-H> <SID>start_delete("\<C-W>")
+
+" Use our own ctrl+p implementation built around FZF and ripgrep
+nnoremap <C-p> :call ctrlp#CtrlP()<CR>
 
 " After everything else
 filetype plugin indent on

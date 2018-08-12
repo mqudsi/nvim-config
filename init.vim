@@ -299,9 +299,11 @@ set tabstop=4
 set shiftwidth=4
 set smarttab
 set noexpandtab
-set autoindent
-set smartindent
+" set autoindent
 set number
+set cindent
+set cinkeys-=0#
+set indentkeys-=0#
 
 :map [H <Home>
 :map [5~ <C-B> "page up
@@ -330,6 +332,10 @@ set autoread
 nmap Q <Nop>
 nmap q: <Nop>
 
+"typing quickly often results in :w being typed in as :W
+"fortunately, :W is not a default command for anything
+command W :write
+
 "disable F1
 nmap <F1> <Nop>
 vmap <F1> <Nop>
@@ -344,6 +350,9 @@ inoremap <C-v> <Esc>"*pa
 " as the first <C-v> will enter visual mode, then the second will trigger the
 " paste.
 vnoremap <C-v> "*P
+
+" And support using `gp` to select pasted text
+nnoremap <expr> gp '`[' . strpart(getregtype(), 0, 1) . '`]'
 
 " Search for visually selected text, forwards or backwards.
 vnoremap <silent> * :<C-U>

@@ -6,10 +6,10 @@
   "author": "Mahmoud Al-Qudsi <mqudsi@neosmart.net>",
   "license": "MIT",
   "dependencies": {
-    "bash-language-server": "latest",
-    "typescript-language-server": "latest",
-    "vscode-css-languageserver-bin": "latest",
-    "vscode-html-languageserver-bin": "latest",
+    "bash-language-server": "^1.5.1",
+    "typescript-language-server": "^0.2.0",
+    "vscode-css-languageserver-bin": "^1.4.0",
+    "vscode-html-languageserver-bin": "^1.4.0",
     "vscode-json-languageserver": "latest"
   }
 }

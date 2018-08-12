@@ -432,7 +432,7 @@ inoremap <silent><C-c> <C-c>:nohl<bar>set nolz<CR>
 autocmd BufRead *.rs :setlocal tags=./tags;/,$RUST_SRC_PATH/tags
 " these have bad indentfiles by default, so no autoformatting here
 " autocmd FileType vim,tex let b:autoformat_autoindent=0
-autocmd FileType vim let b:autoformat_autoindent=0
+autocmd FileType html,vim let b:autoformat_autoindent=0
 
 cabbrev <expr> autoformat 'Autoformat'
 cabbrev <expr> neomake 'Neomake'

@@ -486,10 +486,6 @@ nnoremap <silent> <End> g<End>
 inoremap <silent> <Home> <c-o>g<Home>
 inoremap <silent> <End> <c-o>g<End>
 
-" keep selections after realign
-vmap < <gv
-vmap > >gv
-
 " copy text on right-click in visual mode
 vmap <RightMouse> "*y
 

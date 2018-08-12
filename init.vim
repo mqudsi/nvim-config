@@ -61,8 +61,8 @@ if dein#load_state('$HOME/.config/nvim/bundle/')
 		\{'on_cmd': 'A'})
 	call dein#add('Chiel92/vim-autoformat',
 		\{'on_cmd': 'Autoformat'})
-	call dein#add('tpope/vim-endwise.git',
-		\{'on_ft': ['vim']}) "handle only languages with PITA syntax
+	call dein#add('tpope/vim-endwise') "only handles languages with PITA syntax
+	call dein#add('mqudsi/vim-closetag') "only handles (x)html
 	call dein#add('sheerun/vim-polyglot')
 	call dein#add('tpope/vim-surround')
 	" disable vim-matchup for latex
@@ -118,6 +118,8 @@ if dein#load_state('$HOME/.config/nvim/bundle/')
 		\{'on_ft': ['ninja']})
 	call dein#add('tbastos/vim-lua',
 		\{'on_ft': ['lua']})
+	call dein#add('jvirtanen/vim-octave',
+		\{'on_ft': ['matlab', 'm']})
 	call dein#add('StanAngeloff/php.vim',
 		\{'on_ft': ['php']})
 	call dein#add('PProvost/vim-ps1',

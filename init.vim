@@ -14,7 +14,7 @@ let g:LanguageClient_hasSnippetSupport = 0
 let g:LanguageClient_loggingLevel = 'DEBUG'
 let g:LanguageClient_selectionUI = 'fzf'
 let g:matchup_matchparen_deferred = 1
-let g:polyglot_disabled = ['latex']
+let g:polyglot_disabled = ['latex', 'tex']
 
 " disable the following (neo)vim plugins
 let g:loaded_python_provider = 1

@@ -305,9 +305,9 @@ set cindent
 set cinkeys-=0#
 set indentkeys-=0#
 
-:map [H <Home>
-:map [5~ <C-B> "page up
-:map [6~ <C-F> "page down
+:map <Esc>[H <Home>
+:map <Esc>[5~ <C-B> "page up
+:map <Esc>[6~ <C-F> "page down
 :map <M-left> :normal <Home><CR>
 :map <M-right> :normal <End><CR>
 

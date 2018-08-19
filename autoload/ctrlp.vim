@@ -20,11 +20,14 @@ let g:fzf_colors =
 "combines cwd files and open buffers
 function! ctrlp#CtrlP()
 	let b:search_path = ""
-	if exists("*RgRoot")
-		let b:search_path = RgRoot()
+	if exists(":RgRoot")
+        redir => b:search_path
+		:RgRoot
+        redir END
 	else
 		let b:search_path = expand("%:p:h")
 	endif
+
 	let list1 = split(system($FZF_DEFAULT_COMMAND . ' ' . b:search_path), "\n")
 	let list1 = map(list1, 'substitute(v:val, escape(getcwd(), "\/"), ".", "")')
 	let list2 = map(range(1, bufnr('$')),'bufname(v:val)')

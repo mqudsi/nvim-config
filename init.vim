@@ -524,6 +524,12 @@ let g:indentLine_color_term = 239
 
 :silent inoremap <CR>=EnhancedEnter()
 
+
+" Set default maximum line lengths for various types
+autocmd FileType rust setlocal tw=100
+autocmd FileType gitcommit setlocal tw=80
+autocmd FileType markdown setlocal tw=100
+
 function! EnhancedEnter()
 	if pumvisible()
 		" <Enter> with item selected causes that item to be inserted

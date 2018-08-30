@@ -127,8 +127,7 @@ if dein#load_state('$HOME/.config/nvim/bundle/')
 		\{'on_ft': ['toml']})
 	call dein#add('HerringtonDarkholme/yats.vim',
 		\{'on_ft': ['typescript']})
-	call dein#add('mhartington/nvim-typescript',
-		\{'on_ft': ['typescript']})
+	call dein#add('mhartington/nvim-typescript')
 	call dein#add('Quramy/tsuquyomi',
 		\{'on_ft': ['typescript']})
 	" call dein#add('lervag/vimtex',

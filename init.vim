@@ -166,6 +166,7 @@ autocmd FileType ninja set mp=ninja
 autocmd FileType nginx setlocal mp=sudo\ nginx\ -t\ -c\ %
 autocmd FileType rust compiler cargo
 autocmd FileType typescript setlocal mp=tsc
+autocmd FileType markdown setlocal mp=pandoc\ %:~:.\ -o\ %:~:.:r.pdf\;\ open\ %:~:.:r.pdf
 
 " If you want to install not installed plugins on startup.
 if dein#check_install()

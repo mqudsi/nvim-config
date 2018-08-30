@@ -331,7 +331,7 @@ nmap q: <Nop>
 
 "typing quickly often results in :w being typed in as :W
 "fortunately, :W is not a default command for anything
-command W :write
+command! W :write
 
 "disable F1
 nmap <F1> <Nop>

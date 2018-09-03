@@ -567,6 +567,9 @@ inoremap <expr> <C-W> <SID>start_delete("\<C-W>")
 inoremap <expr> <C-U> <SID>start_delete("\<C-U>")
 inoremap <expr> <M-C-H> <SID>start_delete("\<C-W>")
 
+" Explicitly fish as the shell
+set shell=fish
+
 " Use our own ctrl+p implementation built around FZF and ripgrep
 nnoremap <C-p> :call ctrlp#CtrlP()<CR>
 

@@ -9,7 +9,7 @@ if has("wsl")
 	\	'+': 'noerr win32yank.exe -o --lf',
 	\	'*': 'noerr win32yank.exe -o --lf',
 	\	},
-	\ 'cache_enabled': 1,
+	\ 'cache_enabled': 0,
 	\ }
 endif
 

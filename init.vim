@@ -531,6 +531,7 @@ autocmd FileType rust setlocal tw=100
 autocmd FileType gitcommit setlocal tw=80
 autocmd FileType markdown setlocal tw=100
 
+" Begin improve undo granularity/smart undo
 function! EnhancedEnter()
 	if pumvisible()
 		" <Enter> with item selected causes that item to be inserted
@@ -567,6 +568,10 @@ inoremap <expr> <BS> <SID>start_delete("\<BS>")
 inoremap <expr> <C-W> <SID>start_delete("\<C-W>")
 inoremap <expr> <C-U> <SID>start_delete("\<C-U>")
 inoremap <expr> <M-C-H> <SID>start_delete("\<C-W>")
+" End improve undo granularity
+
+" alt-bkspc remove last word
+inoremap <M-BS> <C-W>
 
 " Explicitly fish as the shell
 set shell=fish

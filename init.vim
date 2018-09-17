@@ -52,6 +52,7 @@ if dein#load_state('$HOME/.config/nvim/bundle/')
 	call dein#add('tomtom/tcomment_vim')
 	call dein#add('tpope/vim-repeat',
 		\{'on_event': 'InsertEnter'})
+    call dein#add('machakann/vim-highlightedyank')
 
 	"general programming-related plugins
 	call dein#add('vim-scripts/a.vim',
@@ -495,6 +496,11 @@ vmap <RightMouse> "*y
 " vim and neovim.
 " autocmd colorscheme * :highlight Normal ctermbg=0
 " autocmd colorscheme * :hi Normal guibg=#2E2E2E
+
+" The vim-highlightedyank plugin flashes the text that was yanked as a result
+" of an operation, but the default duration of the selection time is way too
+" high that it almost seems persistent.
+let g:highlightedyank_highlight_duration = 300
 
 set termguicolors
 " colo evening

@@ -170,6 +170,9 @@ autocmd FileType rust compiler cargo
 autocmd FileType typescript setlocal mp=tsc
 autocmd FileType markdown setlocal mp=pandoc\ %:~:.\ -o\ %:~:.:r.pdf\;\ open\ %:~:.:r.pdf
 
+" enable spell-checking by default for these file types
+autocmd FileType markdown,tex,text set spell
+
 " If you want to install not installed plugins on startup.
 if dein#check_install()
   call dein#install()

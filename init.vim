@@ -505,7 +505,9 @@ vmap <RightMouse> "*y
 " high that it almost seems persistent.
 let g:highlightedyank_highlight_duration = 300
 
-set termguicolors
+if empty($NO_TERMGUICOLORS)
+	set termguicolors
+endif
 " colo evening
 let g:colors_name = "evening"
 " cursorline disabled until the resolution of https://github.com/neovim/neovim/issues/8159

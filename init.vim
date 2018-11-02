@@ -93,8 +93,6 @@ if dein#load_state('$HOME/.config/nvim/bundle/')
 		" \'on_ft': ['c', 'cpp', 'js', 'rust', 'typescript']})
 	call dein#add('othree/csscomplete.vim',
 		\{'on_event': 'InsertEnter', 'on_if': "index(['css'], &ft) != -1"})
-	call dein#add('ponko2/deoplete-fish',
-		\{'on_event': 'InsertEnter', 'on_if': "index(['fish'], &ft) != -1"})
 
 	"syntax plugins, sorted by filetype
 	call dein#add('ARM9/arm-syntax-vim.git')

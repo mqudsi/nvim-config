@@ -303,9 +303,10 @@ set tabstop=4
 set shiftwidth=4
 set smarttab
 set noexpandtab
-" set autoindent
+set autoindent
+set smartindent
 set number
-set cindent
+" set cindent
 set cinkeys-=0#
 set indentkeys-=0#
 

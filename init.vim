@@ -541,9 +541,10 @@ let g:indentLine_color_term = 239
 
 
 " Set default maximum line lengths for various types
-autocmd FileType rust setlocal tw=100
+autocmd FileType cpp setlocal tw=100
 autocmd FileType gitcommit setlocal tw=80
 autocmd FileType markdown setlocal tw=100
+autocmd FileType rust setlocal tw=100
 autocmd FileType tex setlocal tw=92
 
 " Begin improve undo granularity/smart undo

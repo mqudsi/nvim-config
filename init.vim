@@ -96,6 +96,8 @@ if dein#load_state('$HOME/.config/nvim/bundle/')
 
 	"syntax plugins, sorted by filetype
 	call dein#add('ARM9/arm-syntax-vim.git')
+    call dein#add('octol/vim-cpp-enhanced-highlight',
+        \{'on_ft': ['cpp']})
 	call dein#add('hail2u/vim-css3-syntax',
 		\{'on_ft': ['css']})
 	call dein#add('OrangeT/vim-csharp')

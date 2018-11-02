@@ -153,6 +153,7 @@ autocmd BufRead,BufNewFile /usr/*include/c++/* set filetype=cpp
 autocmd BufRead,BufNewfile *.conf set filetype=conf
 autocmd BufRead,BufNewfile */*nginx*/*.conf set filetype=nginx
 autocmd BufRead,BufNewfile */ninja.build set filetype=ninja
+autocmd BufRead,BufNewfile .clang-format set filetype=yaml
 
 "specify comments for languages that commentary does not support oob
 autocmd FileType meson setlocal commentstring=#\ %s

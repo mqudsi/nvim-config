@@ -307,6 +307,7 @@ set number
 " set cindent
 set cinkeys-=0#
 set indentkeys-=0#
+set nojoinspaces " this isn't a typewriter
 
 :map <Esc>[H <Home>
 :map <Esc>[5~ <C-B> "page up

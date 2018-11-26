@@ -392,7 +392,7 @@ autocmd BufWritePre * :call <SID>StripTrailingWhitespaces()
 "F12 to go to definition (like Visual Studio)
 noremap <F12> <C-]>
 
-" enable % to match angle brackets
+" allow % to match angle brackets
 set matchpairs+=<:>
 " set a timeout (in ms) for matchpairs to prevent any sluggishness
 let g:matchparen_timeout = 20
@@ -525,8 +525,7 @@ let g:colors_name = "evening"
 " Keep the sign column visible to prevent jarring on/off due to plugin
 " interactions
 " this gets cancelled when neomake is loaded, so use an autocmd instead
-" set signcolumn="yes"
-" autocmd BufRead,BufNewFile setlocal signcolumn="yes"
+autocmd BufEnter,BufRead,BufNewFile * set signcolumn=yes
 autocmd BufEnter * sign define dummy
 autocmd BufEnter * execute 'sign place 9999 line=1 name=dummy buffer=' . bufnr('')
 

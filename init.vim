@@ -286,6 +286,7 @@ let g:LanguageClient_serverCommands = {
     \ 'html': [s:node . 'html-languageserver', '--stdio'],
     \ 'json': [s:node . 'vscode-json-languageserver', '--stdio'],
     \ 'javascript': [s:node . 'typescript-language-server', '--stdio'],
+    \ 'javascript.jsx': [s:node . 'typescript-language-server', '--stdio'],
     \ 'typescript': [s:node . 'typescript-language-server', '--stdio'],
     \ 'bash': [s:node . 'bash-language-server', 'start'],
     \ 'sh': [s:node . 'bash-language-server', 'start'],

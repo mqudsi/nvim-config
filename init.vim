@@ -1,6 +1,6 @@
 "dein Scripts-----------------------------
 if &compatible
-	set nocompatible
+    set nocompatible
 endif
 
 let s:nvimroot = $HOME . '/.config/nvim'
@@ -31,114 +31,114 @@ filetype off
 syntax off
 
 if dein#load_state('$HOME/.config/nvim/bundle/')
-	call dein#begin('$HOME/.config/nvim/bundle/')
+    call dein#begin('$HOME/.config/nvim/bundle/')
 
-	" Add or remove your plugins here:
-	call dein#add('flazz/vim-colorschemes')
-	call dein#add('danilo-augusto/vim-afterglow')
+    " Add or remove your plugins here:
+    call dein#add('flazz/vim-colorschemes')
+    call dein#add('danilo-augusto/vim-afterglow')
 
-	"core plugins that change the behavior of vim and how we use it globally
-	" call dein#add('kien/ctrlp.vim')
-	call dein#add('junegunn/fzf')
-	" call dein#add('haya14busa/incsearch.vim')
-	" call dein#add('othree/eregex.vim')
-	call dein#add('Yggdroot/indentLine')
-	call dein#add('itchyny/lightline.vim')
-	call dein#add('alvan/vim-closetag',
-		\{'on_ft': ['html', 'xhtml', 'xml']})
-	call dein#add('mqudsi/vim-ripgrep')
-	" call dein#add('qpkorr/vim-bufkill')
-	call dein#add('sickill/vim-pasta',
-		\{'on_event': 'InsertEnter'})
-	call dein#add('tomtom/tcomment_vim')
-	call dein#add('tpope/vim-repeat',
-		\{'on_event': 'InsertEnter'})
+    "core plugins that change the behavior of vim and how we use it globally
+    " call dein#add('kien/ctrlp.vim')
+    call dein#add('junegunn/fzf')
+    " call dein#add('haya14busa/incsearch.vim')
+    " call dein#add('othree/eregex.vim')
+    call dein#add('Yggdroot/indentLine')
+    call dein#add('itchyny/lightline.vim')
+    call dein#add('alvan/vim-closetag',
+        \{'on_ft': ['html', 'xhtml', 'xml']})
+    call dein#add('mqudsi/vim-ripgrep')
+    " call dein#add('qpkorr/vim-bufkill')
+    call dein#add('sickill/vim-pasta',
+        \{'on_event': 'InsertEnter'})
+    call dein#add('tomtom/tcomment_vim')
+    call dein#add('tpope/vim-repeat',
+        \{'on_event': 'InsertEnter'})
     call dein#add('machakann/vim-highlightedyank')
 
-	"general programming-related plugins
-	call dein#add('vim-scripts/a.vim',
-		\{'on_cmd': 'A'})
-	call dein#add('Chiel92/vim-autoformat',
-		\{'on_cmd': 'Autoformat'})
-	call dein#add('tpope/vim-endwise') "only handles languages with PITA syntax
-	call dein#add('mqudsi/vim-closetag') "only handles (x)html
-	call dein#add('sheerun/vim-polyglot')
-	call dein#add('tpope/vim-surround')
-	" disable vim-matchup for latex
-	" call dein#add('andymass/vim-matchup')
-	call dein#add('neomake/neomake',
-		\{'lazy': 1,
-		\'on_cmd': 'Neomake'})
-	call dein#add('ludovicchabant/vim-gutentags',
-		\{'on_event': 'InsertEnter'})
+    "general programming-related plugins
+    call dein#add('vim-scripts/a.vim',
+        \{'on_cmd': 'A'})
+    call dein#add('Chiel92/vim-autoformat',
+        \{'on_cmd': 'Autoformat'})
+    call dein#add('tpope/vim-endwise') "only handles languages with PITA syntax
+    call dein#add('mqudsi/vim-closetag') "only handles (x)html
+    call dein#add('sheerun/vim-polyglot')
+    call dein#add('tpope/vim-surround')
+    " disable vim-matchup for latex
+    " call dein#add('andymass/vim-matchup')
+    call dein#add('neomake/neomake',
+        \{'lazy': 1,
+        \'on_cmd': 'Neomake'})
+    call dein#add('ludovicchabant/vim-gutentags',
+        \{'on_event': 'InsertEnter'})
 
-	"git-related extensions
-	call dein#add('rhysd/committia.vim')
-	call dein#add('jreybert/vimagit',
-		\{'on_cmd': ['Magit', 'MagitOnly']})
-	call dein#add('airblade/vim-gitgutter')
-	call dein#add('tpope/vim-rhubarb')
+    "git-related extensions
+    call dein#add('rhysd/committia.vim')
+    call dein#add('jreybert/vimagit',
+        \{'on_cmd': ['Magit', 'MagitOnly']})
+    call dein#add('airblade/vim-gitgutter')
+    call dein#add('tpope/vim-rhubarb')
 
-	"deoplete and deoplete core plugins
-	call dein#add('Shougo/deoplete.nvim')
-	call dein#add('Shougo/context_filetype.vim',
-		\{'on_event': 'InsertEnter'})
-	"requires cmdheight=2 to show function signature in cmdline, or else noshowmode
-	" call dein#add('Shougo/echodoc.vim',
-	" 	\{'on_i': 1})
+    "deoplete and deoplete core plugins
+    call dein#add('Shougo/deoplete.nvim')
+    call dein#add('Shougo/context_filetype.vim',
+        \{'on_event': 'InsertEnter'})
+    "requires cmdheight=2 to show function signature in cmdline, or else noshowmode
+    " call dein#add('Shougo/echodoc.vim',
+    "     \{'on_i': 1})
 
-	"deoplete sources
-	call dein#add('autozimu/LanguageClient-neovim',
-		\{'rev': 'next', 'build': 'bash ./install.sh'})
-		" \'on_ft': ['c', 'cpp', 'js', 'rust', 'typescript']})
-	call dein#add('othree/csscomplete.vim',
-		\{'on_event': 'InsertEnter', 'on_if': "index(['css'], &ft) != -1"})
+    "deoplete sources
+    call dein#add('autozimu/LanguageClient-neovim',
+        \{'rev': 'next', 'build': 'bash ./install.sh'})
+        " \'on_ft': ['c', 'cpp', 'js', 'rust', 'typescript']})
+    call dein#add('othree/csscomplete.vim',
+        \{'on_event': 'InsertEnter', 'on_if': "index(['css'], &ft) != -1"})
 
-	"syntax plugins, sorted by filetype
-	call dein#add('ARM9/arm-syntax-vim.git')
+    "syntax plugins, sorted by filetype
+    call dein#add('ARM9/arm-syntax-vim.git')
     call dein#add('octol/vim-cpp-enhanced-highlight',
         \{'on_ft': ['cpp']})
-	call dein#add('hail2u/vim-css3-syntax',
-		\{'on_ft': ['css']})
-	call dein#add('OrangeT/vim-csharp')
-	" call dein#add('vim-scripts/DoxyGen-Syntax',
-	"	\{'on_ft': ['doxygen']})
-	call dein#add('dag/vim-fish',
-		\{'on_ft': ['fish']})
-	call dein#add('elzr/vim-json',
-		\{'on_ft': ['json']})
-	call dein#add('pangloss/vim-javascript',
-		\{'on_ft': ['javascript']})
-	call dein#add('rhysd/vim-gfm-syntax',
-		\{'on_ft': ['markdown']})
-	call dein#add('mqudsi/meson.vim',
-		\{'on_ft': ['meson']})
-	call dein#add('mqudsi/ninja.vim',
-		\{'on_ft': ['ninja']})
-	call dein#add('tbastos/vim-lua',
-		\{'on_ft': ['lua']})
-	call dein#add('jvirtanen/vim-octave',
-		\{'on_ft': ['matlab', 'm']})
-	call dein#add('StanAngeloff/php.vim',
-		\{'on_ft': ['php']})
-	call dein#add('PProvost/vim-ps1',
-		\{'on_ft': ['ps1']})
-	call dein#add('rust-lang/rust.vim',
-		\{'on_ft': ['rust']})
-	call dein#add('cespare/vim-toml',
-		\{'on_ft': ['toml']})
-	call dein#add('HerringtonDarkholme/yats.vim',
-		\{'on_ft': ['typescript']})
-	call dein#add('mhartington/nvim-typescript',
+    call dein#add('hail2u/vim-css3-syntax',
+        \{'on_ft': ['css']})
+    call dein#add('OrangeT/vim-csharp')
+    " call dein#add('vim-scripts/DoxyGen-Syntax',
+    "    \{'on_ft': ['doxygen']})
+    call dein#add('dag/vim-fish',
+        \{'on_ft': ['fish']})
+    call dein#add('elzr/vim-json',
+        \{'on_ft': ['json']})
+    call dein#add('pangloss/vim-javascript',
+        \{'on_ft': ['javascript']})
+    call dein#add('rhysd/vim-gfm-syntax',
+        \{'on_ft': ['markdown']})
+    call dein#add('mqudsi/meson.vim',
+        \{'on_ft': ['meson']})
+    call dein#add('mqudsi/ninja.vim',
+        \{'on_ft': ['ninja']})
+    call dein#add('tbastos/vim-lua',
+        \{'on_ft': ['lua']})
+    call dein#add('jvirtanen/vim-octave',
+        \{'on_ft': ['matlab', 'm']})
+    call dein#add('StanAngeloff/php.vim',
+        \{'on_ft': ['php']})
+    call dein#add('PProvost/vim-ps1',
+        \{'on_ft': ['ps1']})
+    call dein#add('rust-lang/rust.vim',
+        \{'on_ft': ['rust']})
+    call dein#add('cespare/vim-toml',
+        \{'on_ft': ['toml']})
+    call dein#add('HerringtonDarkholme/yats.vim',
+        \{'on_ft': ['typescript']})
+    call dein#add('mhartington/nvim-typescript',
         \{'on_ft': ['typescript'], 'build': 'bash ./install.sh'})
-	call dein#add('Quramy/tsuquyomi',
-		\{'on_ft': ['typescript']})
-	" call dein#add('lervag/vimtex',
-	" 	\{'on_ft': ['tex']})
+    call dein#add('Quramy/tsuquyomi',
+        \{'on_ft': ['typescript']})
+    " call dein#add('lervag/vimtex',
+    "     \{'on_ft': ['tex']})
 
-	" Required:
-	call dein#end()
-	call dein#save_state()
+    " Required:
+    call dein#end()
+    call dein#save_state()
 endif
 
 "specify custom filetypes before predicating actions on FileType below
@@ -182,9 +182,9 @@ endif
 
 function! ConfigDeoplete()
     set shortmess +=c
-	call deoplete#custom#option('auto_complete_delay', 20)
-	call deoplete#custom#source('_', 'matchers', ['matcher_cpsm'])
-	call deoplete#custom#source('_', 'sorters', []) "sorting already done by cpsm, don't resort
+    call deoplete#custom#option('auto_complete_delay', 20)
+    call deoplete#custom#source('_', 'matchers', ['matcher_cpsm'])
+    call deoplete#custom#source('_', 'sorters', []) "sorting already done by cpsm, don't resort
 
     autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
     "enable tabbing through autocomplete results only when the popup is visible
@@ -207,52 +207,52 @@ function! PickPath(options)
 endfunction
 
 function! ConfigNeomake()
-	let g:neomake_open_list = 1
-	let g:neomake_enabled_makers = ['makeprg']
-	let g:neomake_makeprg_maker = {
-		\ 'exe': &makeprg,
-		\ 'args': [ '-j4' ],
-		\ 'errorformat': &errorformat,
-		\ }
-	let g:neomake_cpp_clangxx_maker = neomake#makers#ft#cpp#clang()
-	let g:neomake_cpp_clangxx_maker.args += ['-I./']
-	let g:neomake_cpp_clangtidy_maker = neomake#makers#ft#cpp#clangtidy()
-	let g:neomake_cpp_clangtidy_maker.args = ['--'] + g:neomake_cpp_clangxx_maker.args
-	let g:neomake_cpp_enabled_makers = ['clangxx', 'clangtidy']
+    let g:neomake_open_list = 1
+    let g:neomake_enabled_makers = ['makeprg']
+    let g:neomake_makeprg_maker = {
+        \ 'exe': &makeprg,
+        \ 'args': [ '-j4' ],
+        \ 'errorformat': &errorformat,
+        \ }
+    let g:neomake_cpp_clangxx_maker = neomake#makers#ft#cpp#clang()
+    let g:neomake_cpp_clangxx_maker.args += ['-I./']
+    let g:neomake_cpp_clangtidy_maker = neomake#makers#ft#cpp#clangtidy()
+    let g:neomake_cpp_clangtidy_maker.args = ['--'] + g:neomake_cpp_clangxx_maker.args
+    let g:neomake_cpp_enabled_makers = ['clangxx', 'clangtidy']
 endfunction
 
 function! AfterNeomake()
-	"F7 to build project (like Visual Studio)
-	nnoremap <F7> :w <CR> :Neomake! <CR>
-	inoremap <F7> <Esc> :w <CR> :Neomake! <CR>
-	"F8 to build/lint single file
-	nnoremap <F8> :w <CR> :Neomake <CR>
-	inoremap <F8> <Esc> :w <CR> :Neomake <CR>
+    "F7 to build project (like Visual Studio)
+    nnoremap <F7> :w <CR> :Neomake! <CR>
+    inoremap <F7> <Esc> :w <CR> :Neomake! <CR>
+    "F8 to build/lint single file
+    nnoremap <F8> :w <CR> :Neomake <CR>
+    inoremap <F8> <Esc> :w <CR> :Neomake <CR>
 
-	"see plugin/lightline.vim
-	let g:enable_LightlineNeomake = 1
+    "see plugin/lightline.vim
+    let g:enable_LightlineNeomake = 1
 endfunction
 
 autocmd BufEnter *.c,*.cpp,*.js,*.rs,*.ts,*.sh,*.py :call LanguageClientSupportedLanguage()
 function! LanguageClientSupportedLanguage()
-	nmap <silent> K :call LanguageClient_textDocument_hover()<CR>
-	silent! nunmap gd
-	nmap <silent> gd :call LanguageClient_textDocument_definition()<CR>
-	nmap <silent> <F2> :call LanguageClient_textDocument_rename()<CR>
-	nmap <silent> <M-F> :call LanguageClient_textDocument_references()<CR>
-	" See https://vi.stackexchange.com/a/4291/13499
-	" nmap <silent> <C-R> :call LanguageClient_workspace_symbol()<CR>
+    nmap <silent> K :call LanguageClient_textDocument_hover()<CR>
+    silent! nunmap gd
+    nmap <silent> gd :call LanguageClient_textDocument_definition()<CR>
+    nmap <silent> <F2> :call LanguageClient_textDocument_rename()<CR>
+    nmap <silent> <M-F> :call LanguageClient_textDocument_references()<CR>
+    " See https://vi.stackexchange.com/a/4291/13499
+    " nmap <silent> <C-R> :call LanguageClient_workspace_symbol()<CR>
 
-	"ignore buffer source when we have valid completions
-	call deoplete#custom#option('ignore_sources', { &ft: ['buffer', 'member', 'around', 'omni', 'omnifunc', 'tags', 'tag'] })
+    "ignore buffer source when we have valid completions
+    call deoplete#custom#option('ignore_sources', { &ft: ['buffer', 'member', 'around', 'omni', 'omnifunc', 'tags', 'tag'] })
 
-	"now start LanguageClient only if it wasn't already started
-	if exists('b:lcStarted')
-		return
-	endif
+    "now start LanguageClient only if it wasn't already started
+    if exists('b:lcStarted')
+        return
+    endif
 
-	silent! LanguageClientStart
-	let b:lcStarted = 1
+    silent! LanguageClientStart
+    let b:lcStarted = 1
 endfunction
 
 call dein#set_hook('neomake', 'hook_source', function('ConfigNeomake'))
@@ -262,11 +262,11 @@ call dein#set_hook('deoplete.nvim', 'hook_source', function('ConfigDeoplete'))
 " deoplete configuration
 let g:deoplete#enable_at_startup = 0
 call deoplete#custom#option({
-	\'auto_complete_delay': 100,
-	\'ignore_sources': { '_': ['omni', 'omnifunc', 'snippet'] },
-	\'camel_case': 1,
-	\'max_list': 250,
-	\'num_processes': 8
+    \'auto_complete_delay': 100,
+    \'ignore_sources': { '_': ['omni', 'omnifunc', 'snippet'] },
+    \'camel_case': 1,
+    \'max_list': 250,
+    \'num_processes': 8
 \})
 autocmd InsertEnter * call deoplete#enable()
 
@@ -278,17 +278,17 @@ autocmd InsertEnter * call deoplete#enable()
 
 let s:node = s:nvimroot . '/node_modules/.bin/'
 let g:LanguageClient_serverCommands = {
-	\ 'c': ['clangd', '-compile-commands-dir=$PWD/build'],
-	\ 'cpp': ['clangd', '-compile-commands-dir=$PWD/build'],
-	\ 'rust': ['rustup', 'run', 'nightly', 'rls'],
-	\ 'python': ['pyls'],
-	\ 'css': [s:node . 'css-languageserver', '--stdio'],
-	\ 'html': [s:node . 'html-languageserver', '--stdio'],
-	\ 'json': [s:node . 'vscode-json-languageserver', '--stdio'],
-	\ 'javascript': [s:node . 'typescript-language-server', '--stdio'],
-	\ 'typescript': [s:node . 'typescript-language-server', '--stdio'],
-	\ 'bash': [s:node . 'bash-language-server', 'start'],
-	\ 'sh': [s:node . 'bash-language-server', 'start'],
+    \ 'c': ['clangd', '-compile-commands-dir=$PWD/build'],
+    \ 'cpp': ['clangd', '-compile-commands-dir=$PWD/build'],
+    \ 'rust': ['rustup', 'run', 'nightly', 'rls'],
+    \ 'python': ['pyls'],
+    \ 'css': [s:node . 'css-languageserver', '--stdio'],
+    \ 'html': [s:node . 'html-languageserver', '--stdio'],
+    \ 'json': [s:node . 'vscode-json-languageserver', '--stdio'],
+    \ 'javascript': [s:node . 'typescript-language-server', '--stdio'],
+    \ 'typescript': [s:node . 'typescript-language-server', '--stdio'],
+    \ 'bash': [s:node . 'bash-language-server', 'start'],
+    \ 'sh': [s:node . 'bash-language-server', 'start'],
 \ }
 
 set mouse=a
@@ -377,9 +377,9 @@ vnoremap <silent> # :<C-U>
 " Includes workaround for cursor jumping around on save
 " From https://stackoverflow.com/a/37201230/17027
 function! <SID>StripTrailingWhitespaces()
-	if index([], &ft) != -1
-		return
-	endif
+    if index([], &ft) != -1
+        return
+    endif
 
     let l = line(".")
     let c = col(".")
@@ -460,30 +460,30 @@ let g:ctrlp_match_func = {'match': 'cpsm#CtrlPMatch'}
 autocmd BufReadPost * :call DetectTabExpand()
 
 function! DetectTabExpand()
-	let file_path = shellescape(expand("%:p"))
-	if empty(file_path)
-		return
-	endif
+    let file_path = shellescape(expand("%:p"))
+    if empty(file_path)
+        return
+    endif
 
-	let b:tabs_spaces = [0, 0]
-	let b:tabs_spaces_index = 0
-	call jobstart([&shell, &shcf, "grep -c '^ ' " . file_path . "; grep -c '^\t' " . file_path],
-		\ { 'on_stdout': function('InnerDetectTabExpand') })
+    let b:tabs_spaces = [0, 0]
+    let b:tabs_spaces_index = 0
+    call jobstart([&shell, &shcf, "grep -c '^ ' " . file_path . "; grep -c '^\t' " . file_path],
+        \ { 'on_stdout': function('InnerDetectTabExpand') })
 endfunction
 
 function! InnerDetectTabExpand(job, lines, event) dict
-	let b:tabs_spaces[b:tabs_spaces_index] = str2nr(a:lines[0])
-	let b:tabs_spaces_index = b:tabs_spaces_index + 1
+    let b:tabs_spaces[b:tabs_spaces_index] = str2nr(a:lines[0])
+    let b:tabs_spaces_index = b:tabs_spaces_index + 1
 
-	if b:tabs_spaces_index == 2
-		if b:tabs_spaces[0] > b:tabs_spaces[1] "more spaces than tabs
-			set expandtab
-		else
-			set noexpandtab
-		endif
+    if b:tabs_spaces_index == 2
+        if b:tabs_spaces[0] > b:tabs_spaces[1] "more spaces than tabs
+            set expandtab
+        else
+            set noexpandtab
+        endif
 
-		let b:tabs_spaces_index = 0
-	endif
+        let b:tabs_spaces_index = 0
+    endif
 endfunction
 
 " remap up/down arrow keys to move by screen line
@@ -512,7 +512,7 @@ vmap <RightMouse> "*y
 let g:highlightedyank_highlight_duration = 300
 
 if empty($NO_TERMGUICOLORS)
-	set termguicolors
+    set termguicolors
 endif
 " colo evening
 let g:colors_name = "evening"
@@ -551,13 +551,13 @@ autocmd FileType tex setlocal tw=92
 
 " Begin improve undo granularity/smart undo
 function! EnhancedEnter()
-	if pumvisible()
-		" <Enter> with item selected causes that item to be inserted
-		feedkeys('\<C-y>')
-	else
-		" Improve granularity of undo
-		feedkeys("\<C-g>u\<CR>")
-	endif
+    if pumvisible()
+        " <Enter> with item selected causes that item to be inserted
+        feedkeys('\<C-y>')
+    else
+        " Improve granularity of undo
+        feedkeys("\<C-g>u\<CR>")
+    endif
 endfunction
 
 function! s:start_delete(key)

@@ -345,6 +345,10 @@ nmap <F1> <Nop>
 vmap <F1> <Nop>
 imap <F1> <Esc>
 
+"build via makeprg with F8
+nnoremap <F8> :w <CR> :make <CR>
+inoremap <F8> <Esc> :w <CR> :make <CR>
+
 "allow copy-and-paste by mouse selection and ctrl+c/v
 vnoremap <C-c> "*y
 " nnoremap <C-v> "*gP

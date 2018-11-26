@@ -141,7 +141,7 @@ if dein#load_state('$HOME/.config/nvim/bundle/')
 	call dein#save_state()
 endif
 
-"specify custom filetypes before loading the filetype plugin
+"specify custom filetypes before predicating actions on FileType below
 autocmd BufRead,BufNewFile *.expect set filetype=expect
 autocmd BufRead,BufNewFile *.fish set filetype=fish
 autocmd BufRead,BufNewFile *.git/COMMIT_EDITMSG set filetype=gitcommit
@@ -152,21 +152,19 @@ autocmd BufRead,BufNewFile */php-fpm*.conf set filetype=dosini
 autocmd BufRead,BufNewFile /usr/*include/c++/* set filetype=cpp
 autocmd BufRead,BufNewfile *.conf set filetype=conf
 autocmd BufRead,BufNewfile */*nginx*/*.conf set filetype=nginx
-autocmd BufRead,BufNewfile */ninja.build set filetype=ninja
 autocmd BufRead,BufNewfile .clang-format set filetype=yaml
 
 "specify comments for languages that commentary does not support oob
 autocmd FileType meson setlocal commentstring=#\ %s
 autocmd FileType ninja setlocal commentstring=#\ %s
 
-"specify default make programs by file type
+"specify default make programs and other settings by file type
 let g:cargo_makeprg_params = "build"
 autocmd FileType fish compiler fish
 autocmd FileType html,php set smartindent
 autocmd FileType ninja set mp=ninja
 autocmd FileType tex set mp=xelatex\ -halt-on-error\ %:S\;rm\ -f\ %:r:S.\{log,aux,out\}\ %:r:h:S/texput.log
-autocmd FileType ninja set efm=%Eninja:\ error:\ %f:%l:\ %m,%Z%p^\ near\ here,%-C%s
-autocmd FileType ninja set mp=ninja
+autocmd FileType ninja setlocal efm=%Eninja:\ error:\ %f:%l:\ %m,%Z%p^\ near\ here,%-C%s mp=ninja expandtab
 autocmd FileType nginx setlocal mp=sudo\ nginx\ -t\ -c\ %
 autocmd FileType rust compiler cargo
 autocmd FileType typescript setlocal mp=tsc

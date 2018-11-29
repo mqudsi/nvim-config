@@ -36,6 +36,8 @@ if dein#load_state('$HOME/.config/nvim/bundle/')
     " Add or remove your plugins here:
     call dein#add('flazz/vim-colorschemes')
     call dein#add('danilo-augusto/vim-afterglow')
+    call dein#add('chriskempson/base16-vim')
+    call dein#add('ayu-theme/ayu-vim')
 
     "core plugins that change the behavior of vim and how we use it globally
     " call dein#add('kien/ctrlp.vim')
@@ -516,7 +518,8 @@ if empty($NO_TERMGUICOLORS)
     set termguicolors
 endif
 " colo evening
-let g:colors_name = "evening"
+" let g:colors_name = "evening"
+let g:colors_name = "base16-tomorrow-night"
 " cursorline disabled until the resolution of https://github.com/neovim/neovim/issues/8159
 " set cursorline
 " disable highlighting of cursorline, revert to underline only

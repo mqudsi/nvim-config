@@ -111,14 +111,14 @@ if dein#load_state('$HOME/.config/nvim/bundle/')
         \{'on_ft': ['json']})
     call dein#add('pangloss/vim-javascript',
         \{'on_ft': ['javascript']})
-    call dein#add('rhysd/vim-gfm-syntax',
-        \{'on_ft': ['markdown']})
     call dein#add('mqudsi/meson.vim',
         \{'on_ft': ['meson']})
     call dein#add('mqudsi/ninja.vim',
         \{'on_ft': ['ninja']})
     call dein#add('tbastos/vim-lua',
         \{'on_ft': ['lua']})
+    call dein#add('gabrielelana/vim-markdown',
+        \{'on_ft': ['markdown']})
     call dein#add('jvirtanen/vim-octave',
         \{'on_ft': ['matlab', 'm']})
     call dein#add('StanAngeloff/php.vim',

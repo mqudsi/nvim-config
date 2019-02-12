@@ -37,6 +37,7 @@ if dein#load_state('$HOME/.config/nvim/bundle/')
     call dein#add('flazz/vim-colorschemes')
     call dein#add('danilo-augusto/vim-afterglow')
     call dein#add('mqudsi/base16-vim')
+    " need to first call `let ayucolor="light|dark|mirage"`
     call dein#add('ayu-theme/ayu-vim')
 
     "core plugins that change the behavior of vim and how we use it globally

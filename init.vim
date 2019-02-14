@@ -264,14 +264,16 @@ call dein#set_hook('deoplete.nvim', 'hook_source', function('ConfigDeoplete'))
 
 " deoplete configuration
 let g:deoplete#enable_at_startup = 0
-call deoplete#custom#option({
-    \'auto_complete_delay': 100,
-    \'ignore_sources': { '_': ['omni', 'omnifunc', 'snippet'] },
-    \'camel_case': 1,
-    \'max_list': 250,
-    \'num_processes': 8
-\})
-autocmd InsertEnter * call deoplete#enable()
+if exists("deoplete#custom#option")
+    call deoplete#custom#option({
+        \'auto_complete_delay': 100,
+        \'ignore_sources': { '_': ['omni', 'omnifunc', 'snippet'] },
+        \'camel_case': 1,
+        \'max_list': 250,
+        \'num_processes': 8
+    \})
+    autocmd InsertEnter * call deoplete#enable()
+endif
 
 " LSP providers installation instructions:
 " * c/cpp: sudo apt-get install clang-tools-7 (under Debian/Ubuntu)

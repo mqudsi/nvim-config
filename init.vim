@@ -296,9 +296,10 @@ let g:LanguageClient_serverCommands = {
     \ 'css': [s:node . 'css-languageserver', '--stdio'],
     \ 'html': [s:node . 'html-languageserver', '--stdio'],
     \ 'json': [s:node . 'vscode-json-languageserver', '--stdio'],
-    \ 'javascript': [s:node . 'typescript-language-server', '--stdio'],
-    \ 'javascript.jsx': [s:node . 'typescript-language-server', '--stdio'],
-    \ 'typescript': [s:node . 'typescript-language-server', '--stdio'],
+    \ 'javascript': [s:node . 'javascript-typescript-stdio'],
+    \ 'javascript.jsx': [s:node . 'javascript-typescript-stdio'],
+    \ 'typescript': [s:node . 'javascript-typescript-stdio'],
+    \ 'typescript.jsx': [s:node . 'javascript-typescript-stdio'],
     \ 'bash': [s:node . 'bash-language-server', 'start'],
     \ 'sh': [s:node . 'bash-language-server', 'start'],
 \ }
@@ -528,7 +529,7 @@ if empty($NO_TERMGUICOLORS)
 endif
 " colo evening
 " let g:colors_name = "evening"
-let g:colors_name = "base16-tomorrow-night"
+" let g:colors_name = "base16-tomorrow-night"
 " cursorline disabled until the resolution of https://github.com/neovim/neovim/issues/8159
 " set cursorline
 " disable highlighting of cursorline, revert to underline only
@@ -613,3 +614,5 @@ nnoremap <C-p> :call ctrlp#CtrlP()<CR>
 " After everything else
 filetype plugin indent on
 syntax enable
+
+:silent! colo base16-tomorrow-night

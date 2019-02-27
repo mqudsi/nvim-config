@@ -76,8 +76,8 @@ if dein#load_state('$HOME/.config/nvim/bundle/')
     call dein#add('neomake/neomake',
         \{'lazy': 1,
         \'on_cmd': 'Neomake'})
-    call dein#add('ludovicchabant/vim-gutentags',
-        \{'on_event': 'InsertEnter'})
+    " call dein#add('ludovicchabant/vim-gutentags',
+    "     \{'on_event': 'InsertEnter'})
 
     "git-related extensions
     call dein#add('rhysd/committia.vim')
@@ -447,7 +447,7 @@ autocmd InsertLeave * setlocal hlsearch lz
 inoremap <silent><Esc> <Esc>:nohl<bar>set nolz<CR>
 inoremap <silent><C-c> <C-c>:nohl<bar>set nolz<CR>
 
-autocmd BufRead *.rs :setlocal tags=./tags;/,$RUST_SRC_PATH/tags
+" autocmd BufRead *.rs :setlocal tags=./tags;/,$RUST_SRC_PATH/tags
 " these have bad indentfiles by default, so no autoformatting here
 " autocmd FileType vim,tex let b:autoformat_autoindent=0
 autocmd FileType html,vim let b:autoformat_autoindent=0

@@ -61,6 +61,7 @@ if dein#load_state('$HOME/.config/nvim/bundle/')
     call dein#add('tpope/vim-repeat',
         \{'on_event': 'InsertEnter'})
     call dein#add('machakann/vim-highlightedyank')
+    call dein#add('roxma/nvim-yarp')
 
     "general programming-related plugins
     call dein#add('vim-scripts/a.vim',
@@ -267,14 +268,17 @@ call dein#set_hook('neomake', 'hook_post_source', function('AfterNeomake'))
 call dein#set_hook('deoplete.nvim', 'hook_source', function('ConfigDeoplete'))
 
 " deoplete configuration
-let g:deoplete#enable_at_startup = 0
+let g:deoplete#enable_at_startup = 1
 if exists("deoplete#custom#option")
     call deoplete#custom#option({
         \'auto_complete_delay': 100,
         \'ignore_sources': { '_': ['omni', 'omnifunc', 'snippet'] },
         \'camel_case': 1,
         \'max_list': 250,
-        \'num_processes': 8
+        \'num_processes': 8,
+        \'smart_case': true,
+        \'min_pattern_length': 0,
+        \'yarp': v:true,
     \})
     autocmd InsertEnter * call deoplete#enable()
 endif

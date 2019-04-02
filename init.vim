@@ -98,47 +98,31 @@ if dein#load_state('$HOME/.config/nvim/bundle/')
     "deoplete sources
     call dein#add('autozimu/LanguageClient-neovim',
         \{'rev': 'next', 'build': 'bash ./install.sh'})
-        " \'on_ft': ['c', 'cpp', 'js', 'rust', 'typescript']})
     call dein#add('othree/csscomplete.vim',
         \{'on_event': 'InsertEnter', 'on_if': "index(['css'], &ft) != -1"})
 
     "syntax plugins, sorted by filetype
     call dein#add('ARM9/arm-syntax-vim.git')
-    call dein#add('octol/vim-cpp-enhanced-highlight',
-        \{'on_ft': ['cpp']})
-    call dein#add('hail2u/vim-css3-syntax',
-        \{'on_ft': ['css']})
+    call dein#add('octol/vim-cpp-enhanced-highlight')
+    call dein#add('ap/vim-css-color')
+    call dein#add('hail2u/vim-css3-syntax')
     call dein#add('OrangeT/vim-csharp')
     " call dein#add('vim-scripts/DoxyGen-Syntax',
     "    \{'on_ft': ['doxygen']})
-    call dein#add('dag/vim-fish',
-        \{'on_ft': ['fish']})
-    call dein#add('elzr/vim-json',
-        \{'on_ft': ['json']})
-    call dein#add('pangloss/vim-javascript',
-        \{'on_ft': ['javascript']})
-    call dein#add('mqudsi/meson.vim',
-        \{'on_ft': ['meson']})
-    call dein#add('mqudsi/ninja.vim',
-        \{'on_ft': ['ninja']})
-    call dein#add('tbastos/vim-lua',
-        \{'on_ft': ['lua']})
-    call dein#add('gabrielelana/vim-markdown',
-        \{'on_ft': ['markdown']})
-    call dein#add('jvirtanen/vim-octave',
-        \{'on_ft': ['matlab', 'm']})
-    call dein#add('StanAngeloff/php.vim',
-        \{'on_ft': ['php']})
-    call dein#add('PProvost/vim-ps1',
-        \{'on_ft': ['ps1']})
-    call dein#add('rust-lang/rust.vim',
-        \{'on_ft': ['rust']})
-    call dein#add('cespare/vim-toml',
-        \{'on_ft': ['toml']})
-    call dein#add('HerringtonDarkholme/yats.vim',
-        \{'on_ft': ['typescript']})
-    call dein#add('Quramy/tsuquyomi',
-        \{'on_ft': ['typescript']})
+    call dein#add('elzr/vim-json')
+    call dein#add('pangloss/vim-javascript')
+    call dein#add('mqudsi/meson.vim')
+    call dein#add('mqudsi/ninja.vim')
+    call dein#add('tbastos/vim-lua')
+    call dein#add('gabrielelana/vim-markdown')
+    call dein#add('jvirtanen/vim-octave')
+    call dein#add('StanAngeloff/php.vim')
+    call dein#add('PProvost/vim-ps1')
+    call dein#add('rust-lang/rust.vim')
+    call dein#add('cespare/vim-toml')
+    call dein#add('HerringtonDarkholme/yats.vim')
+    " call dein#add('Quramy/tsuquyomi',
+    "     \{'on_ft': ['typescript']})
     " call dein#add('lervag/vimtex',
     "     \{'on_ft': ['tex']})
 

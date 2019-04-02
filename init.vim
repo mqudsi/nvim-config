@@ -170,16 +170,23 @@ endif
 
 "End dein Scripts-------------------------
 
-function! ConfigDeoplete()
-    set shortmess +=c
-    call deoplete#custom#option('auto_complete_delay', 20)
-    call deoplete#custom#source('_', 'matchers', ['matcher_cpsm'])
-    call deoplete#custom#source('_', 'sorters', []) "sorting already done by cpsm, don't resort
+autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
+" Only use <TAB> to accept an autocompletion, which fixes the conflict between
+" enter for newline and enter to accept completions.
+inoremap <expr><tab> pumvisible() ? "\<c-y>" : "\<tab>"
+" Automatically select the first item in the menu when shown but do not insert
+set completeopt=menuone,noinsert
+" Map <C-space> to trigger the popup menu like in Visual Studio
+inoremap <expr><c-space> pumvisible() ? "\<c-space>" : "\<c-n>"
 
-    autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
-    "enable tabbing through autocomplete results only when the popup is visible
-    " inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
+function! s:VisualStudio()
+    " Visual Studio doesn't have a toggle comment action, so we need to use
+    " separate shortcuts there to comment and uncomment selections. For
+    " muscle-memory reasons, add the same bingings here:
 endfunction
+xmap <C-K><C-U> :TComment<CR>
+xmap <C-K><C-C> :TComment<CR>
+call s:VisualStudio()
 
 " Removes trailing spaces
 function! Trim(path)
@@ -225,9 +232,15 @@ endfunction
 
 autocmd BufEnter *.c,*.cpp,*.js,*.rs,*.ts,*.sh,*.py :call LanguageClientSupportedLanguage()
 function! LanguageClientSupportedLanguage()
+    let g:LanguageClient_hoverPreview = "Never"
     nmap <silent> K :call LanguageClient_textDocument_hover()<CR>
     silent! nunmap gd
     nmap <silent> gd :call LanguageClient_textDocument_definition()<CR>
+    " Also use the Visual Studio F12 shortcut for goto definition
+    nmap <silent> <F12> :call LanguageClient_textDocument_definition()<CR>
+    " Obviously we can't use the Visual Studio shortcut, that's the binding
+    " for redo!
+    " nmap <silent> <C-R><C-R> :call LanguageClient_textDocument_rename()<CR>
     nmap <silent> <F2> :call LanguageClient_textDocument_rename()<CR>
     nmap <silent> <M-F> :call LanguageClient_textDocument_references()<CR>
     " See https://vi.stackexchange.com/a/4291/13499
@@ -247,7 +260,6 @@ endfunction
 
 call dein#set_hook('neomake', 'hook_source', function('ConfigNeomake'))
 call dein#set_hook('neomake', 'hook_post_source', function('AfterNeomake'))
-call dein#set_hook('deoplete.nvim', 'hook_source', function('ConfigDeoplete'))
 
 " deoplete configuration
 let g:deoplete#enable_at_startup = 1
@@ -263,7 +275,11 @@ if exists("deoplete#custom#option")
         \'yarp': v:true,
     \})
     autocmd InsertEnter * call deoplete#enable()
+    call deoplete#custom#option('auto_complete_delay', 20)
+    " call deoplete#custom#source('_', 'matchers', ['matcher_cpsm'])
+    call deoplete#custom#source('_', 'sorters', []) "sorting already done by cpsm, don't resort
 endif
+set shortmess +=c
 
 " LSP providers installation instructions:
 " * c/cpp: sudo apt-get install clang-tools-7 (under Debian/Ubuntu)
@@ -549,7 +565,7 @@ autocmd FileType plaintex,tex setlocal tw=100
 
 " Begin improve undo granularity/smart undo
 function! EnhancedEnter()
-    if pumvisible()
+    if false && pumvisible()
         " <Enter> with item selected causes that item to be inserted
         feedkeys('\<C-y>')
     else

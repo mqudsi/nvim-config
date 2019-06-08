@@ -8,6 +8,7 @@
   "dependencies": {
     "bash-language-server": "^1.5.1",
     "typescript-language-server": "^0.3.7",
+    "vscode-css-languageserver-bin": "^1.4.0",
     "vscode-html-languageserver-bin": "^1.4.0"
   }
 }

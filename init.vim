@@ -38,7 +38,6 @@ syntax off
 
 if dein#load_state('$HOME/.config/nvim/bundle/')
     call dein#begin('$HOME/.config/nvim/bundle/')
-    call dein#add(s:dein_home)
 
     " Add or remove your plugins here:
     call dein#add('flazz/vim-colorschemes')

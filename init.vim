@@ -14,6 +14,9 @@ let g:LanguageClient_diagnosticsList = 'Location' " prevent it from overwriting 
 let g:LanguageClient_hasSnippetSupport = 0
 let g:LanguageClient_loggingLevel = 'DEBUG'
 let g:LanguageClient_selectionUI = 'fzf'
+let g:LanguageClient_hoverPreview = "Always"
+let g:LanguageClient_completionPreferTextEdit = 1 " unclear what this does!
+
 let g:matchup_matchparen_deferred = 1
 let g:polyglot_disabled = ['latex', 'tex']
 
@@ -232,7 +235,7 @@ endfunction
 
 autocmd BufEnter *.c,*.cpp,*.js,*.rs,*.ts,*.sh,*.py :call LanguageClientSupportedLanguage()
 function! LanguageClientSupportedLanguage()
-    let g:LanguageClient_hoverPreview = "Never"
+    " let g:LanguageClient_hoverPreview = "Never"
     nmap <silent> K :call LanguageClient_textDocument_hover()<CR>
     silent! nunmap gd
     nmap <silent> gd :call LanguageClient_textDocument_definition()<CR>

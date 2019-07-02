@@ -112,6 +112,7 @@ if dein#load_state('$HOME/.config/nvim/bundle/')
     " call dein#add('vim-scripts/DoxyGen-Syntax',
     "    \{'on_ft': ['doxygen']})
     call dein#add('elzr/vim-json')
+    call dein#add('hjson/vim-hjson')
     call dein#add('pangloss/vim-javascript')
     call dein#add('mqudsi/meson.vim')
     call dein#add('mqudsi/ninja.vim')

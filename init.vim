@@ -334,6 +334,9 @@ set cinkeys-=0#
 set indentkeys-=0#
 set nojoinspaces " this isn't a typewriter
 
+" Make sure the default fallback ~/.local/share/nvim/backup exists!
+set backupdir-=.
+
 :map <Esc>[H <Home>
 :map <Esc>[5~ <C-B> "page up
 :map <Esc>[6~ <C-F> "page down

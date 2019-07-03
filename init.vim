@@ -469,39 +469,6 @@ let g:default_rg_ignore = '-g "!*.{o,out,po}" -g "!tags" -g "!target" -g "!*~"'
 let g:rg_command = 'rg --vimgrep -S ' . g:default_rg_ignore
 let g:rg_highlight = 1
 
-"map fzf to ctrl+p
-" noremap <c-p> :call ctrlp#CtrlP()<CR>
-let g:ctrlp_match_func = {'match': 'cpsm#CtrlPMatch'}
-
-autocmd BufReadPost * :call DetectTabExpand()
-
-function! DetectTabExpand()
-    let file_path = shellescape(expand("%:p"))
-    if empty(file_path)
-        return
-    endif
-
-    let b:tabs_spaces = [0, 0]
-    let b:tabs_spaces_index = 0
-    call jobstart([&shell, &shcf, "grep -c '^ ' " . file_path . "; grep -c '^\t' " . file_path],
-        \ { 'on_stdout': function('InnerDetectTabExpand') })
-endfunction
-
-function! InnerDetectTabExpand(job, lines, event) dict
-    let b:tabs_spaces[b:tabs_spaces_index] = str2nr(a:lines[0])
-    let b:tabs_spaces_index = b:tabs_spaces_index + 1
-
-    if b:tabs_spaces_index == 2
-        if b:tabs_spaces[0] > b:tabs_spaces[1] "more spaces than tabs
-            set expandtab
-        else
-            set noexpandtab
-        endif
-
-        let b:tabs_spaces_index = 0
-    endif
-endfunction
-
 " remap up/down arrow keys to move by screen line
 nnoremap <Up> g<Up>
 nnoremap <Down> g<Down>

@@ -64,6 +64,8 @@ if dein#load_state(s:dein_cache)
         \{'on_event': 'InsertEnter'})
     call dein#add('machakann/vim-highlightedyank')
     call dein#add('roxma/nvim-yarp')
+    call dein#add('nixprime/cpsm',
+        \{'build': 'env PY3=ON ./install.sh'})
 
     "general programming-related plugins
     call dein#add('vim-scripts/a.vim',
@@ -206,6 +208,12 @@ function! PickPath(options)
     endfor
 endfunction
 
+function! UseCpsm()
+    call deoplete#custom#source('_', 'matchers', ['matcher_cpsm'])
+    " cpsm does sorting too, don't resort
+    call deoplete#custom#source('_', 'sorters', [])
+endfunction
+
 function! ConfigNeomake()
     let g:neomake_open_list = 1
     let g:neomake_enabled_makers = ['makeprg']
@@ -263,24 +271,25 @@ endfunction
 
 call dein#set_hook('neomake', 'hook_source', function('ConfigNeomake'))
 call dein#set_hook('neomake', 'hook_post_source', function('AfterNeomake'))
+call dein#set_hook('cpsm', 'hook_post_source', function('UseCpsm'))
 
 " deoplete configuration
 let g:deoplete#enable_at_startup = 1
 if exists("deoplete#custom#option")
     call deoplete#custom#option({
         \'auto_complete_delay': 100,
+        \'ignore_case': v:true,
         \'ignore_sources': { '_': ['omni', 'omnifunc', 'snippet'] },
-        \'camel_case': 1,
+        \'camel_case': v:false,
         \'max_list': 250,
-        \'num_processes': 8,
-        \'smart_case': true,
+        \'num_processes': 0,
+        \'smart_case': v:true,
         \'min_pattern_length': 0,
-        \'yarp': v:true,
     \})
     autocmd InsertEnter * call deoplete#enable()
     call deoplete#custom#option('auto_complete_delay', 20)
-    " call deoplete#custom#source('_', 'matchers', ['matcher_cpsm'])
-    call deoplete#custom#source('_', 'sorters', []) "sorting already done by cpsm, don't resort
+    " This is the default, but it's overriden by the CPSM hook
+    call deoplete#custom#source('_', 'matchers', ['matcher_full_fuzzy'])
 endif
 set shortmess +=c
 

@@ -29,15 +29,15 @@ let g:loaded_tutor_mode_plugin = 1
 " See https://github.com/Yggdroot/indentLine/issues/78
 let g:indentLine_fileTypeExclude = ['tex', 'markdown']
 
-let s:dein_cache = '$HOME/.config/nvim/bundle'
-let s:dein_home = s:dein_cache . '/repos/github.com/Shougo/dein.vim'
+let s:dein_cache = '$HOME/.cache/dein.vim'
+let s:dein_home = '$HOME/.config/nvim/dein.vim'
 exe 'set rtp +=' . s:dein_home
 
 filetype off
 syntax off
 
-if dein#load_state('$HOME/.config/nvim/bundle/')
-    call dein#begin('$HOME/.config/nvim/bundle/')
+if dein#load_state(s:dein_cache)
+    call dein#begin(s:dein_cache)
 
     " Add or remove your plugins here:
     call dein#add('flazz/vim-colorschemes')

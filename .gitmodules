@@ -1,4 +1,4 @@
-[submodule "bundle/repos/github.com/Shougo/dein.vim"]
-	path = bundle/repos/github.com/Shougo/dein.vim
+[submodule "dein.vim"]
+	path = dein.vim
 	url = https://github.com/Shougo/dein.vim
 	branch = master

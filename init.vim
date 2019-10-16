@@ -183,7 +183,22 @@ endif
 autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
 " Only use <TAB> to accept an autocompletion, which fixes the conflict between
 " enter for newline and enter to accept completions.
-inoremap <expr><tab> pumvisible() ? "\<c-y>" : "\<tab>"
+" 1B,5B,43: right arrow
+" 05: <C-E>
+" 19: <C-Y>
+function! EnhancedAutocomplete()
+	" if exists("b:pum_close_pending") && b:pum_close_pending == v:true
+	" 	let b:pum_close_pending = v:false
+	" 	return "\<c-y>"
+	" elseif pumvisible()
+	if pumvisible()
+		let b:pum_close_pending = v:true
+		return "\<c-y>"
+	else
+		return "\<tab>"
+	end
+endfunction
+inoremap <expr><tab> pumvisible() ? EnhancedAutocomplete() : "\<tab>"
 " Automatically select the first item in the menu when shown but do not insert
 set completeopt=menuone,noinsert
 " Map <C-space> to trigger the popup menu like in Visual Studio

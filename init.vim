@@ -95,7 +95,8 @@ if dein#load_state(s:dein_cache)
     call dein#add('tpope/vim-rhubarb')
 
     " "deoplete and deoplete core plugins
-    call dein#add('Shougo/deoplete.nvim')
+    " call dein#add('Shougo/deoplete.nvim')
+    call dein#add('ncm2/ncm2')
     call dein#add('Shougo/context_filetype.vim',
         \{'on_event': 'InsertEnter'})
     " requires cmdheight=2 to show function signature in cmdline, or else noshowmode
@@ -139,6 +140,7 @@ if dein#load_state(s:dein_cache)
     call dein#save_state()
 endif
 
+autocmd BufEnter * call ncm2#enable_for_buffer()
 "specify custom filetypes before predicating actions on FileType below
 autocmd BufRead,BufNewFile *.expect set filetype=expect
 autocmd BufRead,BufNewFile *.fish set filetype=fish
@@ -212,9 +214,11 @@ function! PickPath(options)
 endfunction
 
 function! UseCpsm()
-    call deoplete#custom#source('_', 'matchers', ['matcher_cpsm'])
-    " cpsm does sorting too, don't resort
-    call deoplete#custom#source('_', 'sorters', [])
+	if exists("deoplete#custom#option")
+		call deoplete#custom#source('_', 'matchers', ['matcher_cpsm'])
+		" cpsm does sorting too, don't resort
+		call deoplete#custom#source('_', 'sorters', [])
+	end
 endfunction
 
 function! ConfigNeomake()
@@ -261,7 +265,9 @@ function! LanguageClientSupportedLanguage()
     " nmap <silent> <C-R> :call LanguageClient_workspace_symbol()<CR>
 
     "ignore buffer source when we have valid completions
-    call deoplete#custom#option('ignore_sources', { &ft: ['buffer', 'member', 'around', 'omni', 'omnifunc', 'tags', 'tag'] })
+    if exists("deoplete#custom#option")
+        call deoplete#custom#option('ignore_sources', { &ft: ['buffer', 'member', 'around', 'omni', 'omnifunc', 'tags', 'tag'] })
+    end
 
     "now start LanguageClient only if it wasn't already started
     if exists('b:lcStarted')

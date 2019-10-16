@@ -12,10 +12,13 @@ let g:python3_host_prog = "python3"
 let g:LanguageClient_autoStart = 0
 let g:LanguageClient_diagnosticsList = 'Location' " prevent it from overwriting qfix when loading a file via qfix
 let g:LanguageClient_hasSnippetSupport = 0
-let g:LanguageClient_loggingLevel = 'DEBUG'
+let g:LanguageClient_serverStderr = '/tmp/LanguageServer.log'
+let g:LanguageClient_loggingFile = '/tmp/LanguageClient.log'
+let g:LanguageClient_loggingLevel = 'TRACE'
 let g:LanguageClient_selectionUI = 'fzf'
 let g:LanguageClient_hoverPreview = "Always"
-let g:LanguageClient_completionPreferTextEdit = 1 " unclear what this does!
+" setting below to "1" causes wrong buffer content after completion, autozimu/LanguageClient-neovim#491
+let g:LanguageClient_completionPreferTextEdit = 0
 
 let g:matchup_matchparen_deferred = 1
 let g:polyglot_disabled = ['latex', 'tex']
@@ -47,7 +50,7 @@ if dein#load_state(s:dein_cache)
     call dein#add('ayu-theme/ayu-vim')
 
     "core plugins that change the behavior of vim and how we use it globally
-    " call dein#add('kien/ctrlp.vim')
+    call dein#add('editorconfig/editorconfig-vim')
     call dein#add('junegunn/fzf')
     " call dein#add('haya14busa/incsearch.vim')
     " call dein#add('othree/eregex.vim')
@@ -91,13 +94,13 @@ if dein#load_state(s:dein_cache)
     call dein#add('airblade/vim-gitgutter')
     call dein#add('tpope/vim-rhubarb')
 
-    "deoplete and deoplete core plugins
+    " "deoplete and deoplete core plugins
     call dein#add('Shougo/deoplete.nvim')
     call dein#add('Shougo/context_filetype.vim',
         \{'on_event': 'InsertEnter'})
-    "requires cmdheight=2 to show function signature in cmdline, or else noshowmode
-    " call dein#add('Shougo/echodoc.vim',
-    "     \{'on_i': 1})
+    " requires cmdheight=2 to show function signature in cmdline, or else noshowmode
+    call dein#add('Shougo/echodoc.vim',
+        \{'on_i': 1})
 
     "deoplete sources
     call dein#add('autozimu/LanguageClient-neovim',
@@ -182,7 +185,7 @@ inoremap <expr><tab> pumvisible() ? "\<c-y>" : "\<tab>"
 " Automatically select the first item in the menu when shown but do not insert
 set completeopt=menuone,noinsert
 " Map <C-space> to trigger the popup menu like in Visual Studio
-inoremap <expr><c-space> pumvisible() ? "\<c-space>" : "\<c-n>"
+inoremap <expr><c-space> pumvisible() ? "\<c-space>" : "\<c-x>\<c-o>"
 
 function! s:VisualStudio()
     " Visual Studio doesn't have a toggle comment action, so we need to use
@@ -277,7 +280,9 @@ call dein#set_hook('cpsm', 'hook_post_source', function('UseCpsm'))
 let g:deoplete#enable_at_startup = 1
 if exists("deoplete#custom#option")
     call deoplete#custom#option({
+        \'auto_complete': v:true,
         \'auto_complete_delay': 100,
+        \'auto_refresh_delay': 20,
         \'ignore_case': v:true,
         \'ignore_sources': { '_': ['omni', 'omnifunc', 'snippet'] },
         \'camel_case': v:false,
@@ -288,6 +293,7 @@ if exists("deoplete#custom#option")
     \})
     autocmd InsertEnter * call deoplete#enable()
     call deoplete#custom#option('auto_complete_delay', 20)
+    call deoplete#custom#source('_', 'converters', ['converter_remove_overlap'])
     " This is the default, but it's overriden by the CPSM hook
     call deoplete#custom#source('_', 'matchers', ['matcher_full_fuzzy'])
 endif
@@ -300,10 +306,18 @@ set shortmess +=c
 " * bash/js/ts/css/html/json: `yarn install` in config root
 
 let s:node = s:nvimroot . '/node_modules/.bin/'
+" \ 'rust': ['env', 'RUST_BACKTRACE=1', 'rustup', 'run', 'nightly', 'rls'],
+" \ 'rust': ['env', 'RUST_BACKTRACE=1', 'RUST_LOG=trace', 'cargo', 'run', '--release', '--manifest-path=/mnt/d/rand/rls/Cargo.toml'],
+" \ 'cpp': ['clangd', '-compile-commands-dir=$PWD/build'],
+" \ 'cpp': ['/mnt/d/rand/cquery/build/cquery', '--log-file=/tmp/cquery.log', '--init={"cacheDirectory": "/tmp/cquery", "compilationDatabaseDirectory": "$PWD/build", "cacheFormat": "msgpack"}'],
+" \ 'rust': ['tcp://127.0.0.1:5556'],
+" \ 'c': ['clangd', '-compile-commands-dir=$PWD/build'],
+" \ 'rust': ['/mnt/c/Users/Mahmoud/.rustup/toolchains/nightly-x86_64-pc-windows-msvc/bin/rls.exe'],
+" \ 'rust': ['rustup.exe', 'run', 'stable', 'rls'],
 let g:LanguageClient_serverCommands = {
-    \ 'c': ['clangd', '-compile-commands-dir=$PWD/build'],
-    \ 'cpp': ['clangd', '-compile-commands-dir=$PWD/build'],
-    \ 'rust': ['rustup', 'run', 'nightly', 'rls'],
+    \ 'c': ['clangd', '--compile-commands-dir=$PWD/build'],
+    \ 'cpp': ['clangd', '--compile-commands-dir=' . $PWD . '/build'],
+    \ 'rust': ['env', 'RUST_BACKTRACE=1', 'rustup', 'run', 'nightly-2019-09-05', 'rls'],
     \ 'python': ['pyls'],
     \ 'css': [s:node . 'css-languageserver', '--stdio'],
     \ 'html': [s:node . 'html-languageserver', '--stdio'],
@@ -364,9 +378,11 @@ set autoread
 nmap Q <Nop>
 nmap q: <Nop>
 
-"typing quickly often results in :w being typed in as :W
-"fortunately, :W is not a default command for anything
+" Typing quickly often results in, e.g. :w being typed in as :W
+" Fortunately, :W is not a default command for anything
 command! W :write
+command! Bn :bn
+command! Bp :bp
 
 "disable F1
 nmap <F1> <Nop>
@@ -377,10 +393,11 @@ imap <F1> <Esc>
 nnoremap <F8> :w <CR> :make <CR>
 inoremap <F8> <Esc> :w <CR> :make <CR>
 
-"allow copy-and-paste by mouse selection and ctrl+c/v
+" allow copy-and-paste by mouse selection and ctrl+c/v
 vnoremap <C-c> "*y
-" nnoremap <C-v> "*gP
-inoremap <C-v> <Esc>"*pa
+" mark undo point and then paste
+inoremap <C-v> <C-G>u<Esc>"*pa
+
 " We don't want to disable ctrl+v in normal mode, but we do want
 " copy-and-paste - this is a good compromise. Ctrl+v twice will paste,
 " as the first <C-v> will enter visual mode, then the second will trigger the
@@ -402,26 +419,29 @@ vnoremap <silent> # :<C-U>
   \escape(@", '?\.*$^~['), '\_s\+', '\\_s\\+', 'g')<CR><CR>
   \gV:call setreg('"', old_reg, old_regtype)<CR>
 
-" Includes workaround for cursor jumping around on save
-" From https://stackoverflow.com/a/37201230/17027
 function! <SID>StripTrailingWhitespaces()
-    if index([], &ft) != -1
+    " Exclude certain file types from whitespace modification
+    if index(["gitcommit", "gitrebase", "rst"], &ft) != -1
         return
     endif
 
+    " Save cursor location so it does not change after modifications
     let l = line(".")
     let c = col(".")
     %s/\s\+$//e
+
+    " Restore previous cursor location
     call cursor(l, c)
 endfun
 
 autocmd BufWritePre * :call <SID>StripTrailingWhitespaces()
 
-"F12 to go to definition (like Visual Studio)
+" F12 to go to definition (like Visual Studio)
 noremap <F12> <C-]>
 
 " allow % to match angle brackets
 set matchpairs+=<:>
+
 " set a timeout (in ms) for matchpairs to prevent any sluggishness
 let g:matchparen_timeout = 20
 let g:matchparen_insert_timeout = 20
@@ -437,29 +457,20 @@ nnoremap <C-a> ggVG
 "alt+a to switch to header file, courtesy of a.vim
 nnoremap <M-a> :A<CR>
 
-" "magic search
-" function! s:noregexp(pattern) abort
-"     let pattern = substitute(a:pattern, '+', '\\+', "")
-"     let pattern = substitute(pattern, '\\b', '\\<', "")
-"     " :echom pattern
-"     return pattern
-" endfunction
-"
-" function! s:config() abort
-"     return {'converters': [function('s:noregexp')]}
-" endfunction
-"
-" noremap <silent><expr> z/ incsearch#go(<SID>config())
-" "end magic search
-"
-" "replace search with incsearch
-" " map / <Plug>(incsearch-forward)
-" map <silent><expr> / incsearch#go(<SID>config())
-" map ? <Plug>(incsearch-backward)
-" map g/ <Plug>(incsearch-stay)
-" let g:incsearch#magic = '\v'
+" As (neo)vim does not support ctrl+shift+x modifiers, and <C-T> does
+" not work in the web browser, map F3/Shift-F3 to have something that
+" works everywhere for jumping to next/previous match while doing an
+" incremental search.
+augroup vimrc-unified-search-jumping
+  autocmd!
+  autocmd CmdlineEnter /,\? cnoremap <F3> <C-G>
+  autocmd CmdLineEnter /,\? cnoremap <F15> <C-T>
 
-"hide highlight on insert
+  autocmd CmdlineLeave /,\? :cunmap <F3>
+  autocmd CmdlineLeave /,\? :cunmap <F15>
+augroup END
+
+" hide highlight on insert
 autocmd InsertEnter * setlocal nohlsearch
 autocmd InsertLeave * setlocal hlsearch lz
 inoremap <silent><Esc> <Esc>:nohl<bar>set nolz<CR>
@@ -470,14 +481,24 @@ inoremap <silent><C-c> <C-c>:nohl<bar>set nolz<CR>
 " autocmd FileType vim,tex let b:autoformat_autoindent=0
 autocmd FileType html,vim let b:autoformat_autoindent=0
 
-cabbrev <expr> autoformat 'Autoformat'
-cabbrev <expr> neomake 'Neomake'
+" :command! does not allow lowercase commands, but I don't care.
+" Allows things like mapping `:verbose cmd` to `:verbose Cmd`, but
+" doesn't mess with things like `:echo cmd`
+function! <SID>cmdabbr(shortcut, cmd)
+	:execute "cnoreabbrev <expr> " . a:shortcut .
+		\ " (getcmdtype() == ':' && getcmdline() =~ '^" . a:shortcut . "$')" .
+		\ " ? '" . a:cmd . "' : '" . a:shortcut . "'"
+endfunction
+
+autocmd! BufRead,BufNewFile *.vim inoreabbrev <expr> ; ""
+
+:call <SID>cmdabbr("autoformat", "Autoformat")
+:call <SID>cmdabbr("neomake", "Neomake")
+:call <SID>cmdabbr("rg", "Rg")
 
 " ripgrep stuff
 nmap <m-r> :Rg<CR>
-cabbrev <expr> rg 'Rg'
 let g:default_rg_ignore = '-g "!*.{o,out,po}" -g "!tags" -g "!target" -g "!*~"'
-" let g:rg_command = "rg " . g:default_rg_ignore . ' --vimgrep -S '
 let g:rg_command = 'rg --vimgrep -S ' . g:default_rg_ignore
 let g:rg_highlight = 1
 
@@ -535,6 +556,7 @@ set shortmess +=c
 let g:indentLine_char = '┆'
 let g:indentLine_color_term = 239
 
+" Improve granuarity of undo commands
 :silent inoremap <CR>=EnhancedEnter()
 
 

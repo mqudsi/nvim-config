@@ -378,6 +378,11 @@ set backupdir-=.
 :map <M-left> :normal <Home><CR>
 :map <M-right> :normal <End><CR>
 
+" Compatibility with tmux-style buffer switching
+:nnoremap <c-b>n :bn<CR>
+:nnoremap <c-b>p :bp<CR>
+:nnoremap <c-b>d :bd<CR>
+
 " colors for MatchTagAlways highlights
 let g:mta_use_matchparen_group = 0
 hi link MatchTag Underlined

@@ -81,7 +81,8 @@ function! DetectTabExpand()
     elseif tabs.count > spaces.count
         setlocal noexpandtab
         " make sure we don't get mixed soft and hard tabs
-        :call execute(":set shiftwidth=" . &tabstop)
+        " :call execute(":set shiftwidth=" . &tabstop)
+        set sw=0
     endif
 
     let b:tabs_count = tabs.count

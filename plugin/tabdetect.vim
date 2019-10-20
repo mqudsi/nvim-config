@@ -36,7 +36,7 @@ endfunction
 
 function! DetectTabExpand()
     " Don't bother running if we're in a read-only buffer to speed things up
-    if &ro != 0
+    if &ro != 0 || @% == ""
         return
     endif
 

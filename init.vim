@@ -338,7 +338,7 @@ let s:node = s:nvimroot . '/node_modules/.bin/'
 let g:LanguageClient_serverCommands = {
     \ 'c': ['clangd', '--compile-commands-dir=$PWD/build'],
     \ 'cpp': ['clangd', '--compile-commands-dir=' . $PWD . '/build'],
-    \ 'rust': ['env', 'RUST_BACKTRACE=1', 'rustup', 'run', 'nightly-2019-09-05', 'rls'],
+    \ 'rust': ['rustup', 'run', 'nightly', 'rls'],
     \ 'python': ['pyls'],
     \ 'css': [s:node . 'css-languageserver', '--stdio'],
     \ 'html': [s:node . 'html-languageserver', '--stdio'],

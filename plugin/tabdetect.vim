@@ -57,10 +57,19 @@ function! DetectTabExpand()
     " to 4-space indents (for sw=2) and from 4-space to 8-space (for sw=4)
 	let double_spaces = deepcopy(s:IndentationHelper)
     let double_spaces.name = "double spaces"
-    let job_2spaces = jobstart(['sh', '-c', "sed -z 's/\\n  [^ ][^\\n]*\\n    [^ ]/'\\036'/g' " . file_path . " | grep -c \\036"], double_spaces)
+    " We need to count transitions from one indent level to another, not just
+    " occurences of n-spaced indents.
+    " `grep -z` is not support on macOS 10.10 (and maybe even later),
+    " otherwise we could directly use `grep -c -z '\\n  [^ ][^\\n]*\\n    [^ ]'`
+    " It also does not support `sed -z`, so we can't even do this:
+    " `sed -z 's/\\n  [^ ][^\\n]*\\n    [^ ]/'\\036'/g' | grep -c \\036
+    " Nor does its grep have any support for octal escapes, so we need to use
+    " string interpolation or command substitution to get it working :'(
+    let job_2spaces = jobstart(['sh', '-c', "tr '\\n' '\\036' < " . file_path . " | sed 's/'$'\\036''  [^ ][^'$'\\036'']*'$'\\036''    [^ ]/'$'\\037''/g' | tr '\\036' '\\n' | grep -c $'\\037'"], double_spaces)
 	let quadruple_spaces = deepcopy(s:IndentationHelper)
     let quadruple_spaces.name = "quadruple spaces"
-    let job_4spaces = jobstart(['sh', '-c', "sed -z 's/\\n    [^ ][^\\n]*\\n        [^ ]/'\\036'/g' " . file_path . " | grep -c \\036"], quadruple_spaces)
+    " let job_2spaces = jobstart("grep -c -z '\\n    [^ ][^\\n]*\\n        [^ ]'", quadruple_spaces)
+    let job_4spaces = jobstart(['sh', '-c', "tr '\\n' '\\036' < " . file_path . " | sed 's/'$'\\036''    [^ ][^'$'\\036'']*'$'\\036''        [^ ]/'$'\\037''/g' | tr '\\036' '\\n' | grep -c $'\\037'"], quadruple_spaces)
 
     " Wait for both processes to complete in any order
     :call jobwait([job_spaces, job_tabs])

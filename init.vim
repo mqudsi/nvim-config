@@ -111,25 +111,26 @@ if dein#load_state(s:dein_cache)
 
     "syntax plugins, sorted by filetype
     call dein#add('ARM9/arm-syntax-vim.git')
-    call dein#add('octol/vim-cpp-enhanced-highlight')
-    call dein#add('ap/vim-css-color')
+    call dein#add('cespare/vim-toml')
+    " call dein#add('ap/vim-css-color')
     call dein#add('hail2u/vim-css3-syntax')
-    call dein#add('OrangeT/vim-csharp')
     " call dein#add('vim-scripts/DoxyGen-Syntax',
     "    \{'on_ft': ['doxygen']})
     call dein#add('elzr/vim-json')
+    call dein#add('gabrielelana/vim-markdown')
+    call dein#add('HerringtonDarkholme/yats.vim')
     call dein#add('hjson/vim-hjson')
+    call dein#add('jvirtanen/vim-octave')
     call dein#add('pangloss/vim-javascript')
     call dein#add('mqudsi/meson.vim')
     call dein#add('mqudsi/ninja.vim')
-    call dein#add('tbastos/vim-lua')
-    call dein#add('gabrielelana/vim-markdown')
-    call dein#add('jvirtanen/vim-octave')
-    call dein#add('StanAngeloff/php.vim')
+    call dein#add('norcalli/nvim-colorizer.lua')
+    call dein#add('octol/vim-cpp-enhanced-highlight')
+    call dein#add('OrangeT/vim-csharp')
     call dein#add('PProvost/vim-ps1')
     call dein#add('rust-lang/rust.vim')
-    call dein#add('cespare/vim-toml')
-    call dein#add('HerringtonDarkholme/yats.vim')
+    call dein#add('StanAngeloff/php.vim')
+    call dein#add('tbastos/vim-lua')
     " call dein#add('Quramy/tsuquyomi',
     "     \{'on_ft': ['typescript']})
     " call dein#add('lervag/vimtex',
@@ -640,6 +641,10 @@ set shell=fish
 
 " Use our own ctrl+p implementation built around FZF and ripgrep
 nnoremap <C-p> :call ctrlp#CtrlP()<CR>
+
+" Enable nvim-colorizer for all file types
+" Note: Neovim 0.4.2+ required or you'll see errors about tbl_flatten
+lua require'colorizer'.setup()
 
 " After everything else
 filetype plugin indent on

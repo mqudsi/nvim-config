@@ -17,6 +17,7 @@ let g:LanguageClient_loggingFile = '/tmp/LanguageClient.log'
 let g:LanguageClient_loggingLevel = 'TRACE'
 let g:LanguageClient_selectionUI = 'fzf'
 let g:LanguageClient_hoverPreview = "Always"
+" let g:LanguageClient_changeThrottle = 0.1
 " setting below to "1" causes wrong buffer content after completion, autozimu/LanguageClient-neovim#491
 let g:LanguageClient_completionPreferTextEdit = 0
 
@@ -97,6 +98,8 @@ if dein#load_state(s:dein_cache)
     " "deoplete and deoplete core plugins
     " call dein#add('Shougo/deoplete.nvim')
     call dein#add('ncm2/ncm2')
+    call dein#add('ncm2/ncm2-path')
+    call dein#add('ncm2/float-preview.nvim')
     call dein#add('Shougo/context_filetype.vim',
         \{'on_event': 'InsertEnter'})
     " requires cmdheight=2 to show function signature in cmdline, or else noshowmode
@@ -336,6 +339,7 @@ let s:node = s:nvimroot . '/node_modules/.bin/'
 " \ 'c': ['clangd', '-compile-commands-dir=$PWD/build'],
 " \ 'rust': ['/mnt/c/Users/Mahmoud/.rustup/toolchains/nightly-x86_64-pc-windows-msvc/bin/rls.exe'],
 " \ 'rust': ['rustup.exe', 'run', 'stable', 'rls'],
+" \ 'rust': ['ra_lsp_server'],
 let g:LanguageClient_serverCommands = {
     \ 'c': ['clangd', '--compile-commands-dir=$PWD/build'],
     \ 'cpp': ['clangd', '--compile-commands-dir=' . $PWD . '/build'],

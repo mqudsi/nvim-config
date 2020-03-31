@@ -339,11 +339,11 @@ let s:node = s:nvimroot . '/node_modules/.bin/'
 " \ 'c': ['clangd', '-compile-commands-dir=$PWD/build'],
 " \ 'rust': ['/mnt/c/Users/Mahmoud/.rustup/toolchains/nightly-x86_64-pc-windows-msvc/bin/rls.exe'],
 " \ 'rust': ['rustup.exe', 'run', 'stable', 'rls'],
-" \ 'rust': ['ra_lsp_server'],
+" \ 'rust': ['rustup', 'run', 'nightly-2020-03-18', 'rls'],
 let g:LanguageClient_serverCommands = {
     \ 'c': ['clangd', '--compile-commands-dir=$PWD/build'],
     \ 'cpp': ['clangd', '--compile-commands-dir=' . $PWD . '/build'],
-    \ 'rust': ['rustup', 'run', 'nightly', 'rls'],
+    \ 'rust': ['rust-analyzer'],
     \ 'python': ['pyls'],
     \ 'css': [s:node . 'css-languageserver', '--stdio'],
     \ 'html': [s:node . 'html-languageserver', '--stdio'],

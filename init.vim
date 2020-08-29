@@ -111,6 +111,8 @@ if dein#load_state(s:dein_cache)
         \{'rev': 'next', 'build': 'bash ./install.sh'})
     call dein#add('othree/csscomplete.vim',
         \{'on_event': 'InsertEnter', 'on_if': "index(['css'], &ft) != -1"})
+    call dein#add('OmniSharp/omnisharp-vim',
+        \{'on_if': "index(['cs', 'cshtml', 'asp'], &ft) != -1"})
 
     "syntax plugins, sorted by filetype
     call dein#add('ARM9/arm-syntax-vim.git')

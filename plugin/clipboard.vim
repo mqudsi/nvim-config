@@ -6,8 +6,8 @@ if has("wsl")
 	\	'*': 'noerr win32yank.exe -i --crlf',
 	\	},
 	\ 'paste': {
-	\	'+': 'noerr win32yank.exe -o --lf',
-	\	'*': 'noerr win32yank.exe -o --lf',
+	\	'+': 'noerr paste.exe --lf',
+	\	'*': 'noerr paste.exe --lf',
 	\	},
 	\ 'cache_enabled': 0,
 	\ }

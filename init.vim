@@ -9,6 +9,7 @@ let g:python3_host_prog = "python3"
 
 " Options which must be forward declared
 
+let g:float_preview#docked = 1 " Have ncm2 use neovim's floating window feature
 let g:LanguageClient_autoStart = 0
 let g:LanguageClient_diagnosticsList = 'Location' " prevent it from overwriting qfix when loading a file via qfix
 let g:LanguageClient_hasSnippetSupport = 0

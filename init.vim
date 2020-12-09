@@ -659,3 +659,16 @@ filetype plugin indent on
 syntax enable
 
 :silent! colo base16-tomorrow-night
+
+" Save all open files and exit cleanly when USR1 is received.
+" This comes in handy when you have an SSH session open to a server from
+" one machine, then remote in from another and realize you weren't using
+" screen/tmux before editing the files you were working on. You can run
+" `killall -USR1 nvim` then open the files and resume editing.
+autocmd Signal SIGUSR1 call SaveAndExit()
+function SaveAndExit()
+    " This will save files that have a valid path, e.g. where `expand('%:p')
+    " does not evaluate to an empty value.
+    :wa
+    :cq!
+endfunction

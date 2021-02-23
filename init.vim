@@ -456,7 +456,7 @@ vnoremap <silent> # :<C-U>
 
 function! <SID>StripTrailingWhitespaces()
     " Exclude certain file types from whitespace modification
-    if index(["gitcommit", "gitrebase", "rst"], &ft) != -1
+    if index(["diff", "gitcommit", "gitrebase", "rst"], &ft) != -1
         return
     endif
 

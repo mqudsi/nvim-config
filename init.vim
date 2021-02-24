@@ -4,6 +4,8 @@ if &compatible
 endif
 
 let s:nvimroot = $HOME . '/.config/nvim'
+" Speed up startup by preventing neovim from searching the filesystem trying
+" to find a python3 interpreter. This requires `python3` to be in $PATH.
 let g:python3_host_prog = "python3"
 " let g:node_host_prog = get(split(system('which neovim-node-host'), '\n'), 0)
 
@@ -13,19 +15,20 @@ let g:float_preview#docked = 1 " Have ncm2 use neovim's floating window feature
 let g:LanguageClient_autoStart = 0
 let g:LanguageClient_diagnosticsList = 'Location' " prevent it from overwriting qfix when loading a file via qfix
 let g:LanguageClient_hasSnippetSupport = 0
-let g:LanguageClient_serverStderr = '/tmp/LanguageServer.log'
-let g:LanguageClient_loggingFile = '/tmp/LanguageClient.log'
-let g:LanguageClient_loggingLevel = 'TRACE'
+" let g:LanguageClient_serverStderr = '/tmp/LanguageServer.log'
+" let g:LanguageClient_loggingFile = '/tmp/LanguageClient.log'
+" let g:LanguageClient_loggingLevel = 'TRACE'
 let g:LanguageClient_selectionUI = 'fzf'
 let g:LanguageClient_hoverPreview = "Always"
 " let g:LanguageClient_changeThrottle = 0.1
 " setting below to "1" causes wrong buffer content after completion, autozimu/LanguageClient-neovim#491
 let g:LanguageClient_completionPreferTextEdit = 0
 
+" Improve performance by delaying highlighting of matching keyword (matchup)
 let g:matchup_matchparen_deferred = 1
 let g:polyglot_disabled = ['latex', 'tex']
 
-" disable the following (neo)vim plugins
+" disable the following unused (neo)vim plugins to speed things up.
 let g:loaded_python_provider = 1
 let g:loaded_ruby_provider = 1
 let g:loaded_tutor_mode_plugin = 1
@@ -90,15 +93,13 @@ if dein#load_state(s:dein_cache)
     " call dein#add('ludovicchabant/vim-gutentags',
     "     \{'on_event': 'InsertEnter'})
 
-    "git-related extensions
+    " git-related extensions
     call dein#add('rhysd/committia.vim')
     call dein#add('jreybert/vimagit',
         \{'on_cmd': ['Magit', 'MagitOnly']})
     call dein#add('airblade/vim-gitgutter')
     call dein#add('tpope/vim-rhubarb')
 
-    " "deoplete and deoplete core plugins
-    " call dein#add('Shougo/deoplete.nvim')
     call dein#add('ncm2/ncm2')
     call dein#add('ncm2/ncm2-path')
     call dein#add('ncm2/float-preview.nvim')
@@ -116,7 +117,7 @@ if dein#load_state(s:dein_cache)
     call dein#add('OmniSharp/omnisharp-vim',
         \{'on_if': "index(['cs', 'cshtml', 'asp'], &ft) != -1"})
 
-    "syntax plugins, sorted by filetype
+    " syntax plugins, sorted by filetype
     call dein#add('ARM9/arm-syntax-vim.git')
     call dein#add('cespare/vim-toml')
     " call dein#add('ap/vim-css-color')
@@ -149,7 +150,7 @@ if dein#load_state(s:dein_cache)
 endif
 
 autocmd BufEnter * call ncm2#enable_for_buffer()
-"specify custom filetypes before predicating actions on FileType below
+" Specify custom filetypes before predicating actions on FileType below
 autocmd BufRead,BufNewFile *.expect set filetype=expect
 autocmd BufRead,BufNewFile *.fish set filetype=fish
 autocmd BufRead,BufNewFile *.git/COMMIT_EDITMSG set filetype=gitcommit
@@ -162,11 +163,11 @@ autocmd BufRead,BufNewfile *.conf set filetype=conf
 autocmd BufRead,BufNewfile */*nginx*/*.conf set filetype=nginx
 autocmd BufRead,BufNewfile .clang-format set filetype=yaml
 
-"specify comments for languages that commentary does not support oob
+" Specify comments for languages that commentary does not support oob
 autocmd FileType meson setlocal commentstring=#\ %s
 autocmd FileType ninja setlocal commentstring=#\ %s
 
-"specify default make programs and other settings by file type
+" Specify default make programs and other settings by file type
 let g:cargo_makeprg_params = "build"
 autocmd FileType fish compiler fish
 autocmd FileType html,php set smartindent
@@ -178,7 +179,7 @@ autocmd FileType rust compiler cargo
 autocmd FileType typescript setlocal mp=tsc
 autocmd FileType markdown setlocal mp=pandoc\ %:~:.\ -o\ %:~:.:r.pdf\;\ open\ %:~:.:r.pdf
 
-" enable spell-checking by default for these file types
+" Enable spell-checking by default for these file types
 autocmd FileType markdown,plaintex,tex,text set spell
 
 " If you want to install not installed plugins on startup.
@@ -186,7 +187,7 @@ if dein#check_install()
   call dein#install()
 endif
 
-"End dein Scripts-------------------------
+" End dein Scripts-------------------------
 
 autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
 " Only use <TAB> to accept an autocompletion, which fixes the conflict between
@@ -305,45 +306,18 @@ call dein#set_hook('neomake', 'hook_source', function('ConfigNeomake'))
 call dein#set_hook('neomake', 'hook_post_source', function('AfterNeomake'))
 call dein#set_hook('cpsm', 'hook_post_source', function('UseCpsm'))
 
-" deoplete configuration
-let g:deoplete#enable_at_startup = 1
-if exists("deoplete#custom#option")
-    call deoplete#custom#option({
-        \'auto_complete': v:true,
-        \'auto_complete_delay': 100,
-        \'auto_refresh_delay': 20,
-        \'ignore_case': v:true,
-        \'ignore_sources': { '_': ['omni', 'omnifunc', 'snippet'] },
-        \'camel_case': v:false,
-        \'max_list': 250,
-        \'num_processes': 0,
-        \'smart_case': v:true,
-        \'min_pattern_length': 0,
-    \})
-    autocmd InsertEnter * call deoplete#enable()
-    call deoplete#custom#option('auto_complete_delay', 20)
-    call deoplete#custom#source('_', 'converters', ['converter_remove_overlap'])
-    " This is the default, but it's overriden by the CPSM hook
-    call deoplete#custom#source('_', 'matchers', ['matcher_full_fuzzy'])
-endif
 set shortmess +=c
 
 " LSP providers installation instructions:
 " * c/cpp: sudo apt-get install clang-tools-7 (under Debian/Ubuntu)
-" * rust: rustup component add rls-preview --toolchain=nightly
+" * rust: cargo install rust-analyzer
 " * python: sudo pip3 install python-language-server
 " * bash/js/ts/css/html/json: `yarn install` in config root
 
 let s:node = s:nvimroot . '/node_modules/.bin/'
-" \ 'rust': ['env', 'RUST_BACKTRACE=1', 'rustup', 'run', 'nightly', 'rls'],
-" \ 'rust': ['env', 'RUST_BACKTRACE=1', 'RUST_LOG=trace', 'cargo', 'run', '--release', '--manifest-path=/mnt/d/rand/rls/Cargo.toml'],
 " \ 'cpp': ['clangd', '-compile-commands-dir=$PWD/build'],
 " \ 'cpp': ['/mnt/d/rand/cquery/build/cquery', '--log-file=/tmp/cquery.log', '--init={"cacheDirectory": "/tmp/cquery", "compilationDatabaseDirectory": "$PWD/build", "cacheFormat": "msgpack"}'],
-" \ 'rust': ['tcp://127.0.0.1:5556'],
 " \ 'c': ['clangd', '-compile-commands-dir=$PWD/build'],
-" \ 'rust': ['/mnt/c/Users/Mahmoud/.rustup/toolchains/nightly-x86_64-pc-windows-msvc/bin/rls.exe'],
-" \ 'rust': ['rustup.exe', 'run', 'stable', 'rls'],
-" \ 'rust': ['rustup', 'run', 'nightly-2020-03-18', 'rls'],
 let g:LanguageClient_serverCommands = {
     \ 'c': ['clangd', '--compile-commands-dir=$PWD/build'],
     \ 'cpp': ['clangd', '--compile-commands-dir=' . $PWD . '/build'],
@@ -400,16 +374,16 @@ set wildignorecase "ignore case for filename completions
 set infercase "allow ctrl+n to complete without matching case when combined with ignorecase
 "set ignorecase "but ignorecase makes regex searches case-insensitive :(
 
-"clear highlight on double esc
+" Clear highlight on double esc
 nnoremap <silent> <esc> :noh<cr>:ccl<cr>:lclose<esc>
 
-"automatically save on buffer change
+" Automatically save on buffer change
 set hidden
 set autowrite
-"reload file if it hasn't been changed since save but it's changed on disk
+" Reload file if it hasn't been changed since save but it's changed on disk
 set autoread
 
-"disable ex mode
+" Disable ex mode
 nmap Q <Nop>
 nmap q: <Nop>
 
@@ -419,24 +393,23 @@ command! W :write
 command! Bn :bn
 command! Bp :bp
 
-"disable F1
+" Disable F1
 nmap <F1> <Nop>
 vmap <F1> <Nop>
 imap <F1> <Esc>
 
-"build via makeprg with F8
+" Build via makeprg with F8
 nnoremap <F8> :w <CR> :make <CR>
 inoremap <F8> <Esc> :w <CR> :make <CR>
 
-" allow copy-and-paste by mouse selection and ctrl+c/v
+" Allow copy-and-paste by mouse selection and ctrl+c/v
 vnoremap <C-c> "*y
-" mark undo point and then paste
+" Mark undo point and then paste
 inoremap <C-v> <C-G>u<Esc>"*pa
 
 " We don't want to disable ctrl+v in normal mode, but we do want
-" copy-and-paste - this is a good compromise. Ctrl+v twice will paste,
-" as the first <C-v> will enter visual mode, then the second will trigger the
-" paste.
+" copy-and-paste - this is a good compromise. Ctrl+V twice will paste, as the
+" first <C-V> will enter visual mode, then the second will trigger the paste.
 vnoremap <C-v> "*P
 
 " And support using `gp` to select pasted text
@@ -454,6 +427,7 @@ vnoremap <silent> # :<C-U>
   \escape(@", '?\.*$^~['), '\_s\+', '\\_s\\+', 'g')<CR><CR>
   \gV:call setreg('"', old_reg, old_regtype)<CR>
 
+autocmd BufWritePre * :call <SID>StripTrailingWhitespaces()
 function! <SID>StripTrailingWhitespaces()
     " Exclude certain file types from whitespace modification
     if index(["diff", "gitcommit", "gitrebase", "rst"], &ft) != -1
@@ -469,27 +443,25 @@ function! <SID>StripTrailingWhitespaces()
     call cursor(l, c)
 endfun
 
-autocmd BufWritePre * :call <SID>StripTrailingWhitespaces()
-
 " F12 to go to definition (like Visual Studio)
 noremap <F12> <C-]>
 
-" allow % to match angle brackets
+" Allow % to match angle brackets
 set matchpairs+=<:>
 
-" set a timeout (in ms) for matchpairs to prevent any sluggishness
-let g:matchparen_timeout = 20
-let g:matchparen_insert_timeout = 20
+" Set a timeout (in ms) for matchpairs to prevent any sluggishness
+let g:matchup_matchparen_timeout = 20
+let g:matchup_matchparen_insert_timeout = 20
 
-"ctrl+s save
+" ctrl+s save
 inoremap <C-s> <esc>:w<CR><esc>
 nnoremap <C-s> :w<CR>
 vmap <C-s> <esc>:w<CR>gv
 
-"ctrl+a to select all in normal mode
+" ctrl+a to select all in normal mode
 nnoremap <C-a> ggVG
 
-"alt+a to switch to header file, courtesy of a.vim
+" alt+a to switch to header file, courtesy of a.vim
 nnoremap <M-a> :A<CR>
 
 " As (neo)vim does not support ctrl+shift+x modifiers, and <C-T> does
@@ -505,7 +477,7 @@ augroup vimrc-unified-search-jumping
   autocmd CmdlineLeave /,\? :cunmap <F15>
 augroup END
 
-" hide highlight on insert
+" Hide highlight on insert
 autocmd InsertEnter * setlocal nohlsearch
 autocmd InsertLeave * setlocal hlsearch lz
 inoremap <silent><Esc> <Esc>:nohl<bar>set nolz<CR>
@@ -537,7 +509,7 @@ let g:default_rg_ignore = '-g "!*.{o,out,po}" -g "!tags" -g "!target" -g "!*~"'
 let g:rg_command = 'rg --vimgrep -S ' . g:default_rg_ignore
 let g:rg_highlight = 1
 
-" remap up/down arrow keys to move by screen line
+" Remap up/down arrow keys to move by screen line
 nnoremap <Up> g<Up>
 nnoremap <Down> g<Down>
 nnoremap <silent> <Home> g<Home>
@@ -545,7 +517,7 @@ nnoremap <silent> <End> g<End>
 inoremap <silent> <Home> <c-o>g<Home>
 inoremap <silent> <End> <c-o>g<End>
 
-" copy text on right-click in visual mode
+" Copy text on right-click in visual mode
 vmap <RightMouse> "*y
 
 " work around WSL/nvim xterm-256color redraw bug
@@ -591,10 +563,6 @@ set shortmess +=c
 let g:indentLine_char = '┆'
 let g:indentLine_color_term = 239
 
-" Improve granuarity of undo commands
-:silent inoremap <CR>=EnhancedEnter()
-
-
 " Set default maximum line lengths for various types
 autocmd FileType cpp setlocal tw=100
 autocmd FileType gitcommit setlocal tw=80
@@ -602,6 +570,8 @@ autocmd FileType markdown setlocal tw=100
 autocmd FileType rust setlocal tw=100
 autocmd FileType plaintex,tex setlocal tw=100
 
+" Improve granuarity of undo commands
+:silent inoremap <CR>=EnhancedEnter()
 " Begin improve undo granularity/smart undo
 function! EnhancedEnter()
     if false && pumvisible()
@@ -641,7 +611,7 @@ inoremap <expr> <C-U> <SID>start_delete("\<C-U>")
 inoremap <expr> <M-C-H> <SID>start_delete("\<C-W>")
 " End improve undo granularity
 
-" alt-bkspc remove last word
+" alt-bkspc to remove last word
 inoremap <M-BS> <C-W>
 
 " Explicitly fish as the shell

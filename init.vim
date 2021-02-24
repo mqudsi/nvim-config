@@ -26,7 +26,10 @@ let g:LanguageClient_completionPreferTextEdit = 0
 
 " Improve performance by delaying highlighting of matching keyword (matchup)
 let g:matchup_matchparen_deferred = 1
-let g:polyglot_disabled = ['latex', 'tex']
+" Disable poor polyglot plugins, keep the rest
+" The csv plugin in particular has an extremely buggy version of elastic tabs
+" and causes lots of hangs and even data loss.
+let g:polyglot_disabled = ['latex', 'tex', 'csv']
 
 " disable the following unused (neo)vim plugins to speed things up.
 let g:loaded_python_provider = 1

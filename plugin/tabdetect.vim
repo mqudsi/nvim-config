@@ -48,10 +48,10 @@ function! DetectTabExpand()
     " Run both space and tab detections simultaneously
 	let spaces = deepcopy(s:IndentationHelper)
     let spaces.name = "spaces"
-    let job_spaces = jobstart("grep -c '^  ' " . file_path, spaces)
+    let job_spaces = jobstart("head -n 250 " . file_path . " | grep -c '^  '", spaces)
 	let tabs = deepcopy(s:IndentationHelper)
     let tabs.name = "tabs"
-    let job_tabs = jobstart("grep -c '^\t' " . file_path, tabs)
+    let job_tabs = jobstart("head -n 250 " . file_path . " | grep -c '^\t'", tabs)
 
     " Also start background jobs to count transitions from 2-space indents
     " to 4-space indents (for sw=2) and from 4-space to 8-space (for sw=4)
@@ -65,11 +65,10 @@ function! DetectTabExpand()
     " `sed -z 's/\\n  [^ ][^\\n]*\\n    [^ ]/'\\036'/g' | grep -c \\036
     " Nor does its grep have any support for octal escapes, so we need to use
     " string interpolation or command substitution to get it working :'(
-    let job_2spaces = jobstart(['sh', '-c', "tr '\\n' '\\036' < " . file_path . " | sed 's/'$'\\036''  [^ ][^'$'\\036'']*'$'\\036''    [^ ]/'$'\\037''/g' | tr '\\036' '\\n' | grep -c $'\\037'"], double_spaces)
+    let job_2spaces = jobstart(['sh', '-c', "head -n 250 " . file_path . " | tr '\\n' '\\036' | sed 's/'$'\\036''  [^ ][^'$'\\036'']*'$'\\036''    [^ ]/'$'\\037''/g' | tr '\\036' '\\n' | grep -c $'\\037'"], double_spaces)
 	let quadruple_spaces = deepcopy(s:IndentationHelper)
     let quadruple_spaces.name = "quadruple spaces"
-    " let job_2spaces = jobstart("grep -c -z '\\n    [^ ][^\\n]*\\n        [^ ]'", quadruple_spaces)
-    let job_4spaces = jobstart(['sh', '-c', "tr '\\n' '\\036' < " . file_path . " | sed 's/'$'\\036''    [^ ][^'$'\\036'']*'$'\\036''        [^ ]/'$'\\037''/g' | tr '\\036' '\\n' | grep -c $'\\037'"], quadruple_spaces)
+    let job_4spaces = jobstart(['sh', '-c', "head -n 250 " . file_path . " | tr '\\n' '\\036' | sed 's/'$'\\036''    [^ ][^'$'\\036'']*'$'\\036''        [^ ]/'$'\\037''/g' | tr '\\036' '\\n' | grep -c $'\\037'"], quadruple_spaces)
 
     " Wait for both processes to complete in any order
     :call jobwait([job_spaces, job_tabs])

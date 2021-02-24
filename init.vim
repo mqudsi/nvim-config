@@ -89,8 +89,8 @@ if dein#load_state(s:dein_cache)
         \{'rev': 'autoload' })
     call dein#add('sheerun/vim-polyglot')
     call dein#add('tpope/vim-surround')
-    " disable vim-matchup for latex
-    " call dein#add('andymass/vim-matchup')
+    " TODO: disable vim-matchup for latex
+    call dein#add('andymass/vim-matchup')
     call dein#add('neomake/neomake',
         \{'lazy': 1,
         \'on_cmd': 'Neomake'})

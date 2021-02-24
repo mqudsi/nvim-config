@@ -77,6 +77,7 @@ if dein#load_state(s:dein_cache)
     call dein#add('roxma/nvim-yarp')
     call dein#add('nixprime/cpsm',
         \{'build': 'env PY3=ON ./install.sh'})
+    call dein#add('andymass/vim-visput')
 
     "general programming-related plugins
     call dein#add('vim-scripts/a.vim',

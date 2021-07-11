@@ -24,6 +24,11 @@ let g:LanguageClient_hoverPreview = "Always"
 " setting below to "1" causes wrong buffer content after completion, autozimu/LanguageClient-neovim#491
 let g:LanguageClient_completionPreferTextEdit = 0
 
+" Prevent completion popups from showing up immediately, which gives us a
+" grace period to press <Enter> without the default completion being applied.
+" let g:ncm2#complete_delay = 500
+" let g:ncm2#popup_delay = 60
+
 " Improve performance by delaying highlighting of matching keyword (matchup)
 let g:matchup_matchparen_deferred = 1
 " Disable poor polyglot plugins, keep the rest
@@ -118,8 +123,8 @@ if dein#load_state(s:dein_cache)
         \{'rev': 'next', 'build': 'bash ./install.sh'})
     call dein#add('othree/csscomplete.vim',
         \{'on_event': 'InsertEnter', 'on_if': "index(['css'], &ft) != -1"})
-    call dein#add('OmniSharp/omnisharp-vim',
-        \{'on_if': "index(['cs', 'cshtml', 'asp'], &ft) != -1"})
+    " call dein#add('OmniSharp/omnisharp-vim',
+    "     \{'on_if': \"index(['cs', 'cshtml', 'asp'], &ft) != -1"})
 
     " syntax plugins, sorted by filetype
     call dein#add('ARM9/arm-syntax-vim.git')
@@ -276,7 +281,7 @@ function! AfterNeomake()
     let g:enable_LightlineNeomake = 1
 endfunction
 
-autocmd BufEnter *.c,*.cpp,*.js,*.rs,*.ts,*.sh,*.py :call LanguageClientSupportedLanguage()
+autocmd BufEnter *.c,*.cpp,*.js,*.rs,*.ts,*.sh,*.py,*.cs :call LanguageClientSupportedLanguage()
 function! LanguageClientSupportedLanguage()
     " let g:LanguageClient_hoverPreview = "Never"
     nmap <silent> K :call LanguageClient_textDocument_hover()<CR>
@@ -319,12 +324,10 @@ set shortmess +=c
 " * bash/js/ts/css/html/json: `yarn install` in config root
 
 let s:node = s:nvimroot . '/node_modules/.bin/'
-" \ 'cpp': ['clangd', '-compile-commands-dir=$PWD/build'],
-" \ 'cpp': ['/mnt/d/rand/cquery/build/cquery', '--log-file=/tmp/cquery.log', '--init={"cacheDirectory": "/tmp/cquery", "compilationDatabaseDirectory": "$PWD/build", "cacheFormat": "msgpack"}'],
-" \ 'c': ['clangd', '-compile-commands-dir=$PWD/build'],
 let g:LanguageClient_serverCommands = {
     \ 'c': ['clangd', '--compile-commands-dir=$PWD/build'],
     \ 'cpp': ['clangd', '--compile-commands-dir=' . $PWD . '/build'],
+    \ 'cs': ['/opt/omnisharp/run', '-lsp'],
     \ 'rust': ['rust-analyzer'],
     \ 'python': ['pyls'],
     \ 'css': [s:node . 'css-languageserver', '--stdio'],

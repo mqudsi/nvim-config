@@ -11,24 +11,6 @@ let g:python3_host_prog = "python3"
 
 " Options which must be forward declared
 
-let g:float_preview#docked = 1 " Have ncm2 use neovim's floating window feature
-let g:LanguageClient_autoStart = 0
-let g:LanguageClient_diagnosticsList = 'Location' " prevent it from overwriting qfix when loading a file via qfix
-let g:LanguageClient_hasSnippetSupport = 0
-" let g:LanguageClient_serverStderr = '/tmp/LanguageServer.log'
-" let g:LanguageClient_loggingFile = '/tmp/LanguageClient.log'
-" let g:LanguageClient_loggingLevel = 'TRACE'
-let g:LanguageClient_selectionUI = 'fzf'
-let g:LanguageClient_hoverPreview = "Always"
-" let g:LanguageClient_changeThrottle = 0.1
-" setting below to "1" causes wrong buffer content after completion, autozimu/LanguageClient-neovim#491
-let g:LanguageClient_completionPreferTextEdit = 0
-
-" Prevent completion popups from showing up immediately, which gives us a
-" grace period to press <Enter> without the default completion being applied.
-" let g:ncm2#complete_delay = 500
-" let g:ncm2#popup_delay = 60
-
 " Improve performance by delaying highlighting of matching keyword (matchup)
 let g:matchup_matchparen_deferred = 1
 " Disable poor polyglot plugins, keep the rest
@@ -96,9 +78,22 @@ if dein#load_state(s:dein_cache)
     call dein#add('tpope/vim-surround')
     " TODO: disable vim-matchup for latex
     call dein#add('andymass/vim-matchup')
+
+    " This is all telescope.nvim and its dependencies
+    call dein#add('nvim-lua/popup.nvim')
+    call dein#add('nvim-lua/plenary.nvim')
+    call dein#add('nvim-telescope/telescope.nvim')
+
+    " These are LSP plugins using neovim 0.5's native LSP support
+    call dein#add('neovim/nvim-lspconfig')
+    call dein#add('glepnir/lspsaga.nvim')
+    call dein#add('nvim-lua/completion-nvim')
+
     call dein#add('neomake/neomake',
         \{'lazy': 1,
         \'on_cmd': 'Neomake'})
+    call dein#add('nvim-treesitter/nvim-treesitter',
+        \{'hook_post_update': 'TSUpdate all'})
     " call dein#add('ludovicchabant/vim-gutentags',
     "     \{'on_event': 'InsertEnter'})
 
@@ -109,9 +104,6 @@ if dein#load_state(s:dein_cache)
     call dein#add('airblade/vim-gitgutter')
     call dein#add('tpope/vim-rhubarb')
 
-    call dein#add('ncm2/ncm2')
-    call dein#add('ncm2/ncm2-path')
-    call dein#add('ncm2/float-preview.nvim')
     call dein#add('Shougo/context_filetype.vim',
         \{'on_event': 'InsertEnter'})
     " requires cmdheight=2 to show function signature in cmdline, or else noshowmode
@@ -119,8 +111,6 @@ if dein#load_state(s:dein_cache)
         \{'on_i': 1})
 
     "deoplete sources
-    call dein#add('autozimu/LanguageClient-neovim',
-        \{'rev': 'next', 'build': 'bash ./install.sh'})
     call dein#add('othree/csscomplete.vim',
         \{'on_event': 'InsertEnter', 'on_if': "index(['css'], &ft) != -1"})
     " call dein#add('OmniSharp/omnisharp-vim',
@@ -158,7 +148,6 @@ if dein#load_state(s:dein_cache)
     call dein#save_state()
 endif
 
-autocmd BufEnter * call ncm2#enable_for_buffer()
 " Specify custom filetypes before predicating actions on FileType below
 autocmd BufRead,BufNewFile *.expect set filetype=expect
 autocmd BufRead,BufNewFile *.fish set filetype=fish
@@ -281,7 +270,7 @@ function! AfterNeomake()
     let g:enable_LightlineNeomake = 1
 endfunction
 
-autocmd BufEnter *.c,*.cpp,*.js,*.rs,*.ts,*.sh,*.py,*.cs :call LanguageClientSupportedLanguage()
+" autocmd BufEnter *.c,*.cpp,*.js,*.rs,*.ts,*.sh,*.py,*.cs :call LanguageClientSupportedLanguage()
 function! LanguageClientSupportedLanguage()
     " let g:LanguageClient_hoverPreview = "Never"
     nmap <silent> K :call LanguageClient_textDocument_hover()<CR>
@@ -322,6 +311,85 @@ set shortmess +=c
 " * rust: cargo install rust-analyzer
 " * python: sudo pip3 install python-language-server
 " * bash/js/ts/css/html/json: `yarn install` in config root
+
+lua << EOF
+local nvim_lsp = require('lspconfig')
+local nvim_complete = require('completion')
+
+-- Use an on_attach function to only map the following keys
+-- after the language server attaches to the current buffer
+local on_attach = function(client, bufnr)
+  local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
+  local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
+
+  --Enable completion triggered by <c-x><c-o>
+  buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
+
+  -- Mappings.
+  local opts = { noremap=true, silent=true }
+
+  -- See `:help vim.lsp.*` for documentation on any of the below functions
+  buf_set_keymap('n', 'gD', '<Cmd>lua vim.lsp.buf.declaration()<CR>', opts)
+  buf_set_keymap('n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
+  buf_set_keymap('n', 'K', '<Cmd>lua vim.lsp.buf.hover()<CR>', opts)
+  buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
+  buf_set_keymap('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
+  buf_set_keymap('n', '<space>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', opts)
+  buf_set_keymap('n', '<space>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', opts)
+  buf_set_keymap('n', '<space>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
+  buf_set_keymap('n', '<space>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
+  -- buf_set_keymap('n', '<space>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
+  buf_set_keymap('n', '<F2>', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
+  buf_set_keymap('n', '<space>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
+  buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
+  buf_set_keymap('n', '<space>e', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
+  buf_set_keymap('n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
+  buf_set_keymap('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
+  buf_set_keymap('n', '<space>q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
+  buf_set_keymap("n", "<space>f", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
+
+  nvim_complete.on_attach()
+end
+
+-- Use the default configuration for the following LSPs:
+local servers = { "pyls", "rust_analyzer" }
+for _, lsp in ipairs(servers) do
+  nvim_lsp[lsp].setup {
+    on_attach = on_attach,
+    flags = {
+      debounce_text_changes = 150,
+    }
+  }
+end
+
+-- These need manual configuration:
+nvim_lsp["clangd"].setup {
+  on_attach = on_attach,
+  cmd = { 'clangd', '--background-index', '--compile-commands-dir=' .. vim.api.nvim_eval("$PWD") .. '/build' },
+  filetypes = { "c", "cpp" },
+  root_dir = nvim_lsp.util.root_pattern("build/compile_commands.json", "compile_commands.json", "compile_flags.txt", ".git"),
+  flags = {
+    debounce_text_changes = 150,
+  }
+}
+
+nvim_lsp["vimls"].setup {
+  on_attach = on_attach,
+  cmd = { vim.api.nvim_eval("expand('<sfile>:p:h')") ..  '/node_modules/.bin/vim-language-server', '--stdio' },
+  flags = {
+    debounce_text_changes = 150,
+  }
+}
+
+nvim_lsp["omnisharp"].setup {
+  on_attach = on_attach,
+  cmd = { "/opt/omnisharp/run", "-lsp", "-hpid", tostring(vim.fn.getpid()) },
+  flags = {
+    debounce_text_changes = 150,
+  }
+}
+
+EOF
 
 let s:node = s:nvimroot . '/node_modules/.bin/'
 let g:LanguageClient_serverCommands = {
@@ -652,3 +720,15 @@ function SaveAndExit()
     :wa
     :cq!
 endfunction
+
+lua <<EOF
+require'nvim-treesitter.configs'.setup {
+  highlight = {
+    enable = true,
+    disable = { "rust" },
+  },
+  indent = {
+    enable = true
+  }
+}
+EOF

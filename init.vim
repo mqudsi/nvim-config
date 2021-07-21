@@ -35,6 +35,8 @@ let g:matchup_matchparen_deferred = 1
 " The csv plugin in particular has an extremely buggy version of elastic tabs
 " and causes lots of hangs and even data loss.
 let g:polyglot_disabled = ['latex', 'tex', 'csv']
+" We have our own, better indentation detection plugin
+let g:polyglot_disabled += ['autoindent']
 
 " disable the following unused (neo)vim plugins to speed things up.
 let g:loaded_python_provider = 1

@@ -46,17 +46,19 @@ function! DetectTabExpand()
     endif
 
     " Run both space and tab detections simultaneously
-	let spaces = deepcopy(s:IndentationHelper)
-    let spaces.name = "spaces"
-    let job_spaces = jobstart("head -n 250 " . file_path . " | grep -c '^  '", spaces)
-	let tabs = deepcopy(s:IndentationHelper)
-    let tabs.name = "tabs"
-    let job_tabs = jobstart("head -n 250 " . file_path . " | grep -c '^\t'", tabs)
+    let s:spaces = deepcopy(s:IndentationHelper)
+    let s:spaces.name = "spaces"
+    let s:spaces.on_exit = function('s:OnSpacesTabsExit')
+    let s:job_spaces = jobstart("head -n 250 " . file_path . " | grep -c '^  '", s:spaces)
+    let s:tabs = deepcopy(s:IndentationHelper)
+    let s:tabs.name = "tabs"
+    let s:tabs.on_exit = function('s:OnSpacesTabsExit')
+    let s:job_tabs = jobstart("head -n 250 " . file_path . " | grep -c '^\t'", s:tabs)
 
     " Also start background jobs to count transitions from 2-space indents
     " to 4-space indents (for sw=2) and from 4-space to 8-space (for sw=4)
-	let double_spaces = deepcopy(s:IndentationHelper)
-    let double_spaces.name = "double spaces"
+    let s:double_spaces = deepcopy(s:IndentationHelper)
+    let s:double_spaces.name = "double spaces"
     " We need to count transitions from one indent level to another, not just
     " occurences of n-spaced indents.
     " `grep -z` is not support on macOS 10.10 (and maybe even later),
@@ -65,37 +67,42 @@ function! DetectTabExpand()
     " `sed -z 's/\\n  [^ ][^\\n]*\\n    [^ ]/'\\036'/g' | grep -c \\036
     " Nor does its grep have any support for octal escapes, so we need to use
     " string interpolation or command substitution to get it working :'(
-    let job_2spaces = jobstart(['sh', '-c', "head -n 250 " . file_path . " | tr '\\n' '\\036' | sed 's/'$'\\036''  [^ ][^'$'\\036'']*'$'\\036''    [^ ]/'$'\\037''/g' | tr '\\036' '\\n' | grep -c $'\\037'"], double_spaces)
-	let quadruple_spaces = deepcopy(s:IndentationHelper)
-    let quadruple_spaces.name = "quadruple spaces"
-    let job_4spaces = jobstart(['sh', '-c', "head -n 250 " . file_path . " | tr '\\n' '\\036' | sed 's/'$'\\036''    [^ ][^'$'\\036'']*'$'\\036''        [^ ]/'$'\\037''/g' | tr '\\036' '\\n' | grep -c $'\\037'"], quadruple_spaces)
+    let s:job_2spaces = jobstart(['sh', '-c', "head -n 250 " . file_path . " | tr '\\n' '\\036' | sed 's/'$'\\036''  [^ ][^'$'\\036'']*'$'\\036''    [^ ]/'$'\\037''/g' | tr '\\036' '\\n' | grep -c $'\\037'"], s:double_spaces)
+    let s:quadruple_spaces = deepcopy(s:IndentationHelper)
+    let s:quadruple_spaces.name = "quadruple spaces"
+    let s:job_4spaces = jobstart(['sh', '-c', "head -n 250 " . file_path . " | tr '\\n' '\\036' | sed 's/'$'\\036''    [^ ][^'$'\\036'']*'$'\\036''        [^ ]/'$'\\037''/g' | tr '\\036' '\\n' | grep -c $'\\037'"], s:quadruple_spaces)
+endfunction
 
-    " Wait for both processes to complete in any order
-    :call jobwait([job_spaces, job_tabs])
+function! s:OnSpacesTabsExit(job_id, data, event)
+    " Wait for both processes to complete in any order. Whichever finishes
+    " last will continue in this function.
+    let wait = jobwait([s:job_spaces, s:job_tabs], 0)
+    if (wait[0] == -1 || wait[1] == -1)
+        return
+    endif
 
     " Evaluate results
-    if spaces.count > tabs.count
+    if s:spaces.count > s:tabs.count
         setlocal expandtab
 
         " Need to determine preferred shiftwidth (width of one expanded tab)
-        :call jobwait([job_2spaces, job_4spaces])
+        :call jobwait([s:job_2spaces, s:job_4spaces])
 
-        if double_spaces.count > quadruple_spaces.count
+        if s:double_spaces.count > s:quadruple_spaces.count
             setlocal shiftwidth=2
-        elseif quadruple_spaces.count > double_spaces.count
+        elseif s:quadruple_spaces.count > s:double_spaces.count
             setlocal shiftwidth=4
         endif
 
-    elseif tabs.count > spaces.count
+    elseif s:tabs.count > s:spaces.count
         setlocal noexpandtab
         " make sure we don't get mixed soft and hard tabs
         " :call execute(":set shiftwidth=" . &tabstop)
         set sw=0
     endif
 
-    let b:tabs_count = tabs.count
-    let b:spaces_count = spaces.count
-    let b:spaces2_count = double_spaces.count
-    let b:spaces4_count = quadruple_spaces.count
+    let b:tabs_count = s:tabs.count
+    let b:spaces_count = s:spaces.count
+    let b:spaces2_count = s:double_spaces.count
+    let b:spaces4_count = s:quadruple_spaces.count
 endfunction
-

@@ -363,9 +363,18 @@ set nojoinspaces " this isn't a typewriter
 
 " Make sure the default fallback ~/.local/share/nvim/backup exists!
 set backupdir-=.
+
 " Persist undo/redo history across sessions.
 " Neovim appears to automatically create ~/.local/share/nvim/undo
-set undofile
+"
+" Git commit messages share a path but are distinct each time, so they should
+" be excluded.
+autocmd BufRead,BufNewFile * :call <SID>SetUndoFile()
+function! <SID>SetUndoFile()
+    if index(["gitcommit", "gitrebase"], &ft) == -1
+        set undofile
+    endif
+endfunction
 
 :map <Esc>[H <Home>
 :map <Esc>[5~ <C-B> "page up

@@ -64,7 +64,11 @@ if dein#load_state(s:dein_cache)
     " need to first call `let ayucolor="light|dark|mirage"`
     call dein#add('ayu-theme/ayu-vim')
 
-    "core plugins that change the behavior of vim and how we use it globally
+    " NeoVim bugfixes and enhancements
+    " vim-fetch lets `nvim foo.cpp:17` work (open file and go to line)
+    call dein#add('wsdjeg/vim-fetch')
+
+    " Core plugins that change the behavior of vim and how we use it globally
     call dein#add('editorconfig/editorconfig-vim')
     call dein#add('junegunn/fzf')
     " call dein#add('haya14busa/incsearch.vim')
@@ -86,12 +90,12 @@ if dein#load_state(s:dein_cache)
         \{'build': 'env PY3=ON ./install.sh'})
     call dein#add('andymass/vim-visput')
 
-    "general programming-related plugins
+    " General programming-related plugins
     call dein#add('vim-scripts/a.vim',
         \{'on_cmd': 'A'})
     call dein#add('Chiel92/vim-autoformat',
         \{'on_cmd': 'Autoformat'})
-    call dein#add('tpope/vim-endwise') "only handles languages with PITA syntax
+    call dein#add('tpope/vim-endwise') " Only handles languages with PITA syntax
     call dein#add('mqudsi/vim-closetag',
         \{'rev': 'autoload' })
     call dein#add('sheerun/vim-polyglot')

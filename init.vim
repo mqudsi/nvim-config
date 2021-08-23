@@ -6,7 +6,7 @@ endif
 let s:nvimroot = $HOME . '/.config/nvim'
 " Speed up startup by preventing neovim from searching the filesystem trying
 " to find a python3 interpreter. This requires `python3` to be in $PATH.
-let g:python3_host_prog = "python3"
+let g:python3_host_prog = "python3.10"
 " let g:node_host_prog = get(split(system('which neovim-node-host'), '\n'), 0)
 
 " Options which must be forward declared
@@ -88,6 +88,8 @@ if dein#load_state(s:dein_cache)
     call dein#add('neovim/nvim-lspconfig')
     call dein#add('glepnir/lspsaga.nvim')
     call dein#add('nvim-lua/completion-nvim')
+    call dein#add('ms-jpq/coq_nvim',
+        \{'rev': 'coq'})
 
     call dein#add('neomake/neomake',
         \{'lazy': 1,
@@ -315,6 +317,7 @@ set shortmess +=c
 lua << EOF
 local nvim_lsp = require('lspconfig')
 local nvim_complete = require('completion')
+local coq = require('coq')
 
 -- Use an on_attach function to only map the following keys
 -- after the language server attaches to the current buffer
@@ -349,22 +352,22 @@ local on_attach = function(client, bufnr)
   buf_set_keymap('n', '<space>q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
   buf_set_keymap("n", "<space>f", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
 
-  nvim_complete.on_attach()
+  -- nvim_complete.on_attach()
 end
 
 -- Use the default configuration for the following LSPs:
 local servers = { "pyls", "rust_analyzer" }
 for _, lsp in ipairs(servers) do
-  nvim_lsp[lsp].setup {
+  nvim_lsp[lsp].setup(coq.lsp_ensure_capabilities({
     on_attach = on_attach,
     flags = {
       debounce_text_changes = 150,
     }
-  }
+  }))
 end
 
 -- These need manual configuration:
-nvim_lsp["clangd"].setup {
+nvim_lsp["clangd"].setup(coq.lsp_ensure_capabilities({
   on_attach = on_attach,
   cmd = { 'clangd', '--background-index', '--compile-commands-dir=' .. vim.api.nvim_eval("$PWD") .. '/build' },
   filetypes = { "c", "cpp" },
@@ -372,23 +375,23 @@ nvim_lsp["clangd"].setup {
   flags = {
     debounce_text_changes = 150,
   }
-}
+}))
 
-nvim_lsp["vimls"].setup {
+nvim_lsp["vimls"].setup(coq.lsp_ensure_capabilities({
   on_attach = on_attach,
   cmd = { vim.api.nvim_eval("expand('<sfile>:p:h')") ..  '/node_modules/.bin/vim-language-server', '--stdio' },
   flags = {
     debounce_text_changes = 150,
   }
-}
+}))
 
-nvim_lsp["omnisharp"].setup {
+nvim_lsp["omnisharp"].setup(coq.lsp_ensure_capabilities({
   on_attach = on_attach,
   cmd = { "/opt/omnisharp/run", "-lsp", "-hpid", tostring(vim.fn.getpid()) },
   flags = {
     debounce_text_changes = 150,
   }
-}
+}))
 
 EOF
 
@@ -735,3 +738,5 @@ require'nvim-treesitter.configs'.setup {
   }
 }
 EOF
+
+:COQnow "[--shut-up]

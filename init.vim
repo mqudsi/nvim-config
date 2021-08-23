@@ -722,6 +722,7 @@ function SaveAndExit()
     :cq!
 endfunction
 
+" Configure nvim-treesitter defaults
 lua <<EOF
 require'nvim-treesitter.configs'.setup {
   highlight = {
@@ -729,7 +730,8 @@ require'nvim-treesitter.configs'.setup {
     disable = { "rust" },
   },
   indent = {
-    enable = true
+    -- indentation support is highly experimental and is worse than the defaults
+    enable = false,
   }
 }
 EOF

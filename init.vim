@@ -163,6 +163,10 @@ autocmd BufRead,BufNewfile *.conf set filetype=conf
 autocmd BufRead,BufNewfile */*nginx*/*.conf set filetype=nginx
 autocmd BufRead,BufNewfile .clang-format set filetype=yaml
 
+" Support triple slash for inline documentation in languages that use such a
+" thing. This supports joining and continuing.
+autocmd Filetype c,cpp,csharp set comments^=:///
+
 " Specify comments for languages that commentary does not support oob
 autocmd FileType meson setlocal commentstring=#\ %s
 autocmd FileType ninja setlocal commentstring=#\ %s

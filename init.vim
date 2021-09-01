@@ -85,14 +85,8 @@ if dein#load_state(s:dein_cache)
     " TODO: disable vim-matchup for latex
     call dein#add('andymass/vim-matchup')
 
-    " This is all telescope.nvim and its dependencies
-    call dein#add('nvim-lua/popup.nvim')
-    call dein#add('nvim-lua/plenary.nvim')
-    call dein#add('nvim-telescope/telescope.nvim')
-
     " These are LSP plugins using neovim 0.5's native LSP support
     call dein#add('neovim/nvim-lspconfig')
-    call dein#add('glepnir/lspsaga.nvim')
     call dein#add('nvim-lua/completion-nvim')
 
     call dein#add('neomake/neomake',

@@ -362,7 +362,7 @@ local on_attach = function(client, bufnr)
 end
 
 -- Use the default configuration for the following LSPs:
-local servers = { "pyls", "rust_analyzer" }
+local servers = { "pylsp", "rust_analyzer" }
 for _, lsp in ipairs(servers) do
   nvim_lsp[lsp].setup {
     on_attach = on_attach,

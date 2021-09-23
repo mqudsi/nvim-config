@@ -40,6 +40,11 @@ function! DetectTabExpand()
         return
     endif
 
+    " Don't run if we're opening a file via a special protocol (e.g. netrw/scp)
+    if stridx(expand("%"), ":") != -1
+        return
+    endif
+
     let file_path = shellescape(expand("%:p"))
     if empty(file_path)
         return

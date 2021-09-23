@@ -194,6 +194,7 @@ autocmd FileType nginx setlocal mp=sudo\ nginx\ -t\ -c\ %
 autocmd FileType rust compiler cargo
 autocmd FileType typescript setlocal mp=tsc
 autocmd FileType markdown setlocal mp=pandoc\ %:~:.\ -o\ %:~:.:r.pdf\;\ open\ %:~:.:r.pdf
+autocmd FileType markdown setlocal tw=0
 
 " Enable spell-checking by default for these file types
 autocmd FileType markdown,plaintex,tex,text set spell

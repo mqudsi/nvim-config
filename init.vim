@@ -11,6 +11,10 @@ let g:python3_host_prog = "python3"
 
 " Options which must be forward declared
 
+" completion-nvim snippet support.
+" Possible values: 'UltiSnips', 'Neosnippet', 'vim-vsnip', 'snippets.nvim'
+let g:completion_enable_snippet = ''
+
 " Improve performance by delaying highlighting of matching keyword (matchup)
 let g:matchup_matchparen_deferred = 1
 " Disable poor polyglot plugins, keep the rest
@@ -28,7 +32,6 @@ let g:loaded_tutor_mode_plugin = 1
 " indentLine completely breaks some syntaxes, notably markdown and latex
 " See https://github.com/Yggdroot/indentLine/issues/78
 let g:indentLine_fileTypeExclude = ['tex', 'markdown']
-
 let s:dein_cache = '$HOME/.cache/dein.vim'
 let s:dein_home = '$HOME/.config/nvim/dein.vim'
 exe 'set rtp +=' . s:dein_home
@@ -200,6 +203,7 @@ autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
 " 1B,5B,43: right arrow
 " 05: <C-E>
 " 19: <C-Y>
+let g:completion_trigger_character = ['.', '/', ':']
 function! EnhancedAutocomplete()
 	" if exists("b:pum_close_pending") && b:pum_close_pending == v:true
 	" 	let b:pum_close_pending = v:false
@@ -321,10 +325,27 @@ set shortmess +=c
 
 lua << EOF
 local nvim_lsp = require('lspconfig')
-local nvim_complete = require('completion')
+local nvim_complete = require('completion') -- this is completion-nvim
 
--- Use an on_attach function to only map the following keys
--- after the language server attaches to the current buffer
+-- Define fallback completion sources for nvim-completion
+-- The key (e.g. "string" or "comment") is the syntax name for the token being completed.
+-- This can be discovered by clicking a token and executing `:echo synIDattr(synID(line('.'), col('.'), 1), "name")`
+local chain_complete_list = {
+  default = {
+    {complete_items = {'lsp', 'snippet', 'path'}},
+    {complete_items = {'path'}, triggered_only = {'/', './'}},
+    {complete_items = {'buffers'}},
+  },
+  string = {
+    {complete_items = {'path'}, triggered_only = {'/', './'}},
+  },
+  comment = {
+    {complete_items = {'path'}, triggered_only = {'/', './'}},
+  },
+}
+
+-- Use an on_attach function to only map the following keys after the
+-- language server attaches to the current buffer:
 local on_attach = function(client, bufnr)
   local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
   local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
@@ -356,11 +377,17 @@ local on_attach = function(client, bufnr)
   buf_set_keymap('n', '<space>q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
   buf_set_keymap("n", "<space>f", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
 
-  nvim_complete.on_attach()
+  nvim_complete.on_attach({
+    sorting = 'alphabet',
+    matching_strategy_list = {'exact', 'fuzzy'},
+    chain_complete_list = chain_complete_list,
+    -- Automatically fall back to next completion_chain_complete_list if no results
+    enable_auto_signature = 1,
+  })
 end
 
 -- Use the default configuration for the following LSPs:
-local servers = { "pylsp", "rust_analyzer" }
+local servers = { "pylsp", "rust_analyzer", "cmake" }
 for _, lsp in ipairs(servers) do
   nvim_lsp[lsp].setup {
     on_attach = on_attach,

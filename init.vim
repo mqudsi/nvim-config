@@ -134,7 +134,8 @@ if dein#load_state(s:dein_cache)
 
     " syntax plugins, sorted by filetype
     call dein#add('ARM9/arm-syntax-vim.git')
-    call dein#add('cespare/vim-toml')
+    call dein#add('cespare/vim-toml',
+        \{'rev': 'main'})
     " call dein#add('ap/vim-css-color')
     call dein#add('hail2u/vim-css3-syntax')
     " call dein#add('vim-scripts/DoxyGen-Syntax',

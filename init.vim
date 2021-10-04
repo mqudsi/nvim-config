@@ -11,10 +11,6 @@ let g:python3_host_prog = "python3"
 
 " Options which must be forward declared
 
-" completion-nvim snippet support.
-" Possible values: 'UltiSnips', 'Neosnippet', 'vim-vsnip', 'snippets.nvim'
-let g:completion_enable_snippet = ''
-
 " Improve performance by delaying highlighting of matching keyword (matchup)
 let g:matchup_matchparen_deferred = 1
 " Disable poor polyglot plugins, keep the rest
@@ -90,7 +86,8 @@ if dein#load_state(s:dein_cache)
 
     " These are LSP plugins using neovim 0.5's native LSP support
     call dein#add('neovim/nvim-lspconfig')
-    call dein#add('nvim-lua/completion-nvim')
+    call dein#add('hrsh7th/nvim-cmp')
+    call dein#add('hrsh7th/cmp-nvim-lsp')
 
     call dein#add('neomake/neomake',
         \{'lazy': 1,
@@ -325,24 +322,6 @@ set shortmess +=c
 
 lua << EOF
 local nvim_lsp = require('lspconfig')
-local nvim_complete = require('completion') -- this is completion-nvim
-
--- Define fallback completion sources for nvim-completion
--- The key (e.g. "string" or "comment") is the syntax name for the token being completed.
--- This can be discovered by clicking a token and executing `:echo synIDattr(synID(line('.'), col('.'), 1), "name")`
-local chain_complete_list = {
-  default = {
-    {complete_items = {'lsp', 'snippet', 'path'}},
-    {complete_items = {'path'}, triggered_only = {'/', './'}},
-    {complete_items = {'buffers'}},
-  },
-  string = {
-    {complete_items = {'path'}, triggered_only = {'/', './'}},
-  },
-  comment = {
-    {complete_items = {'path'}, triggered_only = {'/', './'}},
-  },
-}
 
 -- Use an on_attach function to only map the following keys after the
 -- language server attaches to the current buffer:
@@ -377,13 +356,24 @@ local on_attach = function(client, bufnr)
   buf_set_keymap('n', '<space>q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
   buf_set_keymap("n", "<space>f", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
 
-  nvim_complete.on_attach({
-    sorting = 'alphabet',
-    matching_strategy_list = {'exact', 'fuzzy'},
-    chain_complete_list = chain_complete_list,
-    -- Automatically fall back to next completion_chain_complete_list if no results
-    enable_auto_signature = 1,
+  -- nvim-lsp only provides completion; autocompletion must be provided by another plugin (here, nvim-cmp)
+  local cmp = require('cmp')
+  cmp.setup({
+    mapping = {
+          ['<C-d>'] = cmp.mapping.scroll_docs(-4),
+          ['<C-f>'] = cmp.mapping.scroll_docs(4),
+          ['<C-Space>'] = cmp.mapping.complete(),
+          ['<C-e>'] = cmp.mapping.close(),
+          ['<CR>'] = cmp.mapping.confirm({ select = true }),
+        },
+    sources = {
+      { name = 'nvim_lsp' },
+    },
+    completion = {
+      completeopt = 'menu,menuone,noinsert',
+    },
   })
+
 end
 
 -- Use the default configuration for the following LSPs:
@@ -393,7 +383,8 @@ for _, lsp in ipairs(servers) do
     on_attach = on_attach,
     flags = {
       debounce_text_changes = 150,
-    }
+    },
+    capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities()),
   }
 end
 
@@ -405,7 +396,8 @@ nvim_lsp["clangd"].setup {
   root_dir = nvim_lsp.util.root_pattern("build/compile_commands.json", "compile_commands.json", "compile_flags.txt", ".git"),
   flags = {
     debounce_text_changes = 150,
-  }
+  },
+  capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities()),
 }
 
 nvim_lsp["vimls"].setup {
@@ -413,7 +405,8 @@ nvim_lsp["vimls"].setup {
   cmd = { vim.api.nvim_eval("expand('<sfile>:p:h')") ..  '/node_modules/.bin/vim-language-server', '--stdio' },
   flags = {
     debounce_text_changes = 150,
-  }
+  },
+  capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities()),
 }
 
 nvim_lsp["omnisharp"].setup {
@@ -421,7 +414,8 @@ nvim_lsp["omnisharp"].setup {
   cmd = { "/opt/omnisharp/run", "-lsp", "-hpid", tostring(vim.fn.getpid()) },
   flags = {
     debounce_text_changes = 150,
-  }
+  },
+  capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities()),
 }
 
 EOF

@@ -92,10 +92,8 @@ if dein#load_state(s:dein_cache)
     call dein#add('neomake/neomake',
         \{'lazy': 1,
         \'on_cmd': 'Neomake'})
-    call dein#add('nvim-treesitter/nvim-treesitter',
-        \{'hook_post_update': 'TSUpdate all'})
-    " call dein#add('ludovicchabant/vim-gutentags',
-    "     \{'on_event': 'InsertEnter'})
+    " call dein#add('nvim-treesitter/nvim-treesitter',
+    "     \{'hook_post_update': 'TSUpdate all'})
 
     " git-related extensions
     call dein#add('rhysd/committia.vim')
@@ -759,14 +757,18 @@ function SaveAndExit()
     :cq!
 endfunction
 
-lua <<EOF
-require'nvim-treesitter.configs'.setup {
-  highlight = {
-    enable = true,
-    disable = { "rust" },
-  },
-  indent = {
-    enable = true
-  }
-}
-EOF
+" Neovim TreeSitter is still very much experimental and I have not found a
+" language where the legacy regex-based highlighting and indenting isn't a
+" superior option (as of 2021-10-04 and nvim NVIM v0.6.0-dev+334-g9cde1e589)
+
+" lua <<EOF
+" require'nvim-treesitter.configs'.setup {
+"   highlight = {
+"     enable = true,
+"     disable = { "rust" },
+"   },
+"   indent = {
+"     enable = true
+"   }
+" }
+" EOF

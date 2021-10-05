@@ -388,7 +388,7 @@ set backupdir-=.
 autocmd BufRead,BufNewFile * :call <SID>SetUndoFile()
 function! <SID>SetUndoFile()
     if index(["gitcommit", "gitrebase"], &ft) == -1
-        set undofile
+        :silent! set undofile
     endif
 endfunction
 

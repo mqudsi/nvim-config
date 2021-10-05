@@ -180,6 +180,15 @@ autocmd BufRead,BufNewfile *.conf set filetype=conf
 autocmd BufRead,BufNewfile */*nginx*/*.conf set filetype=nginx
 autocmd BufRead,BufNewfile .clang-format set filetype=yaml
 
+" Support triple slash for inline documentation in languages that use such a
+" thing. This supports joining and continuing. Vim overrides this in c.vim,
+" so we need to either place this in syntax/after/c.vim or use this hack to do
+" it here in init.vim
+autocmd Filetype c,cpp,csharp :execute timer_start(250, "AddTripleSlash")
+function! AddTripleSlash(_1)
+    :setlocal comments^=:///
+endfunction
+
 " Specify comments for languages that commentary does not support oob
 autocmd FileType meson setlocal commentstring=#\ %s
 autocmd FileType ninja setlocal commentstring=#\ %s

@@ -88,6 +88,10 @@ if dein#load_state(s:dein_cache)
     call dein#add('neovim/nvim-lspconfig')
     call dein#add('hrsh7th/nvim-cmp')
     call dein#add('hrsh7th/cmp-nvim-lsp')
+    " cmp requires a snippets engine because it refuses to filter snippet
+    " suggestions out from LSPs that don't check if snippets are supported.
+    call dein#add('L3MON4D3/LuaSnip')
+    call dein#add('saadparwaiz1/cmp_luasnip')
 
     call dein#add('neomake/neomake',
         \{'lazy': 1,
@@ -375,6 +379,11 @@ local on_attach = function(client, bufnr)
     completion = {
       completeopt = 'menu,menuone,noinsert',
     },
+    snippet = {
+      expand = function(args)
+        require'luasnip'.lsp_expand(args.body)
+      end
+    }
   })
 
 end

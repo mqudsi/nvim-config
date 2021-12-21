@@ -191,6 +191,12 @@ autocmd FileType typescript setlocal mp=tsc
 autocmd FileType markdown setlocal mp=pandoc\ %:~:.\ -o\ %:~:.:r.pdf\;\ open\ %:~:.:r.pdf
 autocmd FileType markdown setlocal tw=0
 
+" Allow comments in JSON files. We could use a whitelist, but it's too hard.
+autocmd Filetype json :execute timer_start(50, "SetJsonWithComments")
+function! SetJsonWithComments(_1)
+    :setlocal ft=jsonc
+endfunction
+
 " Enable spell-checking by default for these file types
 autocmd FileType markdown,plaintex,tex,text set spell
 

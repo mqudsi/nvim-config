@@ -436,6 +436,11 @@ nvim_lsp["omnisharp"].setup {
   capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities()),
 }
 
+nvim_lsp["tsserver"].setup {
+    on_attach = on_attach,
+    cmd = { vim.api.nvim_eval("expand('<sfile>:p:h')") ..  '/node_modules/.bin/typescript-language-server', '--stdio' },
+}
+
 EOF
 
 let s:node = s:nvimroot . '/node_modules/.bin/'

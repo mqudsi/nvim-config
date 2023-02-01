@@ -36,6 +36,11 @@ let s:dein_cache = '$HOME/.cache/dein.vim'
 let s:dein_home = '$HOME/.config/nvim/dein.vim'
 exe 'set rtp +=' . s:dein_home
 
+" committia sets the main editor pane to 80 characters for git commit
+" messages, but under recent neovim versions with line numbers and a git
+" gutter, that isn't enough and causes lines to wrap.
+let g:committia_edit_window_width = 86
+
 filetype off
 syntax off
 

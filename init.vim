@@ -81,7 +81,7 @@ if dein#load_state(s:dein_cache)
     call dein#add('andymass/vim-visput')
 
     " General programming-related plugins
-    call dein#add('vim-scripts/a.vim',
+    call dein#add('mqudsi/a.vim',
         \{'on_cmd': 'A'})
     call dein#add('Chiel92/vim-autoformat',
         \{'on_cmd': 'Autoformat'})

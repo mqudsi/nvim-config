@@ -214,6 +214,9 @@ set foldmethod=syntax
 
 " Enable spell-checking by default for these file types
 autocmd FileType markdown,plaintex,tex,text,gitcommit setlocal spell
+" Disable spelling errors on uncapitalized first letter of line (breaks on
+" hard text wrapping)
+set spellcapcheck=no
 
 " If you want to install not installed plugins on startup.
 if dein#check_install()

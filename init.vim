@@ -563,6 +563,7 @@ set hidden
 set autowrite
 " Reload file if it hasn't been changed since save but it's changed on disk
 set autoread
+au FocusGained * :checktime
 
 " Disable ex mode
 nmap Q <Nop>

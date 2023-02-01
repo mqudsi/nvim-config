@@ -539,6 +539,8 @@ endfunction
 :map <Esc>[6~ <C-F> "page down
 :map <M-left> :normal <Home><CR>
 :map <M-right> :normal <End><CR>
+" Alt + F4 to (cleanly) exit
+nnoremap <F52> :q <CR>
 
 " Compatibility with tmux-style buffer switching
 :nnoremap <c-b>n :bn<CR>

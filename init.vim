@@ -79,6 +79,9 @@ if dein#load_state(s:dein_cache)
     call dein#add('nixprime/cpsm',
         \{'build': 'env PY3=ON ./install.sh'})
     call dein#add('andymass/vim-visput')
+    " structural search-and-replace for TreeSitter languages
+    " Keys mapped in lua below: <leader>sr to search and <leader>cr to replace all
+    call dein#add('cshuaimin/ssr.nvim')
 
     " General programming-related plugins
     call dein#add('mqudsi/a.vim',
@@ -342,6 +345,20 @@ set shortmess +=c
 " * bash/js/ts/css/html/json: `yarn install` in config root
 
 lua << EOF
+
+-- SSR structural search and replace mappings
+require("ssr").setup {
+  min_width = 50,
+  min_height = 5,
+  keymaps = {
+    close = "q",
+    next_match = "n",
+    prev_match = "N",
+    replace_all = "<leader><cr>",
+  },
+}
+vim.keymap.set({ "n", "x" }, "<leader>sr", function() require("ssr").open() end)
+
 local nvim_lsp = require('lspconfig')
 
 -- Use an on_attach function to only map the following keys after the

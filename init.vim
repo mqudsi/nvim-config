@@ -8,6 +8,9 @@ let s:nvimroot = $HOME . '/.config/nvim'
 " to find a python3 interpreter. This requires `python3` to be in $PATH.
 let g:python3_host_prog = "python3"
 " let g:node_host_prog = get(split(system('which neovim-node-host'), '\n'), 0)
+" Disable netrw
+" let g:loaded_netrw = 1
+" let g:loaded_netrwPlugin = 1
 
 " Options which must be forward declared
 

@@ -218,6 +218,9 @@ autocmd FileType markdown,plaintex,tex,text,gitcommit setlocal spell
 " hard text wrapping)
 set spellcapcheck=no
 
+" Fix indentation in switch blocks
+autocmd FileType c,cpp,csharp setlocal cinoptions+=l1
+
 " If you want to install not installed plugins on startup.
 if dein#check_install()
   call dein#install()

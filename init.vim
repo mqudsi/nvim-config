@@ -236,18 +236,18 @@ autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
 " 19: <C-Y>
 let g:completion_trigger_character = ['.', '/', ':']
 function! EnhancedAutocomplete()
-	" if exists("b:pum_close_pending") && b:pum_close_pending == v:true
-	" 	let b:pum_close_pending = v:false
-	" 	return "\<c-y>"
-	" elseif pumvisible()
-	if pumvisible()
-		let b:pum_close_pending = v:true
-		return "\<c-y>"
-	else
-		return "\<tab>"
-	end
+    " if exists("b:pum_close_pending") && b:pum_close_pending == v:true
+    "   let b:pum_close_pending = v:false
+    "   return "\<c-y>"
+    " elseif pumvisible()
+    if pumvisible()
+        let b:pum_close_pending = v:true
+        return "\<c-y>"
+    else
+        return "\<tab>"
+    end
 endfunction
-inoremap <expr><tab> pumvisible() ? EnhancedAutocomplete() : "\<tab>"
+inoremap <expr><tab> EnhancedAutocomplete()
 " Automatically select the first item in the menu when shown but do not insert
 set completeopt=menuone,noinsert
 " Map <C-space> to trigger the popup menu like in Visual Studio

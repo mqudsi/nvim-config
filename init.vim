@@ -65,8 +65,6 @@ if dein#load_state(s:dein_cache)
     " call dein#add('othree/eregex.vim')
     call dein#add('Yggdroot/indentLine')
     call dein#add('itchyny/lightline.vim')
-    " call dein#add('alvan/vim-closetag',
-    "     \{'on_ft': ['html', 'xhtml', 'xml']})
     call dein#add('mqudsi/vim-ripgrep')
     " call dein#add('qpkorr/vim-bufkill')
     call dein#add('sickill/vim-pasta',
@@ -89,8 +87,6 @@ if dein#load_state(s:dein_cache)
     call dein#add('Chiel92/vim-autoformat',
         \{'on_cmd': 'Autoformat'})
     call dein#add('tpope/vim-endwise') " Only handles languages with PITA syntax
-    call dein#add('mqudsi/vim-closetag',
-        \{'rev': 'autoload' })
     call dein#add('sheerun/vim-polyglot')
     call dein#add('tpope/vim-surround')
     " TODO: disable vim-matchup for latex

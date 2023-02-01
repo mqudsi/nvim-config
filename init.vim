@@ -162,17 +162,17 @@ if dein#load_state(s:dein_cache)
 endif
 
 " Specify custom filetypes before predicating actions on FileType below
-autocmd BufRead,BufNewFile *.expect set filetype=expect
-autocmd BufRead,BufNewFile *.fish set filetype=fish
-autocmd BufRead,BufNewFile *.git/COMMIT_EDITMSG set filetype=gitcommit
-autocmd BufRead,BufNewFile *.ps1 set filetype=ps1
-autocmd BufRead,BufNewFile *.xaml set filetype=xml
-autocmd BufRead,BufNewFile *.csproj,*.targets set filetype=xml
-autocmd BufRead,BufNewFile */php-fpm*.conf set filetype=dosini
-autocmd BufRead,BufNewFile /usr/*include/c++/* set filetype=cpp
-autocmd BufRead,BufNewfile *.conf set filetype=conf
-autocmd BufRead,BufNewfile */*nginx*/*.conf set filetype=nginx
-autocmd BufRead,BufNewfile .clang-format set filetype=yaml
+autocmd BufRead,BufNewFile *.expect setlocal filetype=expect
+autocmd BufRead,BufNewFile *.fish setlocal filetype=fish
+autocmd BufRead,BufNewFile *.git/COMMIT_EDITMSG setlocal filetype=gitcommit
+autocmd BufRead,BufNewFile *.ps1 setlocal filetype=ps1
+autocmd BufRead,BufNewFile *.xaml setlocal filetype=xml
+autocmd BufRead,BufNewFile *.csproj,*.targets setlocal filetype=xml
+autocmd BufRead,BufNewFile */php-fpm*.conf setlocal filetype=dosini
+autocmd BufRead,BufNewFile /usr/*include/c++/* setlocal filetype=cpp
+autocmd BufRead,BufNewfile *.conf setlocal filetype=conf
+autocmd BufRead,BufNewfile */*nginx*/*.conf setlocal filetype=nginx
+autocmd BufRead,BufNewfile .clang-format setlocal filetype=yaml
 
 " Support triple slash for inline documentation in languages that use such a
 " thing. This supports joining and continuing. Vim overrides this in c.vim,
@@ -190,15 +190,14 @@ autocmd FileType ninja setlocal commentstring=#\ %s
 " Specify default make programs and other settings by file type
 let g:cargo_makeprg_params = "build"
 autocmd FileType fish compiler fish
-autocmd FileType html,php set smartindent
-autocmd FileType ninja set mp=ninja
-autocmd FileType tex set mp=xelatex\ -halt-on-error\ %:S\;rm\ -f\ %:r:S.\{log,aux,out\}\ %:r:h:S/texput.log
+autocmd FileType html,php setlocal smartindent
+autocmd FileType ninja setlocal mp=ninja
+autocmd FileType tex setlocal mp=xelatex\ -halt-on-error\ %:S\;rm\ -f\ %:r:S.\{log,aux,out\}\ %:r:h:S/texput.log
 autocmd FileType ninja setlocal efm=%Eninja:\ error:\ %f:%l:\ %m,%Z%p^\ near\ here,%-C%s mp=ninja expandtab
 autocmd FileType nginx setlocal mp=sudo\ nginx\ -t\ -c\ %
 autocmd FileType rust compiler cargo
 autocmd FileType typescript setlocal mp=tsc
 autocmd FileType markdown setlocal mp=pandoc\ %:~:.\ -o\ %:~:.:r.pdf\;\ open\ %:~:.:r.pdf
-autocmd FileType markdown setlocal tw=0
 
 " Allow comments in JSON files. We could use a whitelist, but it's too hard.
 autocmd Filetype json :execute timer_start(50, "SetJsonWithComments")
@@ -207,7 +206,7 @@ function! SetJsonWithComments(_1)
 endfunction
 
 " Enable spell-checking by default for these file types
-autocmd FileType markdown,plaintex,tex,text set spell
+autocmd FileType markdown,plaintex,tex,text,gitcommit setlocal spell
 
 " If you want to install not installed plugins on startup.
 if dein#check_install()
@@ -697,7 +696,7 @@ endif
 " Keep the sign column visible to prevent jarring on/off due to plugin
 " interactions
 " this gets cancelled when neomake is loaded, so use an autocmd instead
-autocmd BufEnter,BufRead,BufNewFile * set signcolumn=yes
+autocmd BufEnter,BufRead,BufNewFile * setlocal signcolumn=yes
 autocmd BufEnter * sign define dummy
 autocmd BufEnter * execute 'sign place 9999 line=1 name=dummy buffer=' . bufnr('')
 
@@ -714,9 +713,9 @@ let g:indentLine_color_term = 239
 " Set default maximum line lengths for various types
 autocmd FileType cpp setlocal tw=100
 autocmd FileType gitcommit setlocal tw=80
-autocmd FileType markdown setlocal tw=100
 autocmd FileType rust setlocal tw=100
 autocmd FileType plaintex,tex setlocal tw=100
+autocmd FileType markdown setlocal tw=0
 
 " Improve granuarity of undo commands
 :silent inoremap <CR>=EnhancedEnter()

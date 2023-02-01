@@ -274,11 +274,11 @@ function! PickPath(options)
 endfunction
 
 function! UseCpsm()
-	if exists("deoplete#custom#option")
-		call deoplete#custom#source('_', 'matchers', ['matcher_cpsm'])
-		" cpsm does sorting too, don't resort
-		call deoplete#custom#source('_', 'sorters', [])
-	end
+    if exists("deoplete#custom#option")
+        call deoplete#custom#source('_', 'matchers', ['matcher_cpsm'])
+        " cpsm does sorting too, don't resort
+        call deoplete#custom#source('_', 'sorters', [])
+    end
 endfunction
 
 function! ConfigNeomake()
@@ -671,9 +671,9 @@ autocmd FileType html,vim let b:autoformat_autoindent=0
 " Allows things like mapping `:verbose cmd` to `:verbose Cmd`, but
 " doesn't mess with things like `:echo cmd`
 function! <SID>cmdabbr(shortcut, cmd)
-	:execute "cnoreabbrev <expr> " . a:shortcut .
-		\ " (getcmdtype() == ':' && getcmdline() =~ '^" . a:shortcut . "$')" .
-		\ " ? '" . a:cmd . "' : '" . a:shortcut . "'"
+    :execute "cnoreabbrev <expr> " . a:shortcut .
+        \ " (getcmdtype() == ':' && getcmdline() =~ '^" . a:shortcut . "$')" .
+        \ " ? '" . a:cmd . "' : '" . a:shortcut . "'"
 endfunction
 
 autocmd! BufRead,BufNewFile *.vim inoreabbrev <expr> ; ""

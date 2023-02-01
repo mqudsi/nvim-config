@@ -208,6 +208,10 @@ function! SetJsonWithComments(_1)
     :setlocal ft=jsonc
 endfunction
 
+" Allow folding but don't fold everything by default
+set foldlevelstart=99
+set foldmethod=syntax
+
 " Enable spell-checking by default for these file types
 autocmd FileType markdown,plaintex,tex,text,gitcommit setlocal spell
 

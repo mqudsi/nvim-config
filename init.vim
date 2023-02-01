@@ -14,6 +14,7 @@ let g:python3_host_prog = "python3"
 
 " Options which must be forward declared
 
+let mapleader = " "
 " Improve performance by delaying highlighting of matching keyword (matchup)
 let g:matchup_matchparen_deferred = 1
 " Disable poor polyglot plugins, keep the rest

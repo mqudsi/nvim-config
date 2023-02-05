@@ -41,6 +41,10 @@ exe 'set rtp +=' . s:dein_home
 " gutter, that isn't enough and causes lines to wrap.
 let g:committia_edit_window_width = 86
 
+" Clear jump list at startup so Ctrl-O/Ctrl-I only track current session.
+" We can't just call :clearjumps because the jump list hasn't been loaded yet.
+autocmd VimEnter * :clearjumps
+
 filetype off
 syntax off
 

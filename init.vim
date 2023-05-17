@@ -86,8 +86,7 @@ if dein#load_state(s:dein_cache)
     call dein#add('cshuaimin/ssr.nvim')
 
     " General programming-related plugins
-    call dein#add('mqudsi/a.vim',
-        \{'on_cmd': 'A'})
+    call dein#add('mqudsi/a.vim')
     call dein#add('Chiel92/vim-autoformat',
         \{'on_cmd': 'Autoformat'})
     call dein#add('tpope/vim-endwise') " Only handles languages with PITA syntax

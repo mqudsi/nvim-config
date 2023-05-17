@@ -344,7 +344,7 @@ set shortmess +=c
 
 " LSP providers installation instructions:
 " * c/cpp: sudo apt-get install clang-tools-7 (under Debian/Ubuntu)
-" * rust: cargo install rust-analyzer
+" * rust: rustup component add rust-analyzer
 " * python: sudo pip3 install python-language-server
 " * bash/js/ts/css/html/json: `yarn install` in config root
 

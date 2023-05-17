@@ -90,7 +90,7 @@ if dein#load_state(s:dein_cache)
     call dein#add('Chiel92/vim-autoformat',
         \{'on_cmd': 'Autoformat'})
     call dein#add('tpope/vim-endwise') " Only handles languages with PITA syntax
-    call dein#add('sheerun/vim-polyglot')
+    call dein#add('mqudsi/vim-polyglot')
     call dein#add('tpope/vim-surround')
     " TODO: disable vim-matchup for latex
     call dein#add('andymass/vim-matchup')

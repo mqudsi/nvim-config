@@ -486,24 +486,6 @@ nvim_lsp["tsserver"].setup {
 
 EOF
 
-let s:node = s:nvimroot . '/node_modules/.bin/'
-let g:LanguageClient_serverCommands = {
-    \ 'c': ['clangd', '--compile-commands-dir=$PWD/build'],
-    \ 'cpp': ['clangd', '--compile-commands-dir=' . $PWD . '/build'],
-    \ 'cs': ['/opt/omnisharp/run', '-lsp'],
-    \ 'rust': ['rust-analyzer'],
-    \ 'python': ['pyls'],
-    \ 'css': [s:node . 'css-languageserver', '--stdio'],
-    \ 'html': [s:node . 'html-languageserver', '--stdio'],
-    \ 'json': [s:node . 'vscode-json-languageserver', '--stdio'],
-    \ 'javascript': [s:node . 'typescript-language-server', '--stdio'],
-    \ 'javascript.jsx': [s:node . 'typescript-language-server', '--stdio'],
-    \ 'typescript': [s:node . 'typescript-language-server', '--stdio'],
-    \ 'typescript.jsx': [s:node . 'typescript-language-server', '--stdio'],
-    \ 'bash': [s:node . 'bash-language-server', 'start'],
-    \ 'sh': [s:node . 'bash-language-server', 'start'],
-\ }
-
 set mouse=a
 let $NVIM_TUI_ENABLE_CURSOR_SHAPE=1
 set nofsync

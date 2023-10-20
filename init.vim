@@ -225,6 +225,10 @@ if dein#check_install()
   call dein#install()
 endif
 
+" Add support for SRT files (together with ./syntax/srt.vim)
+au BufNewFile,BufRead *.srt setf srt
+au BufNewFile,BufRead *.srt setlocal spell
+
 " End dein Scripts-------------------------
 
 autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif

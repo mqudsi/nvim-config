@@ -31,7 +31,8 @@ let g:loaded_tutor_mode_plugin = 1
 
 " indentLine completely breaks some syntaxes, notably markdown and latex
 " See https://github.com/Yggdroot/indentLine/issues/78
-let g:indentLine_fileTypeExclude = ['tex', 'markdown']
+" https://stackoverflow.com/questions/40601818#comment68457913_40604923
+let g:indentLine_fileTypeExclude = ['tex', 'markdown', 'jsonc']
 let s:dein_cache = '$HOME/.cache/dein.vim'
 let s:dein_home = '$HOME/.config/nvim/dein.vim'
 exe 'set rtp +=' . s:dein_home

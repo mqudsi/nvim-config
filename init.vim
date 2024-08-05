@@ -79,8 +79,6 @@ if dein#load_state(s:dein_cache)
         \{'on_event': 'InsertEnter'})
     call dein#add('machakann/vim-highlightedyank')
     call dein#add('roxma/nvim-yarp')
-    call dein#add('nixprime/cpsm',
-        \{'build': 'env PY3=ON ./install.sh'})
     call dein#add('andymass/vim-visput')
     " structural search-and-replace for TreeSitter languages
     " Keys mapped in lua below: <leader>sr to search and <leader>cr to replace all
@@ -123,12 +121,6 @@ if dein#load_state(s:dein_cache)
     " requires cmdheight=2 to show function signature in cmdline, or else noshowmode
     call dein#add('Shougo/echodoc.vim',
         \{'on_i': 1})
-
-    "deoplete sources
-    call dein#add('othree/csscomplete.vim',
-        \{'on_event': 'InsertEnter', 'on_if': "index(['css'], &ft) != -1"})
-    " call dein#add('OmniSharp/omnisharp-vim',
-    "     \{'on_if': \"index(['cs', 'cshtml', 'asp'], &ft) != -1"})
 
     " syntax plugins, sorted by filetype
     call dein#add('ARM9/arm-syntax-vim.git')
@@ -281,14 +273,6 @@ function! PickPath(options)
     endfor
 endfunction
 
-function! UseCpsm()
-    if exists("deoplete#custom#option")
-        call deoplete#custom#source('_', 'matchers', ['matcher_cpsm'])
-        " cpsm does sorting too, don't resort
-        call deoplete#custom#source('_', 'sorters', [])
-    end
-endfunction
-
 function! ConfigNeomake()
     let g:neomake_open_list = 1
     let g:neomake_enabled_makers = ['makeprg']
@@ -332,11 +316,6 @@ function! LanguageClientSupportedLanguage()
     " See https://vi.stackexchange.com/a/4291/13499
     " nmap <silent> <C-R> :call LanguageClient_workspace_symbol()<CR>
 
-    "ignore buffer source when we have valid completions
-    if exists("deoplete#custom#option")
-        call deoplete#custom#option('ignore_sources', { &ft: ['buffer', 'member', 'around', 'omni', 'omnifunc', 'tags', 'tag'] })
-    end
-
     "now start LanguageClient only if it wasn't already started
     if exists('b:lcStarted')
         return
@@ -348,7 +327,6 @@ endfunction
 
 call dein#set_hook('neomake', 'hook_source', function('ConfigNeomake'))
 call dein#set_hook('neomake', 'hook_post_source', function('AfterNeomake'))
-call dein#set_hook('cpsm', 'hook_post_source', function('UseCpsm'))
 
 set shortmess +=c
 

@@ -168,6 +168,12 @@ autocmd BufRead,BufNewFile /usr/*include/c++/* setlocal filetype=cpp
 autocmd BufRead,BufNewfile *.conf setlocal filetype=conf
 autocmd BufRead,BufNewfile */*nginx*/*.conf setlocal filetype=nginx
 autocmd BufRead,BufNewfile .clang-format setlocal filetype=yaml
+autocmd BufRead,BufNewfile *.strace setlocal filetype=strace
+autocmd BufRead,BufNewfile *.trace setlocal filetype=strace
+
+" Prevent accidentally modifying cargo registry
+autocmd BufRead,BufNewFile,FileReadPost,FilterReadPost
+    \ */.cargo/registry/src/* setlocal readonly
 
 " Support triple slash for inline documentation in languages that use such a
 " thing. This supports joining and continuing. Vim overrides this in c.vim,

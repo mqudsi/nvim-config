@@ -421,13 +421,18 @@ local on_attach = function(client, bufnr)
       expand = function(args)
         require'luasnip'.lsp_expand(args.body)
       end
-    }
+    },
   })
 
+  -- Use inlay hints where supported (rust-analyzer, for one)
+  if not vim.lsp.inlay_hint == nil then
+      -- 2024-05-06: Disabled because there are rough edges around this neovim feature
+      -- vim.lsp.inlay_hint.enable(bufnr)
+  end
 end
 
 -- Use the default configuration for the following LSPs:
-local servers = { "pylsp", "rust_analyzer", "cmake" }
+local servers = { "pyright", "rust_analyzer", "cmake" }
 for _, lsp in ipairs(servers) do
   nvim_lsp[lsp].setup {
     on_attach = on_attach,
@@ -435,6 +440,26 @@ for _, lsp in ipairs(servers) do
       debounce_text_changes = 150,
     },
     capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities()),
+    -- futher configuration for particular LSPs
+    settings = {
+        ["rust-analyzer"] = {
+            imports = {
+                granularity = {
+                    group = "module",
+                },
+                prefix = "self",
+            },
+            cargo = {
+                buildScripts = {
+                    enable = true,
+                },
+                features = "all",
+            },
+            procMacro = {
+                enable = true,
+            },
+        }
+    }
   }
 end
 
@@ -471,6 +496,19 @@ nvim_lsp["omnisharp"].setup {
 nvim_lsp["tsserver"].setup {
     on_attach = on_attach,
     cmd = { vim.api.nvim_eval("expand('<sfile>:p:h')") ..  '/node_modules/.bin/typescript-language-server', '--stdio' },
+    flags = {
+      debounce_text_changes = 150,
+    },
+    capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities()),
+}
+
+nvim_lsp["lua_ls"].setup {
+  on_attach = on_attach,
+  cmd = { "/opt/lua-language-server/bin/lua-language-server" },
+  flags = {
+    debounce_text_changes = 150,
+  },
+  capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities()),
 }
 
 EOF

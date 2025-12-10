@@ -357,159 +357,156 @@ require("ssr").setup {
 }
 vim.keymap.set({ "n", "x" }, "<leader>sr", function() require("ssr").open() end)
 
--- LSP config (long)
-local nvim_lsp = require('lspconfig')
--- Global mappings
--- See `:help vim.diagnostic.*` for documentation on any of the below functions
-local opts = { noremap=true, silent=true }
-vim.keymap.set('n', '<space>e', vim.diagnostic.open_float, opts)
-vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, opts)
-vim.keymap.set('n', ']d', vim.diagnostic.goto_next, opts)
-vim.keymap.set('n', '<space>q', vim.diagnostic.setloclist, opts)
+-- Begin LSP configuration
 
--- Use an on_attach function to only map the following keys after the
--- language server attaches to the current buffer:
-local on_attach = function(client, bufnr)
-  local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
-  local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
+-- GLOBAL DEFAULTS
+-- Apply these to *all* servers automatically.
+local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
 
-  --Enable completion triggered by <c-x><c-o>
-  buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
+vim.lsp.config('*', {
+  capabilities = capabilities,
+  flags = {
+    debounce_text_changes = 150,
+  },
+})
 
-  -- LSP mappings
-  -- See `:help vim.lsp.*` for documentation on any of the below functions
-  local bufopts = { noremap=true, silent=true, buffer=bufnr }
-  vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, bufopts)
-  vim.keymap.set('n', 'gd', vim.lsp.buf.definition, bufopts)
-  vim.keymap.set('n', '<F12>', vim.lsp.buf.definition, bufopts) -- custom
-  vim.keymap.set('n', 'K', vim.lsp.buf.hover, bufopts)
-  vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, bufopts)
-  vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, bufopts)
-  vim.keymap.set('n', '<space>wa', vim.lsp.buf.add_workspace_folder, bufopts)
-  vim.keymap.set('n', '<space>wr', vim.lsp.buf.remove_workspace_folder, bufopts)
-  vim.keymap.set('n', '<space>wl', function()
-    print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-  end, bufopts)
-  vim.keymap.set('n', '<space>D', vim.lsp.buf.type_definition, bufopts)
-  vim.keymap.set('n', '<space>rn', vim.lsp.buf.rename, bufopts)
-  vim.keymap.set('n', '<F2>', vim.lsp.buf.rename, bufopts) -- custom
-  vim.keymap.set('n', '<space>ca', vim.lsp.buf.code_action, bufopts)
-  vim.keymap.set('n', 'gr', vim.lsp.buf.references, bufopts)
-  vim.keymap.set('n', '<M-F>', vim.lsp.buf.references, bufopts) -- custom
-  vim.keymap.set('n', '<space>f', function() vim.lsp.buf.format { async = true } end, bufopts)
+-- KEYMAPPINGS
+-- As of neovim 0.11, we are forced to use an autocommand (instead of passing `on_attach` for each server)
+vim.api.nvim_create_autocmd('LspAttach', {
+  callback = function(args)
+    local client = vim.lsp.get_client_by_id(args.data.client_id)
+    local bufnr = args.buf
 
-  -- nvim-lsp only provides completion; autocompletion must be provided by another plugin (here, nvim-cmp)
-  local cmp = require('cmp')
-  cmp.setup({
-    mapping = cmp.mapping.preset.insert({
-          ['<C-d>'] = cmp.mapping.scroll_docs(-4),
-          ['<C-f>'] = cmp.mapping.scroll_docs(4),
-          ['<C-Space>'] = cmp.mapping.complete(),
-          ['<C-e>'] = cmp.mapping.close(),
-          ['<CR>'] = cmp.mapping.confirm({ select = true }),
-        }),
-    sources = {
-      { name = 'nvim_lsp' },
-    },
-    view = {
-      -- entries = 'native',
-    },
-    completion = {
-      completeopt = 'menu,menuone,noinsert',
-    },
-    snippet = {
-      expand = function(args)
-        require'luasnip'.lsp_expand(args.body)
-      end
-    },
-  })
+    -- Helper functions
+    local opts = { noremap=true, silent=true, buffer=bufnr }
+    local function buf_set_option(name, value) vim.api.nvim_set_option_value(name, value, { buf = bufnr }) end
 
-  -- Use inlay hints where supported (rust-analyzer, for one)
-  if not vim.lsp.inlay_hint == nil then
-      -- 2024-05-06: Disabled because there are rough edges around this neovim feature
-      -- vim.lsp.inlay_hint.enable(bufnr)
-  end
-end
+    -- Enable completion triggered by <c-x><c-o>
+    buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
 
--- Use the default configuration for the following LSPs:
-local servers = { "pyright", "rust_analyzer", "cmake" }
-for _, lsp in ipairs(servers) do
-  nvim_lsp[lsp].setup {
-    on_attach = on_attach,
-    flags = {
-      debounce_text_changes = 150,
-    },
-    capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities()),
-    -- futher configuration for particular LSPs
-    settings = {
-        ["rust-analyzer"] = {
-            imports = {
-                granularity = {
-                    group = "module",
-                },
-                prefix = "self",
-            },
-            cargo = {
-                buildScripts = {
-                    enable = true,
-                },
-                features = "all",
-            },
-            procMacro = {
-                enable = true,
-            },
-        }
+    -- LSP mappings
+    vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, opts)
+    vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
+    vim.keymap.set('n', '<F12>', vim.lsp.buf.definition, opts)
+    vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
+    vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, opts)
+    vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, opts)
+    vim.keymap.set('n', '<space>wa', vim.lsp.buf.add_workspace_folder, opts)
+    vim.keymap.set('n', '<space>wr', vim.lsp.buf.remove_workspace_folder, opts)
+    vim.keymap.set('n', '<space>wl', function() print(vim.inspect(vim.lsp.buf.list_workspace_folders())) end, opts)
+    vim.keymap.set('n', '<space>D', vim.lsp.buf.type_definition, opts)
+    vim.keymap.set('n', '<space>rn', vim.lsp.buf.rename, opts)
+    vim.keymap.set('n', '<F2>', vim.lsp.buf.rename, opts)
+    vim.keymap.set('n', '<space>ca', vim.lsp.buf.code_action, opts)
+    vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts)
+    vim.keymap.set('n', '<M-F>', vim.lsp.buf.references, opts)
+    vim.keymap.set('n', '<space>f', function() vim.lsp.buf.format { async = true } end, opts)
+
+    -- Inlay Hints (Optional)
+    if client.server_capabilities.inlayHintProvider then
+        vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
+    end
+  end,
+})
+
+-- Global diagnostics mappings (not buffer specific)
+local global_opts = { noremap=true, silent=true }
+vim.keymap.set('n', '<space>e', vim.diagnostic.open_float, global_opts)
+vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, global_opts)
+vim.keymap.set('n', ']d', vim.diagnostic.goto_next, global_opts)
+vim.keymap.set('n', '<space>q', vim.diagnostic.setloclist, global_opts)
+
+-- LANGUAGE-SPECIFIC SERVER CONFIGURATIONS
+-- Provide specific configs for servers to override certain default settings.
+
+-- Rust Analyzer
+vim.lsp.config('rust_analyzer', {
+  settings = {
+    ["rust-analyzer"] = {
+      imports = {
+        granularity = { group = "module" },
+        prefix = "self",
+      },
+      cargo = {
+        buildScripts = { enable = true },
+        features = "all",
+      },
+      procMacro = { enable = true },
     }
   }
+})
+
+-- Clangd
+vim.lsp.config('clangd', {
+  cmd = { 'clangd', '--background-index', '--compile-commands-dir=' .. vim.fn.getcwd() .. '/build' },
+  filetypes = { "c", "cpp" },
+  -- Native 0.11 uses 'root_markers' list instead of a root_dir function
+  root_markers = { "build/compile_commands.json", "compile_commands.json", "compile_flags.txt", ".git" },
+})
+
+-- VimLS
+vim.lsp.config('vimls', {
+  cmd = { vim.fn.stdpath("config") .. '/node_modules/.bin/vim-language-server', '--stdio' },
+})
+
+-- Omnisharp
+vim.lsp.config('omnisharp', {
+  cmd = { "/opt/omnisharp/run", "-lsp", "-hpid", tostring(vim.fn.getpid()) },
+})
+
+-- TypeScript language server
+-- Note: 'tsserver' is deprecated and renamed to 'ts_ls'
+vim.lsp.config('ts_ls', {
+  cmd = { vim.fn.stdpath("config") .. '/node_modules/.bin/typescript-language-server', '--stdio' },
+})
+
+-- Lua LS
+vim.lsp.config('lua_ls', {
+  cmd = { "/opt/lua-language-server/bin/lua-language-server" },
+})
+
+-- ENABLE SERVERS
+-- Finally, enable the servers you want.
+local servers = {
+  "pyright",
+  "rust_analyzer",
+  "cmake",
+  "clangd",
+  "vimls",
+  "omnisharp",
+  "ts_ls",
+  "lua_ls"
+}
+
+for _, server in ipairs(servers) do
+  vim.lsp.enable(server)
 end
 
--- These need manual configuration:
-nvim_lsp["clangd"].setup {
-  on_attach = on_attach,
-  cmd = { 'clangd', '--background-index', '--compile-commands-dir=' .. vim.api.nvim_eval("$PWD") .. '/build' },
-  filetypes = { "c", "cpp" },
-  root_dir = nvim_lsp.util.root_pattern("build/compile_commands.json", "compile_commands.json", "compile_flags.txt", ".git"),
-  flags = {
-    debounce_text_changes = 150,
+-- CMP CONFIGURATION
+-- nvim-lsp only provides completion; autocompletion must be provided by another plugin (here, nvim-cmp)
+local cmp = require('cmp')
+cmp.setup({
+  mapping = cmp.mapping.preset.insert({
+        ['<C-d>'] = cmp.mapping.scroll_docs(-4),
+        ['<C-f>'] = cmp.mapping.scroll_docs(4),
+        ['<C-Space>'] = cmp.mapping.complete(),
+        ['<C-e>'] = cmp.mapping.close(),
+        ['<CR>'] = cmp.mapping.confirm({ select = true }),
+      }),
+  sources = {
+    { name = 'nvim_lsp' },
   },
-  capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities()),
-}
-
-nvim_lsp["vimls"].setup {
-  on_attach = on_attach,
-  cmd = { vim.api.nvim_eval("expand('<sfile>:p:h')") ..  '/node_modules/.bin/vim-language-server', '--stdio' },
-  flags = {
-    debounce_text_changes = 150,
+  completion = {
+    completeopt = 'menu,menuone,noinsert',
   },
-  capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities()),
-}
-
-nvim_lsp["omnisharp"].setup {
-  on_attach = on_attach,
-  cmd = { "/opt/omnisharp/run", "-lsp", "-hpid", tostring(vim.fn.getpid()) },
-  flags = {
-    debounce_text_changes = 150,
+  snippet = {
+    expand = function(args)
+      require'luasnip'.lsp_expand(args.body)
+    end
   },
-  capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities()),
-}
+})
 
-nvim_lsp["tsserver"].setup {
-    on_attach = on_attach,
-    cmd = { vim.api.nvim_eval("expand('<sfile>:p:h')") ..  '/node_modules/.bin/typescript-language-server', '--stdio' },
-    flags = {
-      debounce_text_changes = 150,
-    },
-    capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities()),
-}
 
-nvim_lsp["lua_ls"].setup {
-  on_attach = on_attach,
-  cmd = { "/opt/lua-language-server/bin/lua-language-server" },
-  flags = {
-    debounce_text_changes = 150,
-  },
-  capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities()),
-}
 
 EOF
 

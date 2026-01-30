@@ -49,9 +49,32 @@ function! ctrlp#CtrlP()
 	let sources = join(l:sources, " ")
 
 	" `rg --files` does not exclude binary files, whereas `rg . -l` does
-	let cmd = "rg . -l --no-config --no-messages --line-buffered --color always "
+	" BUT `rg .` is way too slow under WSLv2 accessing Windows paths :'(
+	let l:binary_excludes = " -g '!*.{exe,dll,so,o,pyc,png,jpg,jpeg,webp,gif,pdf,zip,gz,tar,7z,node,onnx,avif,doc,docx,odt,ods,xlsx,a,dylib}' "
+
+	let cmd = "rg --files --no-config --no-messages --line-buffered --color always "
 				\ . g:default_rg_ignore
+				\ . l:binary_excludes
 				\ . " " . l:sources
+
+	" DEBUG BLOCK START
+	" let l:debug_cmd = substitute(l:cmd, '--color always', '', 'g')
+	" let l:start_time = reltime()
+	" let l:debug_output = system(l:debug_cmd)
+	" let l:duration = reltimestr(reltime(l:start_time))
+	" let l:log_entry = [
+	" 	\ "========================================",
+	" 	\ "TIME: " . strftime("%Y-%m-%d %H:%M:%S"),
+	" 	\ "DURATION: " . l:duration . " seconds",
+	" 	\ "COMMAND: " . l:cmd,
+	" 	\ "RESULT COUNT: " . len(split(l:debug_output, "\n")),
+	" 	\ "--- OUTPUT START ---",
+	" 	\ l:debug_output,
+	" 	\ "--- OUTPUT END ---",
+	" 	\ ""
+	" 	\ ]
+	" call writefile(l:log_entry, "rg_debug.log", "")
+	" DEBUG BLOCK END
 
 	call fzf#run({'sink': 'e',
 				\ 'source': l:cmd,

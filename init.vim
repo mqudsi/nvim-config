@@ -83,6 +83,10 @@ if dein#load_state(s:dein_cache)
     " structural search-and-replace for TreeSitter languages
     " Keys mapped in lua below: <leader>sr to search and <leader>cr to replace all
     call dein#add('cshuaimin/ssr.nvim')
+    " Support ci", etc. across lines
+    call dein#add('nvim-mini/mini.ai', #{
+	\ 	lua_post_source: "require('mini.ai').setup()"
+	\ })
 
     " General programming-related plugins
     call dein#add('mqudsi/a.vim')

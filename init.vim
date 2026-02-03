@@ -656,6 +656,7 @@ end, { noremap = true, silent = true, desc = "Move cursor and show diagnostic on
 
 EOF
 
+set title
 set mouse=a
 let $NVIM_TUI_ENABLE_CURSOR_SHAPE=1
 set nofsync

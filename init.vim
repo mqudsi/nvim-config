@@ -907,6 +907,7 @@ autocmd FileType gitcommit setlocal tw=80
 autocmd FileType rust setlocal tw=100
 autocmd FileType plaintex,tex setlocal tw=100
 autocmd FileType markdown setlocal tw=0
+autocmd FileType ninja setlocal tw=0
 
 " Improve granuarity of undo commands
 :silent inoremap <CR>=EnhancedEnter()

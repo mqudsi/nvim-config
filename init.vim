@@ -350,6 +350,9 @@ set shortmess +=c
 
 lua << EOF
 
+-- Key map to enable %% in command mode to expand to %:h (e.g. to create file in current dir)
+vim.keymap.set("c", "%%", "<C-R>=expand('%:h').'/'<cr>")
+
 -- SSR structural search and replace mappings
 require("ssr").setup {
   min_width = 50,

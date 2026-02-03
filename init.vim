@@ -204,7 +204,7 @@ autocmd FileType ninja setlocal efm=%Eninja:\ error:\ %f:%l:\ %m,%Z%p^\ near\ he
 autocmd FileType nginx setlocal mp=sudo\ nginx\ -t\ -c\ %
 autocmd FileType rust compiler cargo
 autocmd FileType typescript setlocal mp=tsc
-autocmd FileType markdown setlocal mp=pandoc\ %:~:.\ -o\ %:~:.:r.pdf\;\ open\ %:~:.:r.pdf
+autocmd FileType markdown setlocal mp=pandoc\ %:~:.\ --pdf-engine\ tectonic\ -o\ %:~:.:r.pdf\&\&\ open\ %:~:.:r.pdf
 
 " Allow comments in JSON files. We could use a whitelist, but it's too hard.
 autocmd Filetype json :execute timer_start(50, "SetJsonWithComments")

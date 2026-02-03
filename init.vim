@@ -371,6 +371,9 @@ vim.keymap.set({ "n", "x" }, "<leader>sr", function() require("ssr").open() end)
 -- GLOBAL DEFAULTS
 -- Apply these to *all* servers automatically.
 local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
+-- disable snippets because they take up an entire page of completions
+-- and can't (yet) be sorted to show after everything else :(
+capabilities.textDocument.completion.completionItem.snippetSupport = false
 
 vim.lsp.config('*', {
   capabilities = capabilities,
@@ -429,21 +432,116 @@ vim.keymap.set('n', '<space>q', vim.diagnostic.setloclist, global_opts)
 -- Provide specific configs for servers to override certain default settings.
 
 -- Rust Analyzer
-vim.lsp.config('rust_analyzer', {
-  settings = {
-    ["rust-analyzer"] = {
-      imports = {
-        granularity = { group = "module" },
-        prefix = "self",
-      },
-      cargo = {
-        buildScripts = { enable = true },
-        features = "all",
-      },
-      procMacro = { enable = true },
+
+-- Determine if we'll use the Windows or Linux rust-analyzer.exe
+local cwd = vim.fn.getcwd()
+local is_windows_drive = string.match(cwd, "^/mnt/%l/")
+
+-- Overall rust lsp configuration/integration
+ra_capabilities = vim.tbl_deep_extend('force', {}, capabilities)
+-- from the nvim-lspconfig wiki:
+ra_capabilities.experimental = {
+  serverStatusNotification = true,
+  commands = {
+    commands = {
+      'rust-analyzer.showReferences',
+      'rust-analyzer.runSingle',
+      'rust-analyzer.debugSingle',
+    },
+  },
+}
+
+local ra_config = {
+    capabilities = ra_capabilities,
+    settings = {
+        ["rust-analyzer"] = {
+            imports = {
+                granularity = { group = "module" },
+                prefix = "self",
+            },
+            cargo = {
+                buildScripts = { enable = true },
+                features = "all",
+            },
+            procMacro = { enable = true },
+            assist = { emitMustUse = true },
+            -- completion = { snippets = { custom = {} } },
+            -- neovim doesn't support markdown links in documentation
+            hover = { links = { enable = false } },
+            completion = {
+                autoimport = {
+                    exclude = {
+                        {
+                            path = "std::fmt::Debug",
+                            type = "methods",
+                        },
+                        {
+                            path = "std::fmt::Display",
+                            type = "methods",
+                        },
+                        {
+                            path = "std::fmt::Pointer",
+                            type = "methods",
+                        },
+                        {
+                            path = "std::any::Any",
+                            type = "methods",
+                        },
+                        {
+                            path = "std::borrow::Borrow",
+                            type = "methods",
+                        },
+                        {
+                            path = "std::borrow::BorrowMut",
+                            type = "methods",
+                        },
+                        {
+                            path = "std::clone::CloneToUninit",
+                            type = "methods",
+                        },
+                        {
+                            path = "tracing::Instrument",
+                            type = "methods",
+                        },
+                        {
+                            path = "tracing::instrument::WithSubscriber",
+                            type = "methods",
+                        },
+                        {
+                            path = "std::ops::Deref",
+                            type = "methods",
+                        },
+                    }
+                }
+            },
+            inlayHints = {
+                -- closureReturnTypeHints = { enable = true },
+                -- discriminantHints = { enable = true },
+                -- renderColons = false,
+                typeHints = {
+                    hideNamedConstructor = true,
+                },
+            },
+            -- adapted from default lspconfig settings:
+            lens = {
+                enable = true,
+                run = { enable = true },
+                debug = { enable = true },
+                implementations = { enable = true },
+                references = {
+                    adt = { enable = true },
+                    enumVariant = { enable = true },
+                    method = { enable = true },
+                    trait = { enable = true },
+                },
+                updateTest = { enable = true },
+            }
+        }
     }
-  }
-})
+}
+
+-- Attach the rust-analyzer config to neovim's LSP client settings
+vim.lsp.config('rust_analyzer', ra_config)
 
 -- Clangd
 vim.lsp.config('clangd', {
@@ -515,6 +613,45 @@ cmp.setup({
   },
 })
 
+
+-- DIAGNOSTICS MOUSE INTEGRATION
+-- Diagnostics do not appear in any of (neo)vim's lists, and are shown only with
+-- `:lua vim.diagnostic.open_float()`, either manually or on a keybinding. Here
+-- we bind them to show when clicked on with the mouse.
+vim.keymap.set({'n', 'i'}, '<LeftMouse>', function()
+  -- 1. Get the position of the mouse click
+  local pos = vim.fn.getmousepos()
+
+  -- If clicked outside a valid window (e.g. command line), just return
+  if pos.winid == 0 then
+    return
+  end
+
+  -- 2. Move the cursor to the clicked position (mimic normal click behavior)
+  vim.api.nvim_set_current_win(pos.winid)
+  -- pos.line is 1-based, pos.column is 1-based (byte index)
+  -- nvim_win_set_cursor expects 1-based line, 0-based column
+  pcall(vim.api.nvim_win_set_cursor, pos.winid, {pos.line, pos.column - 1})
+
+  -- 3. Check for diagnostics at the clicked position
+  local buf = vim.api.nvim_win_get_buf(pos.winid)
+  local line_diagnostics = vim.diagnostic.get(buf, { lnum = pos.line - 1 })
+
+  -- Mouse column is 1-based, diagnostic indices are 0-based
+  local clicked_col = pos.column - 1
+
+  for _, d in ipairs(line_diagnostics) do
+    -- Check if the click is within the diagnostic's range
+    -- d.col is inclusive, d.end_col is exclusive
+    if clicked_col >= d.col and clicked_col < d.end_col then
+      -- 4. Open the float
+      vim.schedule(function()
+        vim.diagnostic.open_float({ scope = "cursor", focus = false })
+      end)
+      return
+    end
+  end
+end, { noremap = true, silent = true, desc = "Move cursor and show diagnostic on click" })
 
 
 EOF

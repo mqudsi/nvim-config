@@ -2,12 +2,12 @@ if has("wsl")
     let g:clipboard = {
     \ 'name': 'win32yank',
     \ 'copy': {
-    \   '+': 'noerr win32yank.exe -i --crlf',
-    \   '*': 'noerr win32yank.exe -i --crlf',
+    \   '+': 'win32yank.exe -i',
+    \   '*': 'win32yank.exe -i',
     \   },
     \ 'paste': {
-    \   '+': 'noerr paste.exe --lf',
-    \   '*': 'noerr paste.exe --lf',
+    \   '+': 'paste.exe --lf',
+    \   '*': 'paste.exe --lf',
     \   },
     \ 'cache_enabled': 0,
     \ }

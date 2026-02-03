@@ -154,7 +154,9 @@ if dein#load_state(s:dein_cache)
     " Required:
     call dein#end()
     call dein#save_state()
+    call dein#call_hook('source')
 endif
+autocmd VimEnter * call dein#call_hook('post_source')
 
 " Specify custom filetypes before predicating actions on FileType below
 autocmd BufRead,BufNewFile *.expect setlocal filetype=expect

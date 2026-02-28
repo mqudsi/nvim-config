@@ -3,7 +3,9 @@ if &compatible
     set nocompatible
 endif
 
-let s:nvimroot = $HOME . '/.config/nvim'
+" Update $PATH to load lsp tools
+let $PATH = stdpath('config') . '/node_modules/.bin' . (has('win32') ? ';' : ':') . $PATH
+
 " Speed up startup by preventing neovim from searching the filesystem trying
 " to find a python3 interpreter. This requires `python3` to be in $PATH.
 let g:python3_host_prog = "python3"
@@ -544,33 +546,17 @@ local ra_config = {
 vim.lsp.config('rust_analyzer', ra_config)
 
 -- Clangd
-vim.lsp.config('clangd', {
+vim.lsp.config('clangd', vim.tbl_deep_extend('force', vim.lsp.config["clangd"] or {}, {
   cmd = { 'clangd', '--background-index', '--compile-commands-dir=' .. vim.fn.getcwd() .. '/build' },
   filetypes = { "c", "cpp" },
   -- Native 0.11 uses 'root_markers' list instead of a root_dir function
   root_markers = { "build/compile_commands.json", "compile_commands.json", "compile_flags.txt", ".git" },
-})
-
--- VimLS
-vim.lsp.config('vimls', {
-  cmd = { vim.fn.stdpath("config") .. '/node_modules/.bin/vim-language-server', '--stdio' },
-})
+}))
 
 -- Omnisharp
-vim.lsp.config('omnisharp', {
+vim.lsp.config('omnisharp', vim.tbl_deep_extend('force', vim.lsp.config["omnisharp"] or {}, {
   cmd = { "/opt/omnisharp/run", "-lsp", "-hpid", tostring(vim.fn.getpid()) },
-})
-
--- TypeScript language server
--- Note: 'tsserver' is deprecated and renamed to 'ts_ls'
-vim.lsp.config('ts_ls', {
-  cmd = { vim.fn.stdpath("config") .. '/node_modules/.bin/typescript-language-server', '--stdio' },
-})
-
--- Lua LS
-vim.lsp.config('lua_ls', {
-  cmd = { "/opt/lua-language-server/bin/lua-language-server" },
-})
+}))
 
 -- ENABLE SERVERS
 -- Finally, enable the servers you want.

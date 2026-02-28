@@ -1,39 +1,54 @@
-if vim.fn.has("wsl") == 1 then
-    vim.g.clipboard = {
-        name = 'win32yank',
-        copy = {
-            ['+'] = 'win32yank.exe -i',
-            ['*'] = 'win32yank.exe -i',
-        },
-        paste = {
-            ['+'] = 'paste.exe --lf',
-            ['*'] = 'paste.exe --lf',
-        },
-        cache_enabled = 0,
-    }
-elseif vim.env.SSH_CONNECTION ~= nil and vim.fn.executable('lemonade') == 1 then
-    -- Extract the IP/Host from the SSH_CONNECTION env var
-    local ssh_client = vim.env.SSH_CONNECTION:gsub("%s.*", "")
-
-    -- lemonade does not support IPv6 (check if string contains "::")
-    if not ssh_client:find("::") then
-        vim.g.clipboard = {
-            name = 'lemonade',
+local function get_clipboard_config()
+    -- WSL Detection
+    if vim.fn.has("wsl") == 1 then
+        return {
+            name = 'win32yank-wsl',
             copy = {
-                ['+'] = 'lemonade --host ' .. ssh_client .. ' copy',
-                ['*'] = 'lemonade --host ' .. ssh_client .. ' copy',
+                ['+'] = 'win32yank.exe -i --crlf',
+                ['*'] = 'win32yank.exe -i --crlf',
             },
             paste = {
-                ['+'] = 'lemonade --host ' .. ssh_client .. ' paste',
-                ['*'] = 'lemonade --host ' .. ssh_client .. ' paste',
+                ['+'] = 'paste.exe --lf',
+                ['*'] = 'paste.exe --lf',
             },
             cache_enabled = 0,
         }
     end
+
+    -- SSH / Lemonade Detection
+    local ssh_conn = vim.env.SSH_CONNECTION
+    if ssh_conn and vim.fn.executable('lemonade') == 1 then
+        -- Extract the remote IP from $SSH_CONNECTION
+        -- $SSH_CONNECTION is "REMOTE_IP REMOTE_PORT LOCAL_IP LOCAL_PORT"
+        local ssh_client = ssh_conn:gsub("%s.*", "")
+
+        -- lemonade doesn't support IPv6
+        if not ssh_client:find("::") then
+            return {
+                name = 'lemonade-ssh',
+                copy = {
+                    ['+'] = { 'lemonade', '--host', ssh_client, 'copy' },
+                    ['*'] = { 'lemonade', '--host', ssh_client, 'copy' },
+                },
+                paste = {
+                    -- Pipe through sed to strip carriage returns
+                    ['+'] = { 'sh', '-c', 'lemonade --host ' .. ssh_client .. ' paste | sed "s/\\r$//"' },
+                    ['*'] = { 'sh', '-c', 'lemonade --host ' .. ssh_client .. ' paste | sed "s/\\r$//"' },
+                },
+                cache_enabled = 0,
+            }
+        end
+    end
+
+    return nil
 end
 
--- Regardless of clipboard provider, trim trailing \r
--- (mainly to fix lemonade)
+local config = get_clipboard_config()
+if config then
+    vim.g.clipboard = config
+end
+
+-- trim trailing \r upon bracketed paste (when clipboard provider is bypassed)
 vim.paste = (function(overridden)
   return function(lines, phase)
     for i, line in ipairs(lines) do
